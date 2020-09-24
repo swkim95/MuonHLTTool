@@ -1220,9 +1220,8 @@ private:
 
   void fill_trackTemplate(
     const edm::Event &iEvent,
-    edm::EDGetTokenT<edm::View<reco::Track>>& theToken,
-    edm::Handle<reco::TrackToTrackingParticleAssociator>& theAssociator_,
-    edm::Handle<TrackingParticleCollection>& TPCollection_,
+    edm::EDGetTokenT<edm::View<reco::Track>>& trkToken,
+    edm::EDGetTokenT<reco::RecoToSimCollection>& assoToken,
     trkTemplate* TTtrack
   );
 
