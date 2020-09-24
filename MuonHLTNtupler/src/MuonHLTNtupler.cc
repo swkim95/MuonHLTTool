@@ -2275,7 +2275,7 @@ void MuonHLTNtupler::fill_tpTemplate(
 
         TTtp->fill( tp );
 
-        auto tpref = TPCollection->refAt(i);
+        TrackingParticleRef tpref(TPCollection, i);
         auto TrkFound = simRecColl.find( tpref );
         if( TrkFound != simRecColl.end() ) {
           const auto& trkMatch = TrkFound->val;

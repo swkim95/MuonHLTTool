@@ -1241,7 +1241,7 @@ private:
     const edm::Event &iEvent,
     edm::EDGetTokenT<reco::SimToRecoCollection>& assoToken,
     tpTemplate* TTtp
-  )
+  );
 
   void Fill_TP( const edm::Event &iEvent, tpTemplate* TrkParticle );
 
