@@ -1213,11 +1213,11 @@ void MuonHLTNtupler::Fill_L1Track(const edm::Event &iEvent, const edm::EventSetu
         tmp_trk_dhits+=pow(10,layer-1);
       }
 
-      m_stub_x->push_back(x);
-      m_stub_y->push_back(y);
-      m_stub_z->push_back(z);
-      m_stub_isBarrel->push_back(isBarrel);
-      m_stub_layer->push_back(layer);
+      m_stub_x.push_back(x);
+      m_stub_y.push_back(y);
+      m_stub_z.push_back(z);
+      m_stub_isBarrel.push_back(isBarrel);
+      m_stub_layer.push_back(layer);
     }//end loop over stubs
 
     int tmp_trk_genuine = 0;
@@ -1237,27 +1237,27 @@ void MuonHLTNtupler::Fill_L1Track(const edm::Event &iEvent, const edm::EventSetu
     if (tmp_trk_combinatoric) cout << " (is combinatoric)" << endl;
     }
 
-  m_trk_pt ->push_back(tmp_trk_pt);
-  m_trk_eta->push_back(tmp_trk_eta);
-  m_trk_phi->push_back(tmp_trk_phi);
-  m_trk_z0 ->push_back(tmp_trk_z0);
-  m_trk_d0->push_back(tmp_trk_d0);
+  m_trk_pt.push_back(tmp_trk_pt);
+  m_trk_eta.push_back(tmp_trk_eta);
+  m_trk_phi.push_back(tmp_trk_phi);
+  m_trk_z0.push_back(tmp_trk_z0);
+  m_trk_d0.push_back(tmp_trk_d0);
   m_trk_rInv.push_back(tmp_trk_rInv);
   m_trk_tanL.push_back(tmp_trk_tanL);
   m_trk_MVA1.push_back(tmp_trk_MVA1);
   m_trk_MVA2.push_back(tmp_trk_MVA2);
   m_trk_MVA3.push_back(tmp_trk_MVA3);
-  m_trk_chi2 ->push_back(tmp_trk_chi2);
-  m_trk_bendchi2 ->push_back(tmp_trk_bendchi2);
-  m_trk_nstub->push_back(tmp_trk_nstub);
-  // m_trk_dhits->push_back(tmp_trk_dhits);
-  // m_trk_lhits->push_back(tmp_trk_lhits);
-  m_trk_seed->push_back(tmp_trk_seed);
-  m_trk_phiSector->push_back(tmp_trk_phiSector);
-  m_trk_genuine->push_back(tmp_trk_genuine);
-  m_trk_loose->push_back(tmp_trk_loose);
-  m_trk_unknown->push_back(tmp_trk_unknown);
-  m_trk_combinatoric->push_back(tmp_trk_combinatoric);
+  m_trk_chi2.push_back(tmp_trk_chi2);
+  m_trk_bendchi2.push_back(tmp_trk_bendchi2);
+  m_trk_nstub.push_back(tmp_trk_nstub);
+  // m_trk_dhits.push_back(tmp_trk_dhits);
+  // m_trk_lhits.push_back(tmp_trk_lhits);
+  m_trk_seed.push_back(tmp_trk_seed);
+  m_trk_phiSector.push_back(tmp_trk_phiSector);
+  m_trk_genuine.push_back(tmp_trk_genuine);
+  m_trk_loose.push_back(tmp_trk_loose);
+  m_trk_unknown.push_back(tmp_trk_unknown);
+  m_trk_combinatoric.push_back(tmp_trk_combinatoric);
 
   MuonHLTobjCorrelator::L1TTTrack theTrack( *iterL1Track );
 
