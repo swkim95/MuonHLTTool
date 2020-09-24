@@ -268,40 +268,40 @@ private:
   vector< double > vec_myHLTObj_phi_;
 
   // all L1 tracks
-  vector<float>* m_trk_pt;
-  vector<float>* m_trk_eta;
-  vector<float>* m_trk_phi;
-  vector<float>* m_trk_d0;   // (filled if L1Tk_nPar==5, else 999)
-  vector<float>* m_trk_z0;
+  vector<float> m_trk_pt;
+  vector<float> m_trk_eta;
+  vector<float> m_trk_phi;
+  vector<float> m_trk_d0;   // (filled if L1Tk_nPar==5, else 999)
+  vector<float> m_trk_z0;
   std::vector<float> m_trk_rInv;
   std::vector<float> m_trk_tanL;
   std::vector<float> m_trk_MVA1;
   std::vector<float> m_trk_MVA2;
   std::vector<float> m_trk_MVA3;
-  vector<float>* m_trk_chi2;
-  vector<float>* m_trk_bendchi2;
-  vector<int>*   m_trk_nstub;
-  vector<int>*   m_trk_lhits;
-  vector<int>*   m_trk_dhits;
-  vector<int>*   m_trk_seed;
-  vector<unsigned int>*   m_trk_phiSector;
-  vector<int>*   m_trk_genuine;
-  vector<int>*   m_trk_loose;
-  vector<int>*   m_trk_unknown;
-  vector<int>*   m_trk_combinatoric;
-  vector<int>*   m_trk_fake; //0 fake, 1 track from primary interaction, 2 secondary track
-  vector<int>*   m_trk_matchtp_pdgid;
-  vector<float>* m_trk_matchtp_pt;
-  vector<float>* m_trk_matchtp_eta;
-  vector<float>* m_trk_matchtp_phi;
-  vector<float>* m_trk_matchtp_z0;
-  vector<float>* m_trk_matchtp_dxy;
+  vector<float> m_trk_chi2;
+  vector<float> m_trk_bendchi2;
+  vector<int>   m_trk_nstub;
+  vector<int>   m_trk_lhits;
+  vector<int>   m_trk_dhits;
+  vector<int>   m_trk_seed;
+  vector<unsigned int>   m_trk_phiSector;
+  vector<int>   m_trk_genuine;
+  vector<int>   m_trk_loose;
+  vector<int>   m_trk_unknown;
+  vector<int>   m_trk_combinatoric;
+  vector<int>   m_trk_fake; //0 fake, 1 track from primary interaction, 2 secondary track
+  vector<int>   m_trk_matchtp_pdgid;
+  vector<float> m_trk_matchtp_pt;
+  vector<float> m_trk_matchtp_eta;
+  vector<float> m_trk_matchtp_phi;
+  vector<float> m_trk_matchtp_z0;
+  vector<float> m_trk_matchtp_dxy;
 
-  vector<float>* m_stub_x;
-  vector<float>* m_stub_y;
-  vector<float>* m_stub_z;
-  vector<int>*   m_stub_isBarrel; // stub is in barrel (1) or in disk (0)
-  vector<int>*   m_stub_layer;
+  vector<float> m_stub_x;
+  vector<float> m_stub_y;
+  vector<float> m_stub_z;
+  vector<int>   m_stub_isBarrel; // stub is in barrel (1) or in disk (0)
+  vector<int>   m_stub_layer;
 
   // l1TkMuon
   std::vector<float> mL1TkMu_pt;

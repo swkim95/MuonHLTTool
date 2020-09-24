@@ -340,37 +340,6 @@ void MuonHLTNtupler::beginJob()
   edm::Service<TFileService> fs;
   ntuple_ = fs->make<TTree>("ntuple","ntuple");
 
-  // initilize
-  m_trk_pt    = new std::vector<float>;
-  m_trk_eta   = new std::vector<float>;
-  m_trk_phi   = new std::vector<float>;
-  m_trk_z0    = new std::vector<float>;
-  m_trk_d0    = new std::vector<float>;
-  m_trk_chi2  = new std::vector<float>;
-  m_trk_bendchi2  = new std::vector<float>;
-  m_trk_nstub = new std::vector<int>;
-  m_trk_lhits = new std::vector<int>;
-  m_trk_dhits = new std::vector<int>;
-  m_trk_seed    = new std::vector<int>;
-  m_trk_phiSector    = new std::vector<unsigned int>;
-  m_trk_genuine       = new std::vector<int>;
-  m_trk_loose         = new std::vector<int>;
-  m_trk_unknown       = new std::vector<int>;
-  m_trk_combinatoric  = new std::vector<int>;
-  m_trk_fake          = new std::vector<int>;
-  m_trk_matchtp_pdgid = new std::vector<int>;
-  m_trk_matchtp_pt    = new std::vector<float>;
-  m_trk_matchtp_eta   = new std::vector<float>;
-  m_trk_matchtp_phi   = new std::vector<float>;
-  m_trk_matchtp_z0    = new std::vector<float>;
-  m_trk_matchtp_dxy   = new std::vector<float>;
-
-  m_stub_x = new std::vector<float>;
-  m_stub_y = new std::vector<float>;
-  m_stub_z = new std::vector<float>;
-  m_stub_isBarrel = new std::vector<int>;
-  m_stub_layer    = new std::vector<int>;
-
   Make_Branch();
 
   if(doMVA) {
@@ -450,40 +419,40 @@ void MuonHLTNtupler::beginJob()
 void MuonHLTNtupler::Init()
 {
   if (SaveAllTracks){
-  m_trk_pt->clear();
-  m_trk_eta->clear();
-  m_trk_phi->clear();
-  m_trk_d0->clear();
-  m_trk_z0->clear();
+  m_trk_pt.clear();
+  m_trk_eta.clear();
+  m_trk_phi.clear();
+  m_trk_d0.clear();
+  m_trk_z0.clear();
   m_trk_rInv.clear();
   m_trk_tanL.clear();
   m_trk_MVA1.clear();
   m_trk_MVA2.clear();
   m_trk_MVA3.clear();
-  m_trk_chi2->clear();
-  m_trk_bendchi2->clear();
-  m_trk_nstub->clear();
-  m_trk_lhits->clear();
-  m_trk_dhits->clear();
-  m_trk_seed->clear();
-  m_trk_phiSector->clear();
-  m_trk_genuine->clear();
-  m_trk_loose->clear();
-  m_trk_unknown->clear();
-  m_trk_combinatoric->clear();
-  m_trk_fake->clear();
-  m_trk_matchtp_pdgid->clear();
-  m_trk_matchtp_pt->clear();
-  m_trk_matchtp_eta->clear();
-  m_trk_matchtp_phi->clear();
-  m_trk_matchtp_z0->clear();
-  m_trk_matchtp_dxy->clear();
+  m_trk_chi2.clear();
+  m_trk_bendchi2.clear();
+  m_trk_nstub.clear();
+  m_trk_lhits.clear();
+  m_trk_dhits.clear();
+  m_trk_seed.clear();
+  m_trk_phiSector.clear();
+  m_trk_genuine.clear();
+  m_trk_loose.clear();
+  m_trk_unknown.clear();
+  m_trk_combinatoric.clear();
+  m_trk_fake.clear();
+  m_trk_matchtp_pdgid.clear();
+  m_trk_matchtp_pt.clear();
+  m_trk_matchtp_eta.clear();
+  m_trk_matchtp_phi.clear();
+  m_trk_matchtp_z0.clear();
+  m_trk_matchtp_dxy.clear();
 
-  m_stub_x->clear();
-  m_stub_y->clear();
-  m_stub_z->clear();
-  m_stub_isBarrel->clear();
-  m_stub_layer->clear();
+  m_stub_x.clear();
+  m_stub_y.clear();
+  m_stub_z.clear();
+  m_stub_isBarrel.clear();
+  m_stub_layer.clear();
 
   // l1TkMuon
   mL1TkMu_pt.clear();
