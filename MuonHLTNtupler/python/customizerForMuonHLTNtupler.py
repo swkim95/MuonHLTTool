@@ -33,7 +33,7 @@ def customizerFuncForMuonHLTNtupler(process, newProcessName = "MYHLT", doDYSkim 
     process.hltTrkL3MuonsNoIDTracks.ignoreMissingMuonCollection   = True
     process.hltTrkL3MuonsNoIDTracks.inputCSCSegmentCollection     = cms.InputTag("hltCscSegments")
     process.hltTrkL3MuonsNoIDTracks.inputDTRecSegment4DCollection = cms.InputTag("hltDt4DSegments")
-    
+
     process.hltTrkL3MuonsTracks = SimMuon.MCTruth.MuonTrackProducer_cfi.muonTrackProducer.clone()
     process.hltTrkL3MuonsTracks.muonsTag                          = cms.InputTag("hltTrkL3Muons")
     process.hltTrkL3MuonsTracks.selectionTags                     = ('All',)
@@ -80,6 +80,16 @@ def customizerFuncForMuonHLTNtupler(process, newProcessName = "MYHLT", doDYSkim 
         'AhltTrkL3MuonsNoID',
         'AhltTrkL3Muons'
     ]
+
+    process.trackAssoSeq = cms.Sequence(
+        process.hltTrkL3MuonsNoIDTracks +
+        process.hltTrkL3MuonsTracks +
+        process.AhltIter0TrkL3FromL1TkMuonTrackSelectionHighPurity +
+        process.AhltIter2TrkL3FromL1TkMuonTrackSelectionHighPurity +
+        process.AhltIter2TrkL3FromL1TkMuonMerged +
+        process.AhltTrkL3MuonsNoID +
+        process.AhltTrkL3Muons
+    )
 
     from MuonHLTTool.MuonHLTNtupler.ntupler_cfi import ntuplerBase
     process.ntupler = ntuplerBase.clone()
@@ -238,9 +248,9 @@ def customizerFuncForMuonHLTNtupler(process, newProcessName = "MYHLT", doDYSkim 
     if doDYSkim:
         from MuonHLTTool.MuonHLTNtupler.DYmuSkimmer import DYmuSkimmer
         process.Skimmer = DYmuSkimmer.clone()
-        process.mypath = cms.Path(process.Skimmer*process.hltTPClusterProducer*process.hltTrackAssociatorByHits*process.ntupler)
+        process.mypath = cms.Path(process.Skimmer*process.hltTPClusterProducer*process.hltTrackAssociatorByHits*process.trackAssoSeq*process.ntupler)
 
     else:
-        process.mypath = cms.Path(process.hltTPClusterProducer*process.hltTrackAssociatorByHits*process.ntupler)
+        process.mypath = cms.Path(process.hltTPClusterProducer*process.hltTrackAssociatorByHits*process.trackAssoSeq*process.ntupler)
 
     return process
