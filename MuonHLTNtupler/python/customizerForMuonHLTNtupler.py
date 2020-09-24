@@ -51,11 +51,11 @@ def customizerFuncForMuonHLTNtupler(process, newProcessName = "MYHLT", doDYSkim 
     hltMuonAssociatorByHits.UseTracker                   = True
     hltMuonAssociatorByHits.UseMuon                      = True
 
-    AhltIter0TrkL3FromL1TkMuonTrackSelectionHighPurity = hltMuonAssociatorByHits.clone( tracksTag = 'hltIter0TrkL3FromL1TkMuonTrackSelectionHighPurity' )
-    AhltIter2TrkL3FromL1TkMuonTrackSelectionHighPurity = hltMuonAssociatorByHits.clone( tracksTag = 'hltIter2TrkL3FromL1TkMuonTrackSelectionHighPurity' )
-    AhltIter2TrkL3FromL1TkMuonMerged                   = hltMuonAssociatorByHits.clone( tracksTag = 'hltIter2TrkL3FromL1TkMuonMerged' )
-    AhltTrkL3MuonsNoID                                 = hltMuonAssociatorByHits.clone( tracksTag = 'hltTrkL3MuonsNoIDTracks' )
-    AhltTrkL3Muons                                     = hltMuonAssociatorByHits.clone( tracksTag = 'hltTrkL3MuonsTracks' )
+    process.AhltIter0TrkL3FromL1TkMuonTrackSelectionHighPurity = hltMuonAssociatorByHits.clone( tracksTag = 'hltIter0TrkL3FromL1TkMuonTrackSelectionHighPurity' )
+    process.AhltIter2TrkL3FromL1TkMuonTrackSelectionHighPurity = hltMuonAssociatorByHits.clone( tracksTag = 'hltIter2TrkL3FromL1TkMuonTrackSelectionHighPurity' )
+    process.AhltIter2TrkL3FromL1TkMuonMerged                   = hltMuonAssociatorByHits.clone( tracksTag = 'hltIter2TrkL3FromL1TkMuonMerged' )
+    process.AhltTrkL3MuonsNoID                                 = hltMuonAssociatorByHits.clone( tracksTag = 'hltTrkL3MuonsNoIDTracks' )
+    process.AhltTrkL3Muons                                     = hltMuonAssociatorByHits.clone( tracksTag = 'hltTrkL3MuonsTracks' )
 
     trackNames = [
         'hltIter0TrkL3FromL1TkMuon',
