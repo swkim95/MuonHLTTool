@@ -1127,8 +1127,10 @@ void MuonHLTNtupler::Make_Branch()
   VThltIterL3FromL1MuonTrimmedPixelVertices->setBranch(ntuple_,"hltIterL3FromL1MuonTrimmedPixelVertices");
 
   for( unsigned int i = 0; i < trackCollectionNames_.size(); ++i) {
-    trkTemplates_.at(i)->setBranch(ntuple_,trackCollectionNames_.at(i));
-    tpTemplates_.at(i)->setBranch(ntuple_, trackCollectionNames_.at(i));
+    TString trkName = TString(trackCollectionNames_.at(i));
+    TString tpName  = "tpTo_" + TString(trackCollectionNames_.at(i));
+    trkTemplates_.at(i)->setBranch(ntuple_, trkName );
+    tpTemplates_.at(i)->setBranch(ntuple_,  tpName );
   }
 }
 
