@@ -94,9 +94,9 @@ def customizerFuncForMuonHLTNtupler(process, newProcessName = "MYHLT", doDYSkim 
     from MuonHLTTool.MuonHLTNtupler.ntupler_cfi import ntuplerBase
     process.ntupler = ntuplerBase.clone()
 
-    process.ntupler.trackCollectionNames  = cms.untracked.vstring( trackNames )
-    process.ntupler.trackCollectionLabels = cms.untracked.vstring( trackLabels )
-    process.ntupler.associationLabels     = cms.untracked.vstring( assoLabels )
+    process.ntupler.trackCollectionNames  = cms.untracked.vstring(   trackNames )
+    process.ntupler.trackCollectionLabels = cms.untracked.VInputTag( trackLabels )
+    process.ntupler.associationLabels     = cms.untracked.VInputTag( assoLabels )
 
     # -- set to the new process name
     process.ntupler.myTriggerResults = cms.untracked.InputTag("TriggerResults",          "",     newProcessName)
