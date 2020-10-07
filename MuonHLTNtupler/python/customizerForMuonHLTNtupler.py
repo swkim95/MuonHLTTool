@@ -234,8 +234,6 @@ def customizerFuncForMuonHLTNtupler(process, newProcessName = "MYHLT", doDYSkim 
       closeFileFast = cms.untracked.bool(False),
     )
 
-    process.ntupler.myTriggerResults = cms.untracked.InputTag("TriggerResults::HLT") # dummy to avoid ordering error occur in skimming, as it is not used at the moment
-
     process.ntupler.DebugMode = cms.bool(False)
     process.ntupler.SaveAllTracks = cms.bool(True)
     # process.ntupler.SaveStubs = cms.bool(False)
@@ -245,12 +243,15 @@ def customizerFuncForMuonHLTNtupler(process, newProcessName = "MYHLT", doDYSkim 
     process.ntupler.TkMuonToken = cms.InputTag("L1TkMuons", "", newProcessName)
     process.ntupler.l1TkPrimaryVertex = cms.InputTag("L1TkPrimaryVertex","")
 
-    if doDYSkim:
-        from MuonHLTTool.MuonHLTNtupler.DYmuSkimmer import DYmuSkimmer
-        process.Skimmer = DYmuSkimmer.clone()
-        process.mypath = cms.Path(process.Skimmer*process.hltTPClusterProducer*process.hltTrackAssociatorByHits*process.trackAssoSeq*process.ntupler)
+    # if doDYSkim:
+    #     from MuonHLTTool.MuonHLTNtupler.DYmuSkimmer import DYmuSkimmer
+    #     process.Skimmer = DYmuSkimmer.clone()
+    #     process.mypath = cms.Path(process.Skimmer*process.hltTPClusterProducer*process.hltTrackAssociatorByHits*process.trackAssoSeq*process.ntupler)
 
-    else:
-        process.mypath = cms.Path(process.hltTPClusterProducer*process.hltTrackAssociatorByHits*process.trackAssoSeq*process.ntupler)
+    # else:
+    #     process.mypath = cms.Path(process.hltTPClusterProducer*process.hltTrackAssociatorByHits*process.trackAssoSeq*process.ntupler)
+
+    process.mypath    = cms.Path(process.hltTPClusterProducer*process.hltTrackAssociatorByHits*process.trackAssoSeq)
+    process.myendpath = cms.EndPath(process.ntupler)
 
     return process
