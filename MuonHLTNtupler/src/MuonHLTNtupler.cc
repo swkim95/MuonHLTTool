@@ -1516,7 +1516,8 @@ void MuonHLTNtupler::Fill_HLT(const edm::Event &iEvent, bool isMYHLT)
     if( h_triggerResults->accept(itrig) )
     {
       std::string pathName = triggerNames.triggerName(itrig);
-      if( SavedTriggerCondition(pathName) )
+      // if( SavedTriggerCondition(pathName) )
+      if( true )
       {
         if( isMYHLT ) vec_myFiredTrigger_.push_back( pathName );
         else          vec_firedTrigger_.push_back( pathName );
@@ -1530,7 +1531,8 @@ void MuonHLTNtupler::Fill_HLT(const edm::Event &iEvent, bool isMYHLT)
   {
     std::string filterName = h_triggerEvent->filterTag(i_filter).encode();
 
-    if( SavedFilterCondition(filterName) )
+    // if( SavedFilterCondition(filterName) )
+    if( true )
     {
       trigger::Keys objectKeys = h_triggerEvent->filterKeys(i_filter);
       const trigger::TriggerObjectCollection& triggerObjects(h_triggerEvent->getObjects());
