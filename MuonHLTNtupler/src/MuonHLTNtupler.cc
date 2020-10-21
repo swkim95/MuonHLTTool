@@ -2204,11 +2204,10 @@ void MuonHLTNtupler::fill_trackTemplate(
   bool doIso = false
 ) {
 
-  
+  edm::Handle<reco::RecoChargedCandidateCollection> h_L3Muon;
   // vector<edm::Handle<reco::IsoDepositMap>> trkIsoMaps = {};
   // vector<edm::Handle<reco::RecoChargedCandidateIsolationMap>> pfIsoMaps = {};
   if(doIso) {
-    edm::Handle<reco::RecoChargedCandidateCollection> h_L3Muon;
     bool hasL3Muon = iEvent.getByToken( t_L3Muon_, h_L3Muon );
     if(!hasL3Muon) {
       throw cms::Exception("ConfigurationError")
