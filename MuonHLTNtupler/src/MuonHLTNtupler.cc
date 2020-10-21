@@ -2250,12 +2250,6 @@ void MuonHLTNtupler::fill_trackTemplate(
           vector<float> pfIsolations = {};
 
           reco::RecoChargedCandidateRef muRef(h_L3Muon, i);
-
-          // HERE
-          cout << "\nNew Track found!!" << endl;
-          cout << trkHandle->at(i).pt() << ", " << trkHandle->at(i).eta() << endl;
-          cout << muRef->pt() << ", " << muRef->eta() << endl;
-
           if( fabs(trkHandle->at(i).pt() - muRef->pt()) / muRef->pt() > 0.001 ||
               fabs(trkHandle->at(i).eta() - muRef->eta()) > 0.001 ||
               fabs(trkHandle->at(i).phi() - muRef->phi()) > 0.001
@@ -2284,14 +2278,9 @@ void MuonHLTNtupler::fill_trackTemplate(
               else if(Tag_tstr.Contains("dR1p0"))  dR = 1.0;
               else                                 dR = 0.0;
 
-              // HERE
-              cout << "\t" << Tag_tstr << " dR=" << dR << ": " << trkIso.depositWithin(dR) << endl;
-
               trkIsolations.push_back( trkIso.depositWithin(dR) );
             }
             else {
-              // HERE
-              cout << "\t" << trkIsoTags_.at(ii) << " No iso map" << endl;
               trkIsolations.push_back( -99999. );
             }
           }
@@ -2303,14 +2292,9 @@ void MuonHLTNtupler::fill_trackTemplate(
 
               reco::RecoChargedCandidateIsolationMap::const_iterator pfIso = (*pfIsoMap).find( muRef );
 
-              // HERE
-              cout << "\t" << pfIsoTags_.at(ii) << ": " << pfIso->val << endl;
-
               pfIsolations.push_back( pfIso->val );
             }
             else {
-              // HERE
-              cout << "\t" << pfIsoTags_.at(ii) << " No iso map" << endl;
               pfIsolations.push_back( -99999. );
             }
           }
