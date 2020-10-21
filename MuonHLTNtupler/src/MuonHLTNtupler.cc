@@ -2204,45 +2204,16 @@ void MuonHLTNtupler::fill_trackTemplate(
   bool doIso = false
 ) {
 
-  edm::Handle<reco::RecoChargedCandidateCollection> h_L3Muon;
-  // vector<edm::Handle<reco::IsoDepositMap>> trkIsoMaps = {};
-  // vector<edm::Handle<reco::RecoChargedCandidateIsolationMap>> pfIsoMaps = {};
-  if(doIso) {
-    bool hasL3Muon = iEvent.getByToken( t_L3Muon_, h_L3Muon );
-    if(!hasL3Muon) {
-      throw cms::Exception("ConfigurationError")
-            << "getByToken failed for L3 Muon Candidates, it is needed for Iso maps";
-    }
-
-    /*
-    for( unsigned int i = 0; i < trkIsoTags_.size(); ++i) {
-      edm::Handle<reco::IsoDepositMap> tmpMap;
-      if( iEvent.getByToken(trkIsoTokens_.at(i), tmpMap) ) {
-        trkIsoMaps.push_back( tmpMap );
-      }
-      else {
-        throw cms::Exception("ConfigurationError")
-            << "getByToken failed for " << trkIsoTags_.at(i);
-      }
-    }
-
-    for( unsigned int i = 0; i < pfIsoTags_.size(); ++i) {
-      edm::Handle<reco::RecoChargedCandidateIsolationMap> tmpMap;
-      if( iEvent.getByToken(pfIsoTokens_.at(i), tmpMap) ) {
-        pfIsoMaps.push_back( tmpMap );
-      }
-      else {
-        throw cms::Exception("ConfigurationError")
-            << "getByToken failed for " << pfIsoTags_.at(i);
-      }
-    }
-    */
-  }
-
   edm::Handle<edm::View<reco::Track>> trkHandle;
   if( iEvent.getByToken( trkToken, trkHandle ) ) {
 
     if(doIso) {
+      edm::Handle<reco::RecoChargedCandidateCollection> h_L3Muon;
+      bool hasL3Muon = iEvent.getByToken( t_L3Muon_, h_L3Muon );
+      if(!hasL3Muon) {
+        throw cms::Exception("ConfigurationError")
+              << "getByToken failed for L3 Muon Candidates, it is needed for Iso maps";
+      }
       if( h_L3Muon->size() != trkHandle->size() ) {
         throw cms::Exception("ConfigurationError")
             << "h_L3Muon->size() != trkHandle->size()";
