@@ -2315,7 +2315,7 @@ void MuonHLTNtupler::fill_trackTemplate(
           }
 
           for( unsigned int ii = 0; ii < pfIsoTags_.size(); ++ii) {
-            reco::RecoChargedCandidateIsolationMap::const_iterator pfIso = (*pfIsoMaps).find( muRef );
+            reco::RecoChargedCandidateIsolationMap::const_iterator pfIso = (*pfIsoMaps.at(ii)).find( muRef );
 
             // HERE
             cout << "\t" << pfIsoTags_.at(ii) << ": " << pfIso->val << endl;
