@@ -2291,7 +2291,7 @@ void MuonHLTNtupler::fill_trackTemplate(
             }
             else {
               // HERE
-              cout << "\t" << Tag_tstr << " No iso map" << endl;
+              cout << "\t" << trkIsoTags_.at(ii) << " No iso map" << endl;
               trkIsolations.push_back( -99999. );
             }
           }
@@ -2310,7 +2310,7 @@ void MuonHLTNtupler::fill_trackTemplate(
             }
             else {
               // HERE
-              cout << "\t" << Tag_tstr << " No iso map" << endl;
+              cout << "\t" << trkIsoTags_.at(ii) << " No iso map" << endl;
               pfIsolations.push_back( -99999. );
             }
           }
