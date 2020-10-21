@@ -2324,7 +2324,7 @@ void MuonHLTNtupler::fill_trackTemplate(
             edm::Handle<reco::RecoChargedCandidateIsolationMap> pfIsoMap;
             iEvent.getByToken(pfIsoTokens_.at(ii), pfIsoMap);
 
-            reco::RecoChargedCandidateIsolationMap::const_iterator pfIso = (*pfIsoMaps.at(ii)).find( muRef );
+            reco::RecoChargedCandidateIsolationMap::const_iterator pfIso = (*pfIsoMap).find( muRef );
 
             // HERE
             cout << "\t" << pfIsoTags_.at(ii) << ": " << pfIso->val << endl;
