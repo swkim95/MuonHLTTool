@@ -104,10 +104,10 @@ def customizerFuncForMuonHLTNtupler(process, newProcessName = "MYHLT", doDYSkim 
     process.ntupler.trackCollectionLabels = cms.untracked.VInputTag( trackLabels )
     process.ntupler.associationLabels     = cms.untracked.VInputTag( assoLabels )
 
-    process.ntupler.trkIsoTags   = cms.untracked.vstring(   trackNames )
-    process.ntupler.trkIsoLabels = cms.untracked.VInputTag( trackLabels )
-    process.ntupler.pfIsoTags    = cms.untracked.vstring(   trackNames )
-    process.ntupler.pfIsoLabels  = cms.untracked.VInputTag( trackLabels )
+    process.ntupler.trkIsoTags   = cms.untracked.vstring(   trkIsoTags )
+    process.ntupler.trkIsoLabels = cms.untracked.VInputTag( trkIsoLabels )
+    process.ntupler.pfIsoTags    = cms.untracked.vstring(   pfIsoTags )
+    process.ntupler.pfIsoLabels  = cms.untracked.VInputTag( pfIsoLabels )
 
     # -- set to the new process name
     process.ntupler.myTriggerResults = cms.untracked.InputTag("TriggerResults",          "",     newProcessName)
