@@ -2204,28 +2204,27 @@ void MuonHLTNtupler::fill_trackTemplate(
   bool doIso = false
 ) {
 
-  edm::Handle<reco::RecoChargedCandidateCollection> h_L3Muon;
-  vector<edm::Handle<reco::IsoDepositMap>> trkIsoMaps = {};
-  vector<edm::Handle<reco::RecoChargedCandidateIsolationMap>> pfIsoMaps = {};
+  
+  // vector<edm::Handle<reco::IsoDepositMap>> trkIsoMaps = {};
+  // vector<edm::Handle<reco::RecoChargedCandidateIsolationMap>> pfIsoMaps = {};
   if(doIso) {
-
+    edm::Handle<reco::RecoChargedCandidateCollection> h_L3Muon;
     bool hasL3Muon = iEvent.getByToken( t_L3Muon_, h_L3Muon );
     if(!hasL3Muon) {
       throw cms::Exception("ConfigurationError")
             << "getByToken failed for L3 Muon Candidates, it is needed for Iso maps";
     }
 
+    /*
     for( unsigned int i = 0; i < trkIsoTags_.size(); ++i) {
       edm::Handle<reco::IsoDepositMap> tmpMap;
-      iEvent.getByToken(trkIsoTokens_.at(i), tmpMap);
-      trkIsoMaps.push_back( tmpMap );
-      // if( iEvent.getByToken(trkIsoTokens_.at(i), tmpMap) ) {
-      //   trkIsoMaps.push_back( tmpMap );
-      // }
-      // else {
-      //   throw cms::Exception("ConfigurationError")
-      //       << "getByToken failed for " << trkIsoTags_.at(i);
-      // }
+      if( iEvent.getByToken(trkIsoTokens_.at(i), tmpMap) ) {
+        trkIsoMaps.push_back( tmpMap );
+      }
+      else {
+        throw cms::Exception("ConfigurationError")
+            << "getByToken failed for " << trkIsoTags_.at(i);
+      }
     }
 
     for( unsigned int i = 0; i < pfIsoTags_.size(); ++i) {
@@ -2238,6 +2237,7 @@ void MuonHLTNtupler::fill_trackTemplate(
             << "getByToken failed for " << pfIsoTags_.at(i);
       }
     }
+    */
   }
 
   edm::Handle<edm::View<reco::Track>> trkHandle;
@@ -2295,7 +2295,11 @@ void MuonHLTNtupler::fill_trackTemplate(
           }
 
           for( unsigned int ii = 0; ii < trkIsoTags_.size(); ++ii) {
-            reco::IsoDeposit trkIso = (*trkIsoMaps.at(ii))[muRef];
+
+            edm::Handle<reco::IsoDepositMap> trkIsoMap;
+            iEvent.getByToken(trkIsoTokens_.at(ii), trkIsoMap);
+
+            reco::IsoDeposit trkIso = (*trkIsoMap)[muRef];
             TString Tag_tstr = TString(trkIsoTags_.at(ii));
             float dR = 0.0;
             if(Tag_tstr.Contains("dR0p1"))       dR = 0.1;
@@ -2317,6 +2321,10 @@ void MuonHLTNtupler::fill_trackTemplate(
           }
 
           for( unsigned int ii = 0; ii < pfIsoTags_.size(); ++ii) {
+
+            edm::Handle<reco::RecoChargedCandidateIsolationMap> pfIsoMap;
+            iEvent.getByToken(pfIsoTokens_.at(ii), pfIsoMap);
+
             reco::RecoChargedCandidateIsolationMap::const_iterator pfIso = (*pfIsoMaps.at(ii)).find( muRef );
 
             // HERE
