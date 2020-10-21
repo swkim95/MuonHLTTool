@@ -199,12 +199,12 @@ private:
   std::vector<edm::EDGetTokenT<reco::SimToRecoCollection> > simToRecoCollectionTokens_;
   std::vector<edm::EDGetTokenT<reco::RecoToSimCollection> > recoToSimCollectionTokens_;
 
-  std::vector<std::string>                            trkIsoTags_;
-  std::vector<edm::InputTag>                          trkIsoLabels_;
-  std::vector<reco::IsoDepositMap>                    trkIsoTokens_;
-  std::vector<std::string>                            pfIsoTags_;
-  std::vector<edm::InputTag>                          pfIsoLabels_;
-  std::vector<reco::RecoChargedCandidateIsolationMap> pfIsoTokens_;
+  std::vector<std::string> trkIsoTags_;
+  std::vector<edm::InputTag> trkIsoLabels_;
+  std::vector<edm::EDGetTokenT<reco::IsoDepositMap>> trkIsoTokens_;
+  std::vector<std::string> pfIsoTags_;
+  std::vector<edm::InputTag> pfIsoLabels_;
+  std::vector<edm::EDGetTokenT<reco::RecoChargedCandidateIsolationMap>> pfIsoTokens_;
 
   typedef std::vector< std::pair<SeedMvaEstimator*, SeedMvaEstimator*> > pairSeedMvaEstimator;
 
