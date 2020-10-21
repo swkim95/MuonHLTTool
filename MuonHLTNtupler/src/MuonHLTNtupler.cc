@@ -144,6 +144,26 @@ t_genParticle_       ( consumes< reco::GenParticleCollection >            (iConf
     tpTemplates_.push_back(  new tpTemplate()  );
   }
 
+  trkIsoTags_ = iConfig.getUntrackedParameter<std::vector<std::string>>("trkIsoTags");
+  trkIsoLabels_ = iConfig.getUntrackedParameter<std::vector<edm::InputTag> >("trkIsoLabels");
+  if( trkIsoTags_.size() != trkIsoLabels_.size() ) {
+    throw cms::Exception("ConfigurationError")
+      << "trkIsoTags_.size() != trkIsoLabels_.size()";
+  }
+  for( unsigned int i = 0; i < trkIsoTags_.size(); ++i) {
+    trkIsoTokens_.push_back( consumes<reco::IsoDepositMap>( trkIsoLabels_.at(i) ) );
+  }
+
+  pfIsoTags_ = iConfig.getUntrackedParameter<std::vector<std::string>>("pfIsoTags");
+  pfIsoLabels_ = iConfig.getUntrackedParameter<std::vector<edm::InputTag> >("pfIsoLabels");
+  if( pfIsoTags_.size() != pfIsoLabels_.size() ) {
+    throw cms::Exception("ConfigurationError")
+      << "pfIsoTags_.size() != pfIsoLabels_.size()";
+  }
+  for( unsigned int i = 0; i < pfIsoTags_.size(); ++i) {
+    pfIsoTokens_.push_back( consumes<reco::RecoChargedCandidateIsolationMap>( pfIsoLabels_.at(i) ) );
+  }
+
   mvaFileHltIterL3OISeedsFromL2Muons_B_0_                       = iConfig.getUntrackedParameter<edm::FileInPath>("mvaFileHltIterL3OISeedsFromL2Muons_B_0");
   mvaFileHltIterL3OISeedsFromL2Muons_B_1_                       = iConfig.getUntrackedParameter<edm::FileInPath>("mvaFileHltIterL3OISeedsFromL2Muons_B_1");
   mvaFileHltIterL3OISeedsFromL2Muons_B_2_                       = iConfig.getUntrackedParameter<edm::FileInPath>("mvaFileHltIterL3OISeedsFromL2Muons_B_2");
@@ -328,7 +348,8 @@ void MuonHLTNtupler::analyze(const edm::Event &iEvent, const edm::EventSetup &iS
   }
 
   for( unsigned int i = 0; i < trackCollectionNames_.size(); ++i) {
-    fill_trackTemplate( iEvent, trackCollectionTokens_.at(i), recoToSimCollectionTokens_.at(i), trkTemplates_.at(i) );
+    bool doIso = (i == trackCollectionNames_.size()-1);
+    fill_trackTemplate( iEvent, trackCollectionTokens_.at(i), recoToSimCollectionTokens_.at(i), trkTemplates_.at(i), doIso );
     fill_tpTemplate(    iEvent,                               simToRecoCollectionTokens_.at(i), tpTemplates_.at(i) );
   }
 
@@ -1098,7 +1119,13 @@ void MuonHLTNtupler::Make_Branch()
   for( unsigned int i = 0; i < trackCollectionNames_.size(); ++i) {
     TString trkName = TString(trackCollectionNames_.at(i));
     TString tpName  = "tpTo_" + TString(trackCollectionNames_.at(i));
-    trkTemplates_.at(i)->setBranch(ntuple_, trkName );
+
+    bool doIso = (i == trackCollectionNames_.size()-1);
+
+    if(doIso)
+      trkTemplates_.at(i)->setIsoTags( trkIsoTags_, pfIsoTags_ );
+
+    trkTemplates_.at(i)->setBranch(ntuple_, trkName, doIso );
     tpTemplates_.at(i)->setBranch(ntuple_,  tpName );
   }
 }
@@ -2173,10 +2200,53 @@ void MuonHLTNtupler::fill_trackTemplate(
   const edm::Event &iEvent,
   edm::EDGetTokenT<edm::View<reco::Track>>& trkToken,
   edm::EDGetTokenT<reco::RecoToSimCollection>& assoToken,
-  trkTemplate* TTtrack
+  trkTemplate* TTtrack,
+  bool doIso = false
 ) {
+
+  edm::Handle<reco::RecoChargedCandidateCollection> h_L3Muon;
+  vector<edm::Handle<reco::IsoDepositMap>> trkIsoMaps = {};
+  vector<edm::Handle<reco::RecoChargedCandidateIsolationMap>> pfIsoMaps = {};
+  if(doIso) {
+
+    bool hasL3Muon = iEvent.getByToken( t_L3Muon_, h_L3Muon );
+    if(!hasL3Muon) {
+      throw cms::Exception("ConfigurationError")
+            << "getByToken failed for L3 Muon Candidates, it is needed for Iso maps";
+    }
+
+    for( unsigned int i = 0; i < trkIsoTags_.size(); ++i) {
+      edm::Handle<reco::IsoDepositMap> tmpMap;
+      if( iEvent.getByToken(trkIsoTokens_.at(i), tmpMap) ) {
+        trkIsoMaps.push_back( tmpMap );
+      }
+      else {
+        throw cms::Exception("ConfigurationError")
+            << "getByToken failed for " << trkIsoTags_.at(i);
+      }
+    }
+
+    for( unsigned int i = 0; i < pfIsoTags_.size(); ++i) {
+      edm::Handle<reco::IsoDepositMap> tmpMap;
+      if( iEvent.getByToken(pfIsoTokens_.at(i), tmpMap) ) {
+        pfIsoMaps.push_back( tmpMap );
+      }
+      else {
+        throw cms::Exception("ConfigurationError")
+            << "getByToken failed for " << pfIsoTags_.at(i);
+      }
+    }
+  }
+
   edm::Handle<edm::View<reco::Track>> trkHandle;
   if( iEvent.getByToken( trkToken, trkHandle ) ) {
+
+    if(doIso) {
+      if( h_L3Muon->size() != trkHandle->size() ) {
+        throw cms::Exception("ConfigurationError")
+            << "h_L3Muon->size() != trkHandle->size()";
+      }
+    }
 
     edm::Handle<reco::RecoToSimCollection> assoHandle;
     if( iEvent.getByToken( assoToken, assoHandle ) ) {
@@ -2202,6 +2272,59 @@ void MuonHLTNtupler::fill_trackTemplate(
         TTtrack->linkIterL3(-1);
         TTtrack->linkIterL3NoId(-1);
         TTtrack->fillMva( -99999., -99999., -99999., -99999. );
+
+        if(doIso) {
+          vector<float> trkIsolations = {};
+          vector<float> pfIsolations = {};
+
+          reco::RecoChargedCandidateRef muRef(h_L3Muon, i);
+
+          // HERE
+          cout << "\nNew Track found!!" << endl;
+          cout << trkHandle->at(i).pt() << ", " << trkHandle->at(i).eta() << endl;
+          cout << muRef->pt() << ", " << muRef->eta() << endl;
+
+          if( fabs(trkHandle->at(i).pt() - muRef->pt()) / muRef->pt() > 0.001 ||
+              fabs(trkHandle->at(i).eta() - muRef->eta()) > 0.001 ||
+              fabs(trkHandle->at(i).phi() - muRef->phi()) > 0.001
+          ) {
+            throw cms::Exception("ConfigurationError")
+                << "L3 muon candidate != corresponding track";
+          }
+
+          for( unsigned int ii = 0; ii < trkIsoTags_.size(); ++ii) {
+            reco::IsoDeposit trkIso = (*trkIsoMaps.at(ii))[muRef];
+            TString Tag_tstr = TString(trkIsoTags_.at(ii));
+            float dR = 0.0;
+            if(Tag_tstr.Contains("dR0p1"))       dR = 0.1;
+            else if(Tag_tstr.Contains("dR0p2"))  dR = 0.2;
+            else if(Tag_tstr.Contains("dR0p3"))  dR = 0.3;
+            else if(Tag_tstr.Contains("dR0p4"))  dR = 0.4;
+            else if(Tag_tstr.Contains("dR0p5"))  dR = 0.5;
+            else if(Tag_tstr.Contains("dR0p6"))  dR = 0.6;
+            else if(Tag_tstr.Contains("dR0p7"))  dR = 0.7;
+            else if(Tag_tstr.Contains("dR0p8"))  dR = 0.8;
+            else if(Tag_tstr.Contains("dR0p9"))  dR = 0.9;
+            else if(Tag_tstr.Contains("dR1p0"))  dR = 1.0;
+            else                                 dR = 0.0;
+
+            // HERE
+            cout << "\t" << Tag_tstr << " dR=" << dR << ": " << trkIso.depositWithin(dR) << endl;
+
+            trkIsolations.push_back( trkIso.depositWithin(dR) );
+          }
+
+          for( unsigned int ii = 0; ii < pfIsoTags_.size(); ++ii) {
+            reco::RecoChargedCandidateIsolationMap::const_iterator pfIso = (*pfIsoMaps).find( muRef );
+
+            // HERE
+            cout << "\t" << pfIsoTags_.at(ii) << ": " << pfIso->val << endl;
+
+            pfIsolations.push_back( pfIso->val );
+          }
+
+          TTtrack->fillIso( trkIsolations, pfIsolations );
+        }
       }
     }
   }

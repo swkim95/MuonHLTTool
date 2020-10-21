@@ -199,6 +199,13 @@ private:
   std::vector<edm::EDGetTokenT<reco::SimToRecoCollection> > simToRecoCollectionTokens_;
   std::vector<edm::EDGetTokenT<reco::RecoToSimCollection> > recoToSimCollectionTokens_;
 
+  std::vector<std::string>                            trkIsoTags_;
+  std::vector<edm::InputTag>                          trkIsoLabels_;
+  std::vector<reco::IsoDepositMap>                    trkIsoTokens_;
+  std::vector<std::string>                            pfIsoTags_;
+  std::vector<edm::InputTag>                          pfIsoLabels_;
+  std::vector<reco::RecoChargedCandidateIsolationMap> pfIsoTokens_;
+
   typedef std::vector< std::pair<SeedMvaEstimator*, SeedMvaEstimator*> > pairSeedMvaEstimator;
 
   TTree *ntuple_;
@@ -817,6 +824,14 @@ private:
     std::vector<float> mva1;
     std::vector<float> mva2;
     std::vector<float> mva3;
+
+    // Isolations
+    // iso[#iso type][#ev]
+    std::vector<std::string>        = TrkIsolations_tag;
+    std::vector<std::vector<float>> = TrkIsolations_value;
+    std::vector<std::string>        = PFIsolations_tag;
+    std::vector<std::vector<float>> = PFIsolations_value;
+
   public:
     void clear() {
       nTrks = 0;
@@ -847,10 +862,31 @@ private:
       mva2.clear();
       mva3.clear();
 
+      for(unsigned i=0; i<TrkIsolations_tag.size(); ++i) {
+        TrkIsolations_value.at(i).clear();
+      }
+      for(unsigned i=0; i<PFIsolations_tag.size(); ++i) {
+        PFIsolations_value.at(i).clear();
+      }
+
       return;
     }
 
-    void setBranch(TTree* tmpntpl, TString name) {
+    void setIsoTags( vector<std::string> TrkIsoTags, vector<std::string> PFIsoTags ) {
+      TrkIsolations_tag = TrkIsoTags;
+      for(unsigned i=0; i<TrkIsolations_tag.size(); ++i) {
+        TrkIsolations_value.push_back( {} );
+      }
+
+      PFIsolations_tag  = PFIsoTags;
+      for(unsigned i=0; i<PFIsolations_tag.size(); ++i) {
+        PFIsolations_value.push_back( {} );
+      }
+
+      return;
+    }
+
+    void setBranch(TTree* tmpntpl, TString name, bool doIso = false) {
       tmpntpl->Branch("n"+name, &nTrks);
       tmpntpl->Branch(name+"_pt", &trkPts);
       tmpntpl->Branch(name+"_ptError", &trkPtErrors);
@@ -878,6 +914,29 @@ private:
       tmpntpl->Branch(name+"_mva1", &mva1);
       tmpntpl->Branch(name+"_mva2", &mva2);
       tmpntpl->Branch(name+"_mva3", &mva3);
+
+      if(doIso) {
+        for(unsigned i=0; i<TrkIsolations_tag.size(); ++i) {
+          TString Tag_tstr = TString(TrkIsolations_tag.at(i));
+          tmpntpl->Branch(name+"_"+Tag_tstr, &TrkIsolations_value.at(i));
+        }
+        for(unsigned i=0; i<PFIsolations_tag.size(); ++i) {
+          TString Tag_tstr = TString(PFIsolations_tag.at(i));
+          tmpntpl->Branch(name+"_"+Tag_tstr, &PFIsolations_value.at(i));
+        }
+      }
+
+      return;
+    }
+
+    void fillIso( vector<float> TrkIsolations, vector<float> PFIsolations ) {
+      for(unsigned i=0; i<TrkIsolations_tag.size(); ++i) {
+        TrkIsolations_value.at(i).push_back( TrkIsolations.at(i) );
+      }
+
+      for(unsigned i=0; i<PFIsolations_tag.size(); ++i) {
+        PFIsolations_value.at(i).push_back( PFIsolations.at(i) );
+      }
 
       return;
     }
@@ -1222,7 +1281,8 @@ private:
     const edm::Event &iEvent,
     edm::EDGetTokenT<edm::View<reco::Track>>& trkToken,
     edm::EDGetTokenT<reco::RecoToSimCollection>& assoToken,
-    trkTemplate* TTtrack
+    trkTemplate* TTtrack,
+    bool
   );
 
   void fill_trackTemplateMva(
