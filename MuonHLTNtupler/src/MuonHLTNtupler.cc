@@ -2217,13 +2217,15 @@ void MuonHLTNtupler::fill_trackTemplate(
 
     for( unsigned int i = 0; i < trkIsoTags_.size(); ++i) {
       edm::Handle<reco::IsoDepositMap> tmpMap;
-      if( iEvent.getByToken(trkIsoTokens_.at(i), tmpMap) ) {
-        trkIsoMaps.push_back( tmpMap );
-      }
-      else {
-        throw cms::Exception("ConfigurationError")
-            << "getByToken failed for " << trkIsoTags_.at(i);
-      }
+      iEvent.getByToken(trkIsoTokens_.at(i), tmpMap);
+      trkIsoMaps.push_back( tmpMap );
+      // if( iEvent.getByToken(trkIsoTokens_.at(i), tmpMap) ) {
+      //   trkIsoMaps.push_back( tmpMap );
+      // }
+      // else {
+      //   throw cms::Exception("ConfigurationError")
+      //       << "getByToken failed for " << trkIsoTags_.at(i);
+      // }
     }
 
     for( unsigned int i = 0; i < pfIsoTags_.size(); ++i) {
