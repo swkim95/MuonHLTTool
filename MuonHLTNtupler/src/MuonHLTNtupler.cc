@@ -2227,7 +2227,7 @@ void MuonHLTNtupler::fill_trackTemplate(
     }
 
     for( unsigned int i = 0; i < pfIsoTags_.size(); ++i) {
-      edm::Handle<reco::IsoDepositMap> tmpMap;
+      edm::Handle<reco::RecoChargedCandidateIsolationMap> tmpMap;
       if( iEvent.getByToken(pfIsoTokens_.at(i), tmpMap) ) {
         pfIsoMaps.push_back( tmpMap );
       }
