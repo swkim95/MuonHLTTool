@@ -2207,8 +2207,8 @@ void MuonHLTNtupler::fill_trackTemplate(
   edm::Handle<edm::View<reco::Track>> trkHandle;
   if( iEvent.getByToken( trkToken, trkHandle ) ) {
 
+    edm::Handle<reco::RecoChargedCandidateCollection> h_L3Muon;
     if(doIso) {
-      edm::Handle<reco::RecoChargedCandidateCollection> h_L3Muon;
       bool hasL3Muon = iEvent.getByToken( t_L3Muon_, h_L3Muon );
       if(!hasL3Muon) {
         throw cms::Exception("ConfigurationError")
