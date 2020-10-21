@@ -2267,40 +2267,52 @@ void MuonHLTNtupler::fill_trackTemplate(
           for( unsigned int ii = 0; ii < trkIsoTags_.size(); ++ii) {
 
             edm::Handle<reco::IsoDepositMap> trkIsoMap;
-            iEvent.getByToken(trkIsoTokens_.at(ii), trkIsoMap);
+            if( iEvent.getByToken(trkIsoTokens_.at(ii), trkIsoMap) ) {
 
-            reco::IsoDeposit trkIso = (*trkIsoMap)[muRef];
-            TString Tag_tstr = TString(trkIsoTags_.at(ii));
-            float dR = 0.0;
-            if(Tag_tstr.Contains("dR0p1"))       dR = 0.1;
-            else if(Tag_tstr.Contains("dR0p2"))  dR = 0.2;
-            else if(Tag_tstr.Contains("dR0p3"))  dR = 0.3;
-            else if(Tag_tstr.Contains("dR0p4"))  dR = 0.4;
-            else if(Tag_tstr.Contains("dR0p5"))  dR = 0.5;
-            else if(Tag_tstr.Contains("dR0p6"))  dR = 0.6;
-            else if(Tag_tstr.Contains("dR0p7"))  dR = 0.7;
-            else if(Tag_tstr.Contains("dR0p8"))  dR = 0.8;
-            else if(Tag_tstr.Contains("dR0p9"))  dR = 0.9;
-            else if(Tag_tstr.Contains("dR1p0"))  dR = 1.0;
-            else                                 dR = 0.0;
+              reco::IsoDeposit trkIso = (*trkIsoMap)[muRef];
+              TString Tag_tstr = TString(trkIsoTags_.at(ii));
+              float dR = 0.0;
+              if(Tag_tstr.Contains("dR0p1"))       dR = 0.1;
+              else if(Tag_tstr.Contains("dR0p2"))  dR = 0.2;
+              else if(Tag_tstr.Contains("dR0p3"))  dR = 0.3;
+              else if(Tag_tstr.Contains("dR0p4"))  dR = 0.4;
+              else if(Tag_tstr.Contains("dR0p5"))  dR = 0.5;
+              else if(Tag_tstr.Contains("dR0p6"))  dR = 0.6;
+              else if(Tag_tstr.Contains("dR0p7"))  dR = 0.7;
+              else if(Tag_tstr.Contains("dR0p8"))  dR = 0.8;
+              else if(Tag_tstr.Contains("dR0p9"))  dR = 0.9;
+              else if(Tag_tstr.Contains("dR1p0"))  dR = 1.0;
+              else                                 dR = 0.0;
 
-            // HERE
-            cout << "\t" << Tag_tstr << " dR=" << dR << ": " << trkIso.depositWithin(dR) << endl;
+              // HERE
+              cout << "\t" << Tag_tstr << " dR=" << dR << ": " << trkIso.depositWithin(dR) << endl;
 
-            trkIsolations.push_back( trkIso.depositWithin(dR) );
+              trkIsolations.push_back( trkIso.depositWithin(dR) );
+            }
+            else {
+              // HERE
+              cout << "\t" << Tag_tstr << " No iso map" << endl;
+              trkIsolations.push_back( -99999. );
+            }
           }
 
           for( unsigned int ii = 0; ii < pfIsoTags_.size(); ++ii) {
 
             edm::Handle<reco::RecoChargedCandidateIsolationMap> pfIsoMap;
-            iEvent.getByToken(pfIsoTokens_.at(ii), pfIsoMap);
+            if( iEvent.getByToken(pfIsoTokens_.at(ii), pfIsoMap) ) {
 
-            reco::RecoChargedCandidateIsolationMap::const_iterator pfIso = (*pfIsoMap).find( muRef );
+              reco::RecoChargedCandidateIsolationMap::const_iterator pfIso = (*pfIsoMap).find( muRef );
 
-            // HERE
-            cout << "\t" << pfIsoTags_.at(ii) << ": " << pfIso->val << endl;
+              // HERE
+              cout << "\t" << pfIsoTags_.at(ii) << ": " << pfIso->val << endl;
 
-            pfIsolations.push_back( pfIso->val );
+              pfIsolations.push_back( pfIso->val );
+            }
+            else {
+              // HERE
+              cout << "\t" << Tag_tstr << " No iso map" << endl;
+              pfIsolations.push_back( -99999. );
+            }
           }
 
           TTtrack->fillIso( trkIsolations, pfIsolations );
