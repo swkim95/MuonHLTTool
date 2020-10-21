@@ -827,10 +827,10 @@ private:
 
     // Isolations
     // iso[#iso type][#ev]
-    std::vector<std::string>        = TrkIsolations_tag;
-    std::vector<std::vector<float>> = TrkIsolations_value;
-    std::vector<std::string>        = PFIsolations_tag;
-    std::vector<std::vector<float>> = PFIsolations_value;
+    std::vector<std::string>        TrkIsolations_tag;
+    std::vector<std::vector<float>> TrkIsolations_value;
+    std::vector<std::string>        PFIsolations_tag;
+    std::vector<std::vector<float>> PFIsolations_value;
 
   public:
     void clear() {
