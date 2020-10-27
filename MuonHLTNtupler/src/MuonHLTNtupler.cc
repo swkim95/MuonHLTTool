@@ -1418,7 +1418,7 @@ void MuonHLTNtupler::Fill_Muon(const edm::Event &iEvent)
     // const reco::Vertex & pv = h_offlineVertex->at(0);
 
     int _nMuon = 0;
-    for(std::vector<reco::Muon>::const_iterator mu=h_offlineMuon->begin(); mu!=h_offlineMuon->end(); ++mu)
+    for(auto mu=h_offlineMuon->begin(); mu!=h_offlineMuon->end(); ++mu)
     {
       muon_pt_[_nMuon]  = mu->pt();
       muon_eta_[_nMuon] = mu->eta();
