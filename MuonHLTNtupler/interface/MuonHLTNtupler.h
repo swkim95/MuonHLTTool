@@ -148,7 +148,8 @@ private:
   edm::EDGetTokenT<reco::TrackToTrackingParticleAssociator> associatorToken;
   edm::EDGetTokenT<TrackingParticleCollection> trackingParticleToken;
 
-  edm::EDGetTokenT< std::vector<reco::Muon> >                t_offlineMuon_;
+  // edm::EDGetTokenT< std::vector<reco::Muon> >                t_offlineMuon_;
+  edm::EDGetTokenT< edm::View<reco::Muon> >                  t_offlineMuon_;
   edm::EDGetTokenT< reco::VertexCollection >                 t_offlineVertex_;
   edm::EDGetTokenT< edm::TriggerResults >                    t_triggerResults_;
   edm::EDGetTokenT< trigger::TriggerEvent >                  t_triggerEvent_;
