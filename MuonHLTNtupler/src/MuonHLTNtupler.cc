@@ -2251,13 +2251,13 @@ void MuonHLTNtupler::fill_trackTemplate(
           vector<float> pfIsolations = {};
 
           reco::RecoChargedCandidateRef muRef(h_L3Muon, i);
-          if( fabs(trkHandle->at(i).pt() - muRef->pt()) / muRef->pt() > 0.001 ||
-              fabs(trkHandle->at(i).eta() - muRef->eta()) > 0.001 ||
-              fabs(trkHandle->at(i).phi() - muRef->phi()) > 0.001
-          ) {
-            throw cms::Exception("ConfigurationError")
-                << "L3 muon candidate != corresponding track";
-          }
+          // if( fabs(trkHandle->at(i).pt() - muRef->pt()) / muRef->pt() > 0.001 ||
+          //     fabs(trkHandle->at(i).eta() - muRef->eta()) > 0.001 ||
+          //     fabs(trkHandle->at(i).phi() - muRef->phi()) > 0.001
+          // ) {
+          //   throw cms::Exception("ConfigurationError")
+          //       << "L3 muon candidate != corresponding track";
+          // }
 
           for( unsigned int ii = 0; ii < trkIsoTags_.size(); ++ii) {
 
