@@ -26,21 +26,21 @@ def customizerFuncForMuonHLTNtupler(process, newProcessName = "MYHLT", doDYSkim 
 
     # -- track - TP associations
     import SimMuon.MCTruth.MuonTrackProducer_cfi
-    process.hltTrkL3MuonsNoIDTracks = SimMuon.MCTruth.MuonTrackProducer_cfi.muonTrackProducer.clone()
-    process.hltTrkL3MuonsNoIDTracks.muonsTag                      = cms.InputTag("hltTrkL3MuonsNoID")
-    process.hltTrkL3MuonsNoIDTracks.selectionTags                 = ('All',)
-    process.hltTrkL3MuonsNoIDTracks.trackType                     = "recomuonTrack"
-    process.hltTrkL3MuonsNoIDTracks.ignoreMissingMuonCollection   = True
-    process.hltTrkL3MuonsNoIDTracks.inputCSCSegmentCollection     = cms.InputTag("hltCscSegments")
-    process.hltTrkL3MuonsNoIDTracks.inputDTRecSegment4DCollection = cms.InputTag("hltDt4DSegments")
+    process.hltPhase2L3MuonsNoIDTracks = SimMuon.MCTruth.MuonTrackProducer_cfi.muonTrackProducer.clone()
+    process.hltPhase2L3MuonsNoIDTracks.muonsTag                      = cms.InputTag("hltPhase2L3MuonsNoID")
+    process.hltPhase2L3MuonsNoIDTracks.selectionTags                 = ('All',)
+    process.hltPhase2L3MuonsNoIDTracks.trackType                     = "recomuonTrack"
+    process.hltPhase2L3MuonsNoIDTracks.ignoreMissingMuonCollection   = True
+    process.hltPhase2L3MuonsNoIDTracks.inputCSCSegmentCollection     = cms.InputTag("hltCscSegments")
+    process.hltPhase2L3MuonsNoIDTracks.inputDTRecSegment4DCollection = cms.InputTag("hltDt4DSegments")
 
-    process.hltTrkL3MuonsTracks = SimMuon.MCTruth.MuonTrackProducer_cfi.muonTrackProducer.clone()
-    process.hltTrkL3MuonsTracks.muonsTag                          = cms.InputTag("hltTrkL3Muons")
-    process.hltTrkL3MuonsTracks.selectionTags                     = ('All',)
-    process.hltTrkL3MuonsTracks.trackType                         = "recomuonTrack"
-    process.hltTrkL3MuonsTracks.ignoreMissingMuonCollection       = True
-    process.hltTrkL3MuonsTracks.inputCSCSegmentCollection         = cms.InputTag("hltCscSegments")
-    process.hltTrkL3MuonsTracks.inputDTRecSegment4DCollection     = cms.InputTag("hltDt4DSegments")
+    process.hltPhase2L3MuonsTracks = SimMuon.MCTruth.MuonTrackProducer_cfi.muonTrackProducer.clone()
+    process.hltPhase2L3MuonsTracks.muonsTag                          = cms.InputTag("hltPhase2L3Muons")
+    process.hltPhase2L3MuonsTracks.selectionTags                     = ('All',)
+    process.hltPhase2L3MuonsTracks.trackType                         = "recomuonTrack"
+    process.hltPhase2L3MuonsTracks.ignoreMissingMuonCollection       = True
+    process.hltPhase2L3MuonsTracks.inputCSCSegmentCollection         = cms.InputTag("hltCscSegments")
+    process.hltPhase2L3MuonsTracks.inputDTRecSegment4DCollection     = cms.InputTag("hltDt4DSegments")
 
     from SimMuon.MCTruth.MuonAssociatorByHits_cfi import muonAssociatorByHits as _muonAssociatorByHits
     hltMuonAssociatorByHits = _muonAssociatorByHits.clone()
@@ -51,44 +51,49 @@ def customizerFuncForMuonHLTNtupler(process, newProcessName = "MYHLT", doDYSkim 
     hltMuonAssociatorByHits.UseTracker                   = True
     hltMuonAssociatorByHits.UseMuon                      = True
 
-    process.AhltIter0TrkL3FromL1TkMuonTrackSelectionHighPurity = hltMuonAssociatorByHits.clone( tracksTag = 'hltIter0TrkL3FromL1TkMuonTrackSelectionHighPurity' )
-    process.AhltIter2TrkL3FromL1TkMuonTrackSelectionHighPurity = hltMuonAssociatorByHits.clone( tracksTag = 'hltIter2TrkL3FromL1TkMuonTrackSelectionHighPurity' )
-    process.AhltIter2TrkL3FromL1TkMuonMerged                   = hltMuonAssociatorByHits.clone( tracksTag = 'hltIter2TrkL3FromL1TkMuonMerged' )
-    process.AhltTrkL3MuonsNoID                                 = hltMuonAssociatorByHits.clone( tracksTag = 'hltTrkL3MuonsNoIDTracks' )
-    process.AhltTrkL3Muons                                     = hltMuonAssociatorByHits.clone( tracksTag = 'hltTrkL3MuonsTracks' )
+    process.AhltPhase2L3OIMuonTrackSelectionHighPurity            = hltMuonAssociatorByHits.clone( tracksTag = 'hltPhase2L3OIMuonTrackSelectionHighPurity' )
+    process.AhltIter0Phase2L3FromL1TkMuonTrackSelectionHighPurity = hltMuonAssociatorByHits.clone( tracksTag = 'hltIter0Phase2L3FromL1TkMuonTrackSelectionHighPurity' )
+    process.AhltIter2Phase2L3FromL1TkMuonTrackSelectionHighPurity = hltMuonAssociatorByHits.clone( tracksTag = 'hltIter2Phase2L3FromL1TkMuonTrackSelectionHighPurity' )
+    process.AhltIter2Phase2L3FromL1TkMuonMerged                   = hltMuonAssociatorByHits.clone( tracksTag = 'hltIter2Phase2L3FromL1TkMuonMerged' )
+    process.AhltPhase2L3MuonsNoID                                 = hltMuonAssociatorByHits.clone( tracksTag = 'hltPhase2L3MuonsNoIDTracks' )
+    process.AhltPhase2L3Muons                                     = hltMuonAssociatorByHits.clone( tracksTag = 'hltPhase2L3MuonsTracks' )
 
     trackNames = [
-        'hltIter0TrkL3FromL1TkMuon',
-        'hltIter2TrkL3FromL1TkMuon',
-        'hltTrkL3IOFromL1',
-        'hltTrkL3MuonsNoID',
-        'hltTrkL3Muons'
+        'hltPhase2L3OI',
+        'hltIter0Phase2L3FromL1TkMuon',
+        'hltIter2Phase2L3FromL1TkMuon',
+        'hltPhase2L3IOFromL1',
+        'hltPhase2L3MuonsNoID',
+        'hltPhase2L3Muons'
     ]
 
     trackLabels = [
-        'hltIter0TrkL3FromL1TkMuonTrackSelectionHighPurity',
-        'hltIter2TrkL3FromL1TkMuonTrackSelectionHighPurity',
-        'hltIter2TrkL3FromL1TkMuonMerged',
-        'hltTrkL3MuonsNoIDTracks',
-        'hltTrkL3MuonsTracks'
+        'hltPhase2L3OIMuonTrackSelectionHighPurity',
+        'hltIter0Phase2L3FromL1TkMuonTrackSelectionHighPurity',
+        'hltIter2Phase2L3FromL1TkMuonTrackSelectionHighPurity',
+        'hltIter2Phase2L3FromL1TkMuonMerged',
+        'hltPhase2L3MuonsNoIDTracks',
+        'hltPhase2L3MuonsTracks'
     ]
 
     assoLabels = [
-        'AhltIter0TrkL3FromL1TkMuonTrackSelectionHighPurity',
-        'AhltIter2TrkL3FromL1TkMuonTrackSelectionHighPurity',
-        'AhltIter2TrkL3FromL1TkMuonMerged',
-        'AhltTrkL3MuonsNoID',
-        'AhltTrkL3Muons'
+        'AhltPhase2L3OIMuonTrackSelectionHighPurity'
+        'AhltIter0Phase2L3FromL1TkMuonTrackSelectionHighPurity',
+        'AhltIter2Phase2L3FromL1TkMuonTrackSelectionHighPurity',
+        'AhltIter2Phase2L3FromL1TkMuonMerged',
+        'AhltPhase2L3MuonsNoID',
+        'AhltPhase2L3Muons'
     ]
 
     process.trackAssoSeq = cms.Sequence(
-        process.hltTrkL3MuonsNoIDTracks +
-        process.hltTrkL3MuonsTracks +
-        process.AhltIter0TrkL3FromL1TkMuonTrackSelectionHighPurity +
-        process.AhltIter2TrkL3FromL1TkMuonTrackSelectionHighPurity +
-        process.AhltIter2TrkL3FromL1TkMuonMerged +
-        process.AhltTrkL3MuonsNoID +
-        process.AhltTrkL3Muons
+        process.hltPhase2L3MuonsNoIDTracks +
+        process.hltPhase2L3MuonsTracks +
+        process.AhltPhase2L3OIMuonTrackSelectionHighPurity +
+        process.AhltIter0Phase2L3FromL1TkMuonTrackSelectionHighPurity +
+        process.AhltIter2Phase2L3FromL1TkMuonTrackSelectionHighPurity +
+        process.AhltIter2Phase2L3FromL1TkMuonMerged +
+        process.AhltPhase2L3MuonsNoID +
+        process.AhltPhase2L3Muons
     )
 
     # -- Isolations
@@ -119,7 +124,7 @@ def customizerFuncForMuonHLTNtupler(process, newProcessName = "MYHLT", doDYSkim 
     # process.ntupler.L1Muon           = cms.untracked.InputTag("hltGtStage2Digis",        "Muon", "HLT") #for phaseII w/o emulation
     process.ntupler.L1Muon           = cms.untracked.InputTag("simGmtStage2Digis",       "",     newProcessName)  # Phase II sim emul
     process.ntupler.L2Muon           = cms.untracked.InputTag("hltL2MuonCandidates",     "",     newProcessName)
-    process.ntupler.L3Muon           = cms.untracked.InputTag("hltTrkL3MuonCandidates", "",     newProcessName)
+    process.ntupler.L3Muon           = cms.untracked.InputTag("hltPhase2L3MuonCandidates", "",     newProcessName)
     process.ntupler.TkMuon           = cms.untracked.InputTag("hltHighPtTkMuonCands",    "",     newProcessName)
 
     process.ntupler.iterL3OI         = cms.untracked.InputTag("hltL3MuonsIterL3OI",                   "", newProcessName)
