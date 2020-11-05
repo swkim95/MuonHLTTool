@@ -796,6 +796,179 @@ private:
     tmpTrk(const reco::TrackRef trk_) { fill(trk_); }
   };
 
+  class muonTemplate {
+  private:
+    int nMuons;
+    std::vector<double> v_muon_pt;
+    std::vector<double> v_muon_ptError;
+    std::vector<double> v_muon_eta;
+    std::vector<double> v_muon_phi;
+    std::vector<double> v_muon_charge;
+    std::vector<double> v_muon_isGlobalMuon;
+    std::vector<double> v_muon_isStandAloneMuon;
+    std::vector<double> v_muon_isTrackerMuon;
+    std::vector<double> v_muon_isLooseTriggerMuon;
+    std::vector<double> v_muon_isME0Muon;
+    std::vector<double> v_muon_isGEMMuon;
+    std::vector<double> v_muon_isRPCMuon;
+    std::vector<double> v_muon_isGoodMuon_TMOneStationTight;
+    std::vector<double> v_muon_numberOfMatchedStations;
+    std::vector<double> v_muon_numberOfMatchedRPCLayers;
+    std::vector<double> v_muon_expectedNnumberOfMatchedStations;
+    std::vector<double> v_muon_inner_normalizedChi2;
+    std::vector<double> v_muon_inner_numberOfValidTrackerHits;
+    std::vector<double> v_muon_inner_trackerLayersWithMeasurement;
+    std::vector<double> v_muon_inner_numberOfValidPixelHits;
+    std::vector<double> v_muon_inner_dz_l1vtx;
+    // std::vector<double> v_muon_inner_dxy_l1vtx;
+
+    // Isolations
+    // iso[#iso type][#ev]
+    std::vector<std::string>        TrkIsolations_tag;
+    std::vector<std::vector<float>> TrkIsolations_value;
+    std::vector<std::string>        PFIsolations_tag;
+    std::vector<std::vector<float>> PFIsolations_value;
+
+  public:
+    void clear() {
+      nMuons = 0;
+      v_muon_pt.clear();
+      v_muon_ptError.clear();
+      v_muon_eta.clear();
+      v_muon_phi.clear();
+      v_muon_charge.clear();
+      v_muon_isGlobalMuon.clear();
+      v_muon_isStandAloneMuon.clear();
+      v_muon_isTrackerMuon.clear();
+      v_muon_isLooseTriggerMuon.clear();
+      v_muon_isME0Muon.clear();
+      v_muon_isGEMMuon.clear();
+      v_muon_isRPCMuon.clear();
+      v_muon_isGoodMuon_TMOneStationTight.clear();
+      v_muon_numberOfMatchedStations.clear();
+      v_muon_numberOfMatchedRPCLayers.clear();
+      v_muon_expectedNnumberOfMatchedStations.clear();
+      v_muon_inner_normalizedChi2.clear();
+      v_muon_inner_numberOfValidTrackerHits.clear();
+      v_muon_inner_trackerLayersWithMeasurement.clear();
+      v_muon_inner_numberOfValidPixelHits.clear();
+      v_muon_inner_dz_l1vtx.clear();
+      // v_muon_inner_dxy_l1vtx.clear();
+
+      for(unsigned i=0; i<TrkIsolations_tag.size(); ++i) {
+        TrkIsolations_value.at(i).clear();
+      }
+      for(unsigned i=0; i<PFIsolations_tag.size(); ++i) {
+        PFIsolations_value.at(i).clear();
+      }
+
+      return;
+    }
+
+    void setIsoTags( vector<std::string> TrkIsoTags, vector<std::string> PFIsoTags ) {
+      TrkIsolations_tag = TrkIsoTags;
+      for(unsigned i=0; i<TrkIsolations_tag.size(); ++i) {
+        TrkIsolations_value.push_back( {} );
+      }
+
+      PFIsolations_tag  = PFIsoTags;
+      for(unsigned i=0; i<PFIsolations_tag.size(); ++i) {
+        PFIsolations_value.push_back( {} );
+      }
+
+      return;
+    }
+
+    void setBranch(TTree* tmpntpl, TString name, bool doIso = false) {
+      tmpntpl->Branch("n"+name, &nMuons);
+      tmpntpl->Branch(name+"_pt", &v_muon_pt);
+      tmpntpl->Branch(name+"_ptError", &v_muon_ptError);
+      tmpntpl->Branch(name+"_eta", &v_muon_eta);
+      tmpntpl->Branch(name+"_phi", &v_muon_phi);
+      tmpntpl->Branch(name+"_charge", &v_muon_charge);
+      tmpntpl->Branch(name+"_isGlobalMuon", &v_muon_isGlobalMuon);
+      tmpntpl->Branch(name+"_isStandAloneMuon", &v_muon_isStandAloneMuon);
+      tmpntpl->Branch(name+"_isTrackerMuon", &v_muon_isTrackerMuon);
+      tmpntpl->Branch(name+"_isLooseTriggerMuon", &v_muon_isLooseTriggerMuon);
+      tmpntpl->Branch(name+"_isME0Muon", &v_muon_isME0Muon);
+      tmpntpl->Branch(name+"_isGEMMuon", &v_muon_isGEMMuon);
+      tmpntpl->Branch(name+"_isRPCMuon", &v_muon_isRPCMuon);
+      tmpntpl->Branch(name+"_isGoodMuon_TMOneStationTight", &v_muon_isGoodMuon_TMOneStationTight);
+      tmpntpl->Branch(name+"_numberOfMatchedStations", &v_muon_numberOfMatchedStations);
+      tmpntpl->Branch(name+"_numberOfMatchedRPCLayers", &v_muon_numberOfMatchedRPCLayers);
+      tmpntpl->Branch(name+"_expectedNnumberOfMatchedStations", &v_muon_expectedNnumberOfMatchedStations);
+      tmpntpl->Branch(name+"_inner_normalizedChi2", &v_muon_inner_normalizedChi2);
+      tmpntpl->Branch(name+"_inner_numberOfValidTrackerHits", &v_muon_inner_numberOfValidTrackerHits);
+      tmpntpl->Branch(name+"_inner_trackerLayersWithMeasurement", &v_muon_inner_trackerLayersWithMeasurement);
+      tmpntpl->Branch(name+"_inner_numberOfValidPixelHits", &v_muon_inner_numberOfValidPixelHits);
+      tmpntpl->Branch(name+"_inner_dz_l1vtx", &v_muon_inner_dz_l1vtx);
+      // tmpntpl->Branch(name+"_inner_dxy_l1vtx", &v_muon_inner_dxy_l1vtx);
+
+      if(doIso) {
+        for(unsigned i=0; i<TrkIsolations_tag.size(); ++i) {
+          TString Tag_tstr = TString(TrkIsolations_tag.at(i));
+          tmpntpl->Branch(name+"_"+Tag_tstr, &TrkIsolations_value.at(i));
+        }
+        for(unsigned i=0; i<PFIsolations_tag.size(); ++i) {
+          TString Tag_tstr = TString(PFIsolations_tag.at(i));
+          tmpntpl->Branch(name+"_"+Tag_tstr, &PFIsolations_value.at(i));
+        }
+      }
+
+      return;
+    }
+
+    void fillIso( vector<float> TrkIsolations, vector<float> PFIsolations ) {
+      for(unsigned i=0; i<TrkIsolations_tag.size(); ++i) {
+        TrkIsolations_value.at(i).push_back( TrkIsolations.at(i) );
+      }
+
+      for(unsigned i=0; i<PFIsolations_tag.size(); ++i) {
+        PFIsolations_value.at(i).push_back( PFIsolations.at(i) );
+      }
+
+      return;
+    }
+
+    void fill(const reco::Muon muon, double l1vtx_z) {
+      v_muon_pt.push_back(muon.pt());
+      v_muon_ptError.push_back(muon.ptError());
+      v_muon_eta.push_back(muon.eta());
+      v_muon_phi.push_back(muon.phi());
+      v_muon_charge.push_back(muon.charge());
+      v_muon_isGlobalMuon.push_back(muon.isGlobalMuon());
+      v_muon_isStandAloneMuon.push_back(muon.isStandAloneMuon());
+      v_muon_isTrackerMuon.push_back(muon.isTrackerMuon());
+      v_muon_isLooseTriggerMuon.push_back(muon::isLooseTriggerMuon(muon));
+      v_muon_isME0Muon.push_back(muon.isME0Muon());
+      v_muon_isGEMMuon.push_back(muon.isGEMMuon());
+      v_muon_isRPCMuon.push_back(muon.isRPCMuon());
+      v_muon_isGoodMuon_TMOneStationTight.push_back(muon::isGoodMuon(muon, muon::TMOneStationTight));
+      v_muon_numberOfMatchedStations.push_back(muon.numberOfMatchedStations());
+      v_muon_numberOfMatchedRPCLayers.push_back(muon.numberOfMatchedRPCLayers());
+      v_muon_expectedNnumberOfMatchedStations.push_back(muon.expectedNnumberOfMatchedStations());
+
+      if(muon.innerTrack().isNonnull()) {
+        v_muon_inner_normalizedChi2.push_back(muon.innerTrack()->normalizedChi2());
+        v_muon_inner_numberOfValidTrackerHits.push_back(muon.innerTrack()->hitPattern().numberOfValidTrackerHits());
+        v_muon_inner_trackerLayersWithMeasurement.push_back(muon.innerTrack()->hitPattern().trackerLayersWithMeasurement());
+        v_muon_inner_numberOfValidPixelHits.push_back(muon.innerTrack()->hitPattern().numberOfValidPixelHits());
+        v_muon_inner_dz_l1vtx.push_back(fabs(muon.innerTrack()->vz() - l1vtx_z));
+      }
+      else {
+        v_muon_inner_normalizedChi2.push_back(-9999.);
+        v_muon_inner_numberOfValidTrackerHits.push_back(-9999.);
+        v_muon_inner_trackerLayersWithMeasurement.push_back(-9999.);
+        v_muon_inner_numberOfValidPixelHits.push_back(-9999.);
+        v_muon_inner_dz_l1vtx.push_back(-9999.);
+      }
+
+      nMuons++;
+
+      return;
+    }
+  };
+
   class trkTemplate {
   private:
     int nTrks;
@@ -1269,6 +1442,9 @@ private:
   trkTemplate* TThltIter0IterL3FromL1MuonTrack = new trkTemplate();
   trkTemplate* TThltIter2IterL3FromL1MuonTrack = new trkTemplate();
   trkTemplate* TThltIter3IterL3FromL1MuonTrack = new trkTemplate();
+
+  muonTemplate* MTL3MuonsNoId = new muonTemplate();
+  muonTemplate* MTL3Muons = new muonTemplate();
 
   tpTemplate* TrkParticle = new tpTemplate();
 

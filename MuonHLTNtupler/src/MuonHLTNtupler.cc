@@ -354,6 +354,31 @@ void MuonHLTNtupler::analyze(const edm::Event &iEvent, const edm::EventSetup &iS
     fill_tpTemplate(    iEvent,                               simToRecoCollectionTokens_.at(i), tpTemplates_.at(i) );
   }
 
+  // -- Fill L3 Muon
+  edm::Handle<std::vector<l1t::TkPrimaryVertex> > l1TkPrimaryVertex;
+  iEvent.getByToken(l1TkPrimaryVertexToken_,l1TkPrimaryVertex);
+  double l1vtx_z = l1TkPrimaryVertex->size() > 0 ? l1TkPrimaryVertex->at(0).zvertex() : -1e9;
+
+  edm::Handle< std::vector<reco::Muon> > h_iterL3Muon;
+  if( iEvent.getByToken( t_iterL3Muon_, h_iterL3Muon) ) {
+    for( auto i=0U; i<h_iterL3Muon->size(); ++i )
+    {
+      const auto& muon(h_iterL3Muon->at(i));
+      MTL3Muons->fill(muon, l1vtx_z);
+    }
+  }
+
+  edm::Handle< std::vector<reco::Muon> > h_iterL3MuonNoID;
+  if( iEvent.getByToken( t_iterL3MuonNoID_, h_iterL3MuonNoID) )
+  {
+    int _nIterL3MuonNoID = 0;
+    for( auto i=0U; i<h_iterL3MuonNoID->size(); ++i )
+    {
+      const auto& muon(h_iterL3MuonNoID->at(i));
+      MTL3MuonsNoId->fill(muon, l1vtx_z);
+    }
+  }
+
   ntuple_->Fill();
 }
 
@@ -805,6 +830,9 @@ void MuonHLTNtupler::Init()
   TThltIter2IterL3FromL1MuonTrack->clear();
   TThltIter3IterL3FromL1MuonTrack->clear();
 
+  MTL3MuonsNoId->clear();
+  MTL3Muons->clear();
+
   TrkParticle->clear();
 
   VThltIterL3MuonTrimmedPixelVertices->clear();
@@ -1111,6 +1139,9 @@ void MuonHLTNtupler::Make_Branch()
   TThltIter0IterL3FromL1MuonTrack->setBranch(ntuple_,"hltIter0IterL3FromL1MuonTrack");
   TThltIter2IterL3FromL1MuonTrack->setBranch(ntuple_,"hltIter2IterL3FromL1MuonTrack");
   TThltIter3IterL3FromL1MuonTrack->setBranch(ntuple_,"hltIter3IterL3FromL1MuonTrack");
+
+  MTL3MuonsNoId->setBranch(ntuple_,"L3MuonsNoId");
+  MTL3Muons->setBranch(ntuple_,"L3Muons");
 
   TrkParticle->setBranch(ntuple_,"TP");
 
@@ -2504,6 +2535,9 @@ void MuonHLTNtupler::endJob() {
   delete TThltIter0IterL3FromL1MuonTrack;
   delete TThltIter2IterL3FromL1MuonTrack;
   delete TThltIter3IterL3FromL1MuonTrack;
+
+  delete MTL3MuonsNoId;
+  delete MTL3Muons;
 
   delete TrkParticle;
 
