@@ -371,7 +371,6 @@ void MuonHLTNtupler::analyze(const edm::Event &iEvent, const edm::EventSetup &iS
   edm::Handle< std::vector<reco::Muon> > h_iterL3MuonNoID;
   if( iEvent.getByToken( t_iterL3MuonNoID_, h_iterL3MuonNoID) )
   {
-    int _nIterL3MuonNoID = 0;
     for( auto i=0U; i<h_iterL3MuonNoID->size(); ++i )
     {
       const auto& muon(h_iterL3MuonNoID->at(i));

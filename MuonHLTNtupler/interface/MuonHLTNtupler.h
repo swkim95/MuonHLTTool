@@ -800,7 +800,8 @@ private:
   private:
     int nMuons;
     std::vector<double> v_muon_pt;
-    std::vector<double> v_muon_ptError;
+    std::vector<double> v_muon_inner_pt;
+    std::vector<double> v_muon_inner_ptError;
     std::vector<double> v_muon_eta;
     std::vector<double> v_muon_phi;
     std::vector<double> v_muon_charge;
@@ -833,7 +834,8 @@ private:
     void clear() {
       nMuons = 0;
       v_muon_pt.clear();
-      v_muon_ptError.clear();
+      v_muon_inner_pt.clear();
+      v_muon_inner_ptError.clear();
       v_muon_eta.clear();
       v_muon_phi.clear();
       v_muon_charge.clear();
@@ -882,7 +884,8 @@ private:
     void setBranch(TTree* tmpntpl, TString name, bool doIso = false) {
       tmpntpl->Branch("n"+name, &nMuons);
       tmpntpl->Branch(name+"_pt", &v_muon_pt);
-      tmpntpl->Branch(name+"_ptError", &v_muon_ptError);
+      tmpntpl->Branch(name+"_inner_pt", &v_muon_inner_pt);
+      tmpntpl->Branch(name+"_inner_ptError", &v_muon_inner_ptError);
       tmpntpl->Branch(name+"_eta", &v_muon_eta);
       tmpntpl->Branch(name+"_phi", &v_muon_phi);
       tmpntpl->Branch(name+"_charge", &v_muon_charge);
@@ -932,7 +935,6 @@ private:
 
     void fill(const reco::Muon muon, double l1vtx_z) {
       v_muon_pt.push_back(muon.pt());
-      v_muon_ptError.push_back(muon.ptError());
       v_muon_eta.push_back(muon.eta());
       v_muon_phi.push_back(muon.phi());
       v_muon_charge.push_back(muon.charge());
@@ -949,6 +951,8 @@ private:
       v_muon_expectedNnumberOfMatchedStations.push_back(muon.expectedNnumberOfMatchedStations());
 
       if(muon.innerTrack().isNonnull()) {
+        v_muon_inner_pt.push_back(muon.innerTrack()->pt());
+        v_muon_inner_ptError.push_back(muon.innerTrack()->ptError());
         v_muon_inner_normalizedChi2.push_back(muon.innerTrack()->normalizedChi2());
         v_muon_inner_numberOfValidTrackerHits.push_back(muon.innerTrack()->hitPattern().numberOfValidTrackerHits());
         v_muon_inner_trackerLayersWithMeasurement.push_back(muon.innerTrack()->hitPattern().trackerLayersWithMeasurement());
@@ -956,6 +960,8 @@ private:
         v_muon_inner_dz_l1vtx.push_back(fabs(muon.innerTrack()->vz() - l1vtx_z));
       }
       else {
+        v_muon_inner_pt.push_back(-9999.);
+        v_muon_inner_ptError.push_back(-9999.);
         v_muon_inner_normalizedChi2.push_back(-9999.);
         v_muon_inner_numberOfValidTrackerHits.push_back(-9999.);
         v_muon_inner_trackerLayersWithMeasurement.push_back(-9999.);
