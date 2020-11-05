@@ -77,7 +77,7 @@ def customizerFuncForMuonHLTNtupler(process, newProcessName = "MYHLT", doDYSkim 
     ]
 
     assoLabels = [
-        'AhltPhase2L3OIMuonTrackSelectionHighPurity'
+        'AhltPhase2L3OIMuonTrackSelectionHighPurity',
         'AhltIter0Phase2L3FromL1TkMuonTrackSelectionHighPurity',
         'AhltIter2Phase2L3FromL1TkMuonTrackSelectionHighPurity',
         'AhltIter2Phase2L3FromL1TkMuonMerged',
