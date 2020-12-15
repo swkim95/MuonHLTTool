@@ -328,6 +328,7 @@ void MuonHLTNtupler::analyze(const edm::Event &iEvent, const edm::EventSetup &iS
         if(PVI->getBunchCrossing()==0)
         {
           truePU_ = PVI->getTrueNumInteractions();
+          PU_pT_hats_ = PVI->getPU_pT_hats();
           continue;
         }
       } // -- end of PU iteration -- //
@@ -552,6 +553,8 @@ void MuonHLTNtupler::Init()
   truePU_ = -999;
 
   genEventWeight_ = -999;
+
+  PU_pT_hats_.clear();
 
   nGenParticle_ = 0;
   for( int i=0; i<arrSize_; i++)
@@ -923,6 +926,8 @@ void MuonHLTNtupler::Make_Branch()
   ntuple_->Branch("offlineDataPURMS", &offlineDataPURMS_, "offlineDataPURMS/D");
   ntuple_->Branch("offlineBunchLumi", &offlineBunchLumi_, "offlineBunchLumi/D");
   ntuple_->Branch("truePU", &truePU_, "truePU/I");
+
+  ntuple_->Branch("PU_pT_hats", &PU_pT_hats_);
 
   ntuple_->Branch("genEventWeight", &genEventWeight_, "genEventWeight/D");
   ntuple_->Branch("nGenParticle", &nGenParticle_, "nGenParticle/I");
@@ -1769,7 +1774,7 @@ void MuonHLTNtupler::Fill_GenParticle(const edm::Event &iEvent)
   {
     const reco::GenParticle &parCand = (*h_genParticle)[i];
 
-    if( abs(parCand.pdgId()) == 13 ) // -- only muons -- //
+    if( abs(parCand.pdgId()) == 13 || parCand.isHardProcess() ) // -- only muons -- //
     {
       genParticle_ID_[_nGenParticle]     = parCand.pdgId();
       genParticle_status_[_nGenParticle] = parCand.status();

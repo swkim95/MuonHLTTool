@@ -232,6 +232,8 @@ private:
   int truePU_;
   double genEventWeight_;
 
+  vector<float> PU_pT_hats_;
+
   // -- generator level particles (only MC)
   int nGenParticle_;
   int genParticle_ID_[arrSize_];
