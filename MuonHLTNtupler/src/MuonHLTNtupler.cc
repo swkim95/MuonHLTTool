@@ -56,9 +56,6 @@
 #include "Geometry/Records/interface/TrackerDigiGeometryRecord.h"
 #include "Geometry/TrackerGeometryBuilder/interface/TrackerGeometry.h"
 
-#include "L1Trigger/L1TMuon/interface/MicroGMTConfiguration.h"
-#include "DataFormats/Math/interface/angle_units.h"
-
 #include <map>
 #include <string>
 #include <iomanip>

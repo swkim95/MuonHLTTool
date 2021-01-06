@@ -90,6 +90,9 @@
 #include "DataFormats/L1TCorrelator/interface/TkMuonFwd.h"
 #include "DataFormats/L1TCorrelator/interface/TkPrimaryVertex.h"
 
+#include "L1Trigger/L1TMuon/interface/MicroGMTConfiguration.h"
+#include "DataFormats/Math/interface/angle_units.h"
+
 #include "HLTrigger/MuonHLTSeedMVAClassifier/interface/SeedMvaEstimator.h"
 
 #include "MuonHLTTool/MuonHLTNtupler/interface/MuonHLTobjCorrelator.h"
