@@ -1406,16 +1406,18 @@ void MuonHLTNtupler::Fill_L1Track(const edm::Event &iEvent, const edm::EventSetu
     mL1TkMu_muonDetector.push_back( Tkmu->muonDetector() );
 
     // if (Tkmu->muRef().isNonnull()) {
-    if (Tkmu->muonDetector() != 3) {
+    if (Tkmu->muonDetector() != 3 && Tkmu->muRef().isNonnull()) {
       auto regionalCandidate = Tkmu->muRef().get();
       mL1TkMu_muRefHwPt.push_back( static_cast<float>(regionalCandidate->hwPt())*0.5 );
       mL1TkMu_muRefHwDXY.push_back( regionalCandidate->hwDXY() ); // 4 bit information, don't know how to decode
       mL1TkMu_muRefHwEta.push_back( static_cast<float>(regionalCandidate->hwEta())*0.010875 );
       // mL1TkMu_muRefHwPhi.push_back( static_cast<float>(regionalCandidate->hwPhi())*2.*M_PI/576. );
-      auto muRefHwPhi = l1t::MicroGMTConfiguration::calcGlobalPhi(
+      float muRefHwPhi = static_cast<float>(
+        l1t::MicroGMTConfiguration::calcGlobalPhi(
           regionalCandidate->hwPhi(),
           regionalCandidate->trackFinderType(),
           regionalCandidate->processor()
+        )
       );
       mL1TkMu_muRefHwPhi.push_back( muRefHwPhi*2.*M_PI/576. );
       mL1TkMu_muRefHwSign.push_back( ( regionalCandidate->hwSign()%2==0 ) ? 1 : -1 );
