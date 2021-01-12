@@ -1416,7 +1416,7 @@ void MuonHLTNtupler::Fill_L1Track(const edm::Event &iEvent, const edm::EventSetu
           regionalCandidate->processor()
         )
       );
-      mL1TkMu_muRefHwPhi.push_back( muRefHwPhi*2.*M_PI/576. );
+      mL1TkMu_muRefHwPhi.push_back( reco::reduceRange( muRefHwPhi*2.*M_PI/576. ) );
       mL1TkMu_muRefHwSign.push_back( ( regionalCandidate->hwSign()%2==0 ) ? 1 : -1 );
       mL1TkMu_muRefHwSignValid.push_back( regionalCandidate->hwSignValid() );
       mL1TkMu_muRefHwQual.push_back( regionalCandidate->hwQual() );
@@ -1425,7 +1425,7 @@ void MuonHLTNtupler::Fill_L1Track(const edm::Event &iEvent, const edm::EventSetu
       mL1TkMu_muRefHwPt.push_back( Tkmu->emtfTrk()->Pt() );
       mL1TkMu_muRefHwDXY.push_back( -99999 );
       mL1TkMu_muRefHwEta.push_back( Tkmu->emtfTrk()->Eta() );
-      mL1TkMu_muRefHwPhi.push_back( angle_units::operators::convertDegToRad(Tkmu->emtfTrk()->Phi_glob()) );
+      mL1TkMu_muRefHwPhi.push_back( reco::reduceRange( angle_units::operators::convertDegToRad(Tkmu->emtfTrk()->Phi_glob()) ) );
       mL1TkMu_muRefHwSign.push_back( Tkmu->emtfTrk()->Charge() );
       mL1TkMu_muRefHwSignValid.push_back( -99999 );
       mL1TkMu_muRefHwQual.push_back( -99999 );
