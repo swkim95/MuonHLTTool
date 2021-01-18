@@ -550,6 +550,7 @@ void MuonHLTNtupler::Init()
   truePU_ = -999;
 
   genEventWeight_ = -999;
+  qScale_ = -999;
 
   PU_pT_hats_.clear();
 
@@ -927,6 +928,8 @@ void MuonHLTNtupler::Make_Branch()
   ntuple_->Branch("PU_pT_hats", &PU_pT_hats_);
 
   ntuple_->Branch("genEventWeight", &genEventWeight_, "genEventWeight/D");
+  ntuple_->Branch("qScale", &qScale_, "qScale/D");
+
   ntuple_->Branch("nGenParticle", &nGenParticle_, "nGenParticle/I");
   ntuple_->Branch("genParticle_ID", &genParticle_ID_, "genParticle_ID[nGenParticle]/I");
   ntuple_->Branch("genParticle_status", &genParticle_status_, "genParticle_status[nGenParticle]/I");
@@ -1780,6 +1783,7 @@ void MuonHLTNtupler::Fill_GenParticle(const edm::Event &iEvent)
   edm::Handle<GenEventInfoProduct> h_genEventInfo;
   iEvent.getByToken(t_genEventInfo_, h_genEventInfo);
   genEventWeight_ = h_genEventInfo->weight();
+  qScale_ = h_genEventInfo->qScale();
 
   // -- Gen-particle info -- //
   edm::Handle<reco::GenParticleCollection> h_genParticle;

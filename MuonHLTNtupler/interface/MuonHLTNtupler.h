@@ -234,6 +234,7 @@ private:
   double offlineBunchLumi_;
   int truePU_;
   double genEventWeight_;
+  double qScale_;
 
   vector<float> PU_pT_hats_;
 
