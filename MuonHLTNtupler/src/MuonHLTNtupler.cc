@@ -2443,8 +2443,8 @@ void MuonHLTNtupler::fill_trackTemplateMva(
   trkTemplate* TTtrack
 ) {
 
-  edm::Handle<l1t::MuonBxCollection> h_L1Muon;
-  bool hasL1 = iEvent.getByToken( t_L1Muon_, h_L1Muon);
+  // edm::Handle<l1t::MuonBxCollection> h_L1Muon;
+  // bool hasL1 = iEvent.getByToken( t_L1Muon_, h_L1Muon);
 
   edm::Handle<reco::RecoChargedCandidateCollection> h_L2Muon;
   bool hasL2 = iEvent.getByToken( t_L2Muon_, h_L2Muon );
