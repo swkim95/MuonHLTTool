@@ -359,6 +359,13 @@ private:
     std::vector<int> bestMatchTP_numberOfTrackerLayers;
     std::vector<double> bestMatchTP_sharedFraction;
     std::vector<int> matchedTPsize;
+    std::vector<double> bestMatchTP_GenPt;
+    std::vector<double> bestMatchTP_GenEta;
+    std::vector<double> bestMatchTP_GenPhi;
+    std::vector<int> bestMatchTP_Gen_isPromptFinalState;
+    std::vector<int> bestMatchTP_Gen_isHardProcess;
+    std::vector<int> bestMatchTP_Gen_fromHardProcessFinalState;
+    std::vector<int> bestMatchTP_Gen_fromHardProcessDecayed;
   public:
     void clear() {
       nTrks = 0;
@@ -382,6 +389,13 @@ private:
       bestMatchTP_numberOfTrackerLayers.clear();
       bestMatchTP_sharedFraction.clear();
       matchedTPsize.clear();
+      bestMatchTP_GenPt.clear();
+      bestMatchTP_GenEta.clear();
+      bestMatchTP_GenPhi.clear();
+      bestMatchTP_Gen_isPromptFinalState.clear();
+      bestMatchTP_Gen_isHardProcess.clear();
+      bestMatchTP_Gen_fromHardProcessFinalState.clear();
+      bestMatchTP_Gen_fromHardProcessDecayed.clear();
 
       return;
     }
@@ -408,6 +422,13 @@ private:
       tmpntpl->Branch(name+"_bestMatchTP_numberOfTrackerLayers", &bestMatchTP_numberOfTrackerLayers);
       tmpntpl->Branch(name+"_bestMatchTP_sharedFraction", &bestMatchTP_sharedFraction);
       tmpntpl->Branch(name+"_matchedTPsize", &matchedTPsize);
+      tmpntpl->Branch(name+"_bestMatchTP_GenPt", &bestMatchTP_GenPt);
+      tmpntpl->Branch(name+"_bestMatchTP_GenEta", &bestMatchTP_GenEta);
+      tmpntpl->Branch(name+"_bestMatchTP_GenPhi", &bestMatchTP_GenPhi);
+      tmpntpl->Branch(name+"_bestMatchTP_Gen_isPromptFinalState", &bestMatchTP_Gen_isPromptFinalState);
+      tmpntpl->Branch(name+"_bestMatchTP_Gen_isHardProcess", &bestMatchTP_Gen_isHardProcess);
+      tmpntpl->Branch(name+"_bestMatchTP_Gen_fromHardProcessFinalState", &bestMatchTP_Gen_fromHardProcessFinalState);
+      tmpntpl->Branch(name+"_bestMatchTP_Gen_fromHardProcessDecayed", &bestMatchTP_Gen_fromHardProcessDecayed);
 
       return;
     }
@@ -437,6 +458,14 @@ private:
       bestMatchTP_numberOfTrackerHits.push_back(TP->numberOfTrackerHits());
       bestMatchTP_numberOfTrackerLayers.push_back(TP->numberOfTrackerLayers());
 
+      bestMatchTP_GenPt.push_back( TP->genParticles().empty() ? -99999. : (*(TP->genParticles())[0]).pt() );
+      bestMatchTP_GenEta.push_back( TP->genParticles().empty() ? -99999. : (*(TP->genParticles())[0]).eta() );
+      bestMatchTP_GenPhi.push_back( TP->genParticles().empty() ? -99999. : (*(TP->genParticles())[0]).phi() );
+      bestMatchTP_Gen_isPromptFinalState.push_back( TP->genParticles().empty() ? -99999 : (int)(*(TP->genParticles())[0]).isPromptFinalState() );
+      bestMatchTP_Gen_isHardProcess.push_back( TP->genParticles().empty() ? -99999 : (int)(*(TP->genParticles())[0]).isHardProcess() );
+      bestMatchTP_Gen_fromHardProcessFinalState.push_back( TP->genParticles().empty() ? -99999 : (int)(*(TP->genParticles())[0]).fromHardProcessFinalState() );
+      bestMatchTP_Gen_fromHardProcessDecayed.push_back( TP->genParticles().empty() ? -99999 : (int)(*(TP->genParticles())[0]).fromHardProcessDecayed() );
+
       return;
     }
 
@@ -454,6 +483,13 @@ private:
       bestMatchTP_numberOfHits.push_back(-99999);
       bestMatchTP_numberOfTrackerHits.push_back(-99999);
       bestMatchTP_numberOfTrackerLayers.push_back(-99999);
+      bestMatchTP_GenPt.push_back(-99999.);
+      bestMatchTP_GenEta.push_back(-99999.);
+      bestMatchTP_GenPhi.push_back(-99999.);
+      bestMatchTP_Gen_isPromptFinalState.push_back(-99999);
+      bestMatchTP_Gen_isHardProcess.push_back(-99999);
+      bestMatchTP_Gen_fromHardProcessFinalState.push_back(-99999);
+      bestMatchTP_Gen_fromHardProcessDecayed.push_back(-99999);
 
       return;
     }
@@ -465,6 +501,13 @@ private:
 
     int get_bestMatchTP_pdgId(int idx) { return bestMatchTP_pdgId.at(idx); }
     int get_matchedTPsize(int idx) { return matchedTPsize.at(idx); }
+    double get_bestMatchTP_GenPt(int idx) { return bestMatchTP_GenPt.at(idx); }
+    double get_bestMatchTP_GenEta(int idx) { return bestMatchTP_GenEta.at(idx); }
+    double get_bestMatchTP_GenPhi(int idx) { return bestMatchTP_GenPhi.at(idx); }
+    int get_bestMatchTP_Gen_isPromptFinalState(int idx) { return bestMatchTP_Gen_isPromptFinalState.at(idx); }
+    int get_bestMatchTP_Gen_isHardProcess(int idx) { return bestMatchTP_Gen_isHardProcess.at(idx); }
+    int get_bestMatchTP_Gen_fromHardProcessFinalState(int idx) { return bestMatchTP_Gen_fromHardProcessFinalState.at(idx); }
+    int get_bestMatchTP_Gen_fromHardProcessDecayed(int idx) { return bestMatchTP_Gen_fromHardProcessDecayed.at(idx); }
 
     void print() {
       std::cout << "\nnTrks: " << nTrks << std::endl;
@@ -553,8 +596,17 @@ private:
     float gen_pt_;
     float gen_eta_;
     float gen_phi_;
+    float bestMatchTP_GenPt_;
+    float bestMatchTP_GenEta_;
+    float bestMatchTP_GenPhi_;
+    int bestMatchTP_Gen_isPromptFinalState_;
+    int bestMatchTP_Gen_isHardProcess_;
+    int bestMatchTP_Gen_fromHardProcessFinalState_;
+    int bestMatchTP_Gen_fromHardProcessDecayed_;
   public:
-    void clear() {
+    virtual ~seedTemplate() {}
+
+    void clear_base() {
       mva0_ = -99999.;
       mva1_ = -99999.;
       mva2_ = -99999.;
@@ -613,11 +665,20 @@ private:
       gen_pt_ = -99999.;
       gen_eta_ = -99999.;
       gen_phi_ = -99999.;
+      bestMatchTP_GenPt_ = -99999.;
+      bestMatchTP_GenEta_ = -99999.;
+      bestMatchTP_GenPhi_ = -99999.;
+      bestMatchTP_Gen_isPromptFinalState_ = -99999;
+      bestMatchTP_Gen_isHardProcess_ = -99999;
+      bestMatchTP_Gen_fromHardProcessFinalState_ = -99999;
+      bestMatchTP_Gen_fromHardProcessDecayed_ = -99999;
 
       return;
     }
 
-    void setBranch(TTree* tmpntpl) {
+    virtual void clear() { clear_base(); }
+
+    void setBranch_base(TTree* tmpntpl) {
       tmpntpl->Branch("mva0",          &mva0_, "mva0/F");
       tmpntpl->Branch("mva1",          &mva1_, "mva1/F");
       tmpntpl->Branch("mva2",          &mva2_, "mva2/F");
@@ -676,9 +737,18 @@ private:
       tmpntpl->Branch("gen_pt",      &gen_pt_, "gen_pt/F");
       tmpntpl->Branch("gen_eta",     &gen_eta_, "gen_eta/F");
       tmpntpl->Branch("gen_phi",     &gen_phi_, "gen_phi/F");
+      tmpntpl->Branch("bestMatchTP_GenPt", &bestMatchTP_GenPt_, "bestMatchTP_GenPt/F");
+      tmpntpl->Branch("bestMatchTP_GenEta", &bestMatchTP_GenEta_, "bestMatchTP_GenEta/F");
+      tmpntpl->Branch("bestMatchTP_GenPhi", &bestMatchTP_GenPhi_, "bestMatchTP_GenPhi/F");
+      tmpntpl->Branch("bestMatchTP_Gen_isPromptFinalState", &bestMatchTP_Gen_isPromptFinalState_, "bestMatchTP_Gen_isPromptFinalState/I");
+      tmpntpl->Branch("bestMatchTP_Gen_isHardProcess", &bestMatchTP_Gen_isHardProcess_, "bestMatchTP_Gen_isHardProcess/I");
+      tmpntpl->Branch("bestMatchTP_Gen_fromHardProcessFinalState", &bestMatchTP_Gen_fromHardProcessFinalState_, "bestMatchTP_Gen_fromHardProcessFinalState/I");
+      tmpntpl->Branch("bestMatchTP_Gen_fromHardProcessDecayed", &bestMatchTP_Gen_fromHardProcessDecayed_, "bestMatchTP_Gen_fromHardProcessDecayed/I");
 
       return;
     }
+
+    virtual void setBranch(TTree* tmpntpl) { setBranch_base(tmpntpl); }
 
     void fill(TrajectorySeed seed, edm::ESHandle<TrackerGeometry> tracker) {
       GlobalVector p = tracker->idToDet(seed.startingState().detId())->surface().toGlobal(seed.startingState().parameters().momentum());
@@ -785,13 +855,19 @@ private:
 
       bestMatchTP_pdgId_ = TTtrack->get_bestMatchTP_pdgId(index);
       matchedTPsize_ = TTtrack->get_matchedTPsize(index);
+      bestMatchTP_GenPt_ = (float)TTtrack->get_bestMatchTP_GenPt(index);
+      bestMatchTP_GenEta_ = (float)TTtrack->get_bestMatchTP_GenEta(index);
+      bestMatchTP_GenPhi_ = (float)TTtrack->get_bestMatchTP_GenPhi(index);
+      bestMatchTP_Gen_isPromptFinalState_ = TTtrack->get_bestMatchTP_Gen_isPromptFinalState(index);
+      bestMatchTP_Gen_isHardProcess_ = TTtrack->get_bestMatchTP_Gen_isHardProcess(index);
+      bestMatchTP_Gen_fromHardProcessFinalState_ = TTtrack->get_bestMatchTP_Gen_fromHardProcessFinalState(index);
+      bestMatchTP_Gen_fromHardProcessDecayed_ = TTtrack->get_bestMatchTP_Gen_fromHardProcessDecayed(index);
     }
 
     void fill_ntuple( TTree* tmpntpl ) {
       tmpntpl->Fill();
     }
   };
-
 
   std::map<tmpTSOD,unsigned int> hltIterL3OIMuonTrackMap;
   std::map<tmpTSOD,unsigned int> hltIter0IterL3MuonTrackMap;
