@@ -100,6 +100,9 @@ using namespace std;
 using namespace reco;
 using namespace edm;
 
+typedef pair<const DetLayer*, TrajectoryStateOnSurface> LayerTSOS;
+typedef pair<const DetLayer*, const TrackingRecHit*> LayerHit;
+
 class MuonHLTSeedNtupler : public edm::EDAnalyzer
 {
 public:
