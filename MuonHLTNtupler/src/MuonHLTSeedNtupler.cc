@@ -418,21 +418,50 @@ void MuonHLTSeedNtupler::Fill_Seed(const edm::Event &iEvent, const edm::EventSet
   edm::ESHandle<TrackerGeometry> tracker;
   iSetup.get<TrackerDigiGeometryRecord>().get(tracker);
 
-  // fill_seedTemplate(iEvent, t_hltIterL3OISeedsFromL2Muons_,                       mvaHltIterL3OISeedsFromL2Muons_,                       tracker, hltIterL3OIMuonTrackMap,          TThltIterL3OIMuonTrack,          NThltIterL3OI_,    nhltIterL3OI_ );
-  // fill_seedTemplate(iEvent, t_hltIter0IterL3MuonPixelSeedsFromPixelTracks_,       mvaHltIter0IterL3MuonPixelSeedsFromPixelTracks_,       tracker, hltIter0IterL3MuonTrackMap,       TThltIter0IterL3MuonTrack,       NThltIter0_,       nhltIter0_ );
-  // fill_seedTemplate(iEvent, t_hltIter2IterL3MuonPixelSeeds_,                      mvaHltIter2IterL3MuonPixelSeeds_,                      tracker, hltIter2IterL3MuonTrackMap,       TThltIter2IterL3MuonTrack,       NThltIter2_,       nhltIter2_ );
-  // fill_seedTemplate(iEvent, t_hltIter3IterL3MuonPixelSeeds_,                      mvaHltIter3IterL3MuonPixelSeeds_,                      tracker, hltIter3IterL3MuonTrackMap,       TThltIter3IterL3MuonTrack,       NThltIter3_,       nhltIter3_ );
-  // fill_seedTemplate(iEvent, t_hltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_, mvaHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_, tracker, hltIter0IterL3FromL1MuonTrackMap, TThltIter0IterL3FromL1MuonTrack, NThltIter0FromL1_, nhltIter0FromL1_ );
-  fill_seedTemplate(iEvent, t_hltIter2IterL3FromL1MuonPixelSeeds_,                mvaHltIter2IterL3FromL1MuonPixelSeeds_,                tracker, hltIter2IterL3FromL1MuonTrackMap, TThltIter2IterL3FromL1MuonTrack, NThltIter2FromL1_, nhltIter2FromL1_ );
-  // fill_seedTemplate(iEvent, t_hltIter3IterL3FromL1MuonPixelSeeds_,                mvaHltIter3IterL3FromL1MuonPixelSeeds_,                tracker, hltIter3IterL3FromL1MuonTrackMap, TThltIter3IterL3FromL1MuonTrack, NThltIter3FromL1_, nhltIter3FromL1_ );
+  edm::ESHandle<MagneticField> magfieldH;
+  iSetup.get<IdealMagneticFieldRecord>().get(magfieldH);
 
-  // fill_seedTemplate(iEvent, t_hltIterL3OISeedsFromL2Muons_, tracker, hltIterL3OIMuonTrackMap, TThltIterL3OIMuonTrack, NThltIterL3OI_, nhltIterL3OI_ );
-  // fill_seedTemplate(iEvent, t_hltIter0IterL3MuonPixelSeedsFromPixelTracks_, tracker, hltIter0IterL3MuonTrackMap, TThltIter0IterL3MuonTrack, NThltIter0_, nhltIter0_ );
-  // fill_seedTemplate(iEvent, t_hltIter2IterL3MuonPixelSeeds_, tracker, hltIter2IterL3MuonTrackMap, TThltIter2IterL3MuonTrack, NThltIter2_, nhltIter2_ );
-  // fill_seedTemplate(iEvent, t_hltIter3IterL3MuonPixelSeeds_, tracker, hltIter3IterL3MuonTrackMap, TThltIter3IterL3MuonTrack, NThltIter3_, nhltIter3_ );
-  // fill_seedTemplate(iEvent, t_hltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_, tracker, hltIter0IterL3FromL1MuonTrackMap, TThltIter0IterL3FromL1MuonTrack, NThltIter0FromL1_, nhltIter0FromL1_ );
-  // fill_seedTemplate(iEvent, t_hltIter2IterL3FromL1MuonPixelSeeds_, tracker, hltIter2IterL3FromL1MuonTrackMap, TThltIter2IterL3FromL1MuonTrack, NThltIter2FromL1_, nhltIter2FromL1_ );
-  // fill_seedTemplate(iEvent, t_hltIter3IterL3FromL1MuonPixelSeeds_, tracker, hltIter3IterL3FromL1MuonTrackMap, TThltIter3IterL3FromL1MuonTrack, NThltIter3FromL1_, nhltIter3FromL1_ );
+  edm::ESHandle<TrackerGeometry> trkgeom;
+  iSetup.get<TrackerDigiGeometryRecord>().get(trkgeom);
+
+  edm::ESHandle<GeometricDet> geomDet;
+  iSetup.get<IdealGeometryRecord>().get(geomDet);
+
+  edm::ESHandle<TrackerTopology> trkTopo;
+  iSetup.get<TrackerTopologyRcd>().get(trkTopo);
+
+  GeometricSearchTrackerBuilder builder;
+  GeometricSearchTracker* geomTracker = builder.build(&(*geomDet), &(*trkgeom), &(*trkTopo));
+
+  // fill_seedTemplate(iEvent, t_hltIterL3OISeedsFromL2Muons_, tracker, hltIterL3OIMuonTrackMap, TThltIterL3OIMuonTrack, NThltIterL3OI_, nhltIterL3OI_, magfieldH, iSetup, geomTracker );
+  // fill_seedTemplate(iEvent, t_hltIter0IterL3MuonPixelSeedsFromPixelTracks_, tracker, hltIter0IterL3MuonTrackMap, TThltIter0IterL3MuonTrack, NThltIter0_, nhltIter0_, magfieldH, iSetup, geomTracker );
+  // fill_seedTemplate(iEvent, t_hltIter2IterL3MuonPixelSeeds_, tracker, hltIter2IterL3MuonTrackMap, TThltIter2IterL3MuonTrack, NThltIter2_, nhltIter2_, magfieldH, iSetup, geomTracker );
+  // fill_seedTemplate(iEvent, t_hltIter3IterL3MuonPixelSeeds_, tracker, hltIter3IterL3MuonTrackMap, TThltIter3IterL3MuonTrack, NThltIter3_, nhltIter3_, magfieldH, iSetup, geomTracker );
+  // fill_seedTemplate(iEvent, t_hltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_, tracker, hltIter0IterL3FromL1MuonTrackMap, TThltIter0IterL3FromL1MuonTrack, NThltIter0FromL1_, nhltIter0FromL1_, magfieldH, iSetup, geomTracker );
+  fill_seedTemplate(iEvent, t_hltIter2IterL3FromL1MuonPixelSeeds_, tracker, hltIter2IterL3FromL1MuonTrackMap, TThltIter2IterL3FromL1MuonTrack, NThltIter2FromL1_, nhltIter2FromL1_, magfieldH, iSetup, geomTracker );
+  // fill_seedTemplate(iEvent, t_hltIter3IterL3FromL1MuonPixelSeeds_, tracker, hltIter3IterL3FromL1MuonTrackMap, TThltIter3IterL3FromL1MuonTrack, NThltIter3FromL1_, nhltIter3FromL1_, magfieldH, iSetup, geomTracker );
+
+  if (geomTracker) delete geomTracker;
+
+  // // TrackerHitAssociator associate(iEvent, trackerHitAssociatorConfig_);
+  // edm::ESHandle<TrackerGeometry> tracker;
+  // iSetup.get<TrackerDigiGeometryRecord>().get(tracker);
+
+  // // fill_seedTemplate(iEvent, t_hltIterL3OISeedsFromL2Muons_,                       mvaHltIterL3OISeedsFromL2Muons_,                       tracker, hltIterL3OIMuonTrackMap,          TThltIterL3OIMuonTrack,          NThltIterL3OI_,    nhltIterL3OI_ );
+  // // fill_seedTemplate(iEvent, t_hltIter0IterL3MuonPixelSeedsFromPixelTracks_,       mvaHltIter0IterL3MuonPixelSeedsFromPixelTracks_,       tracker, hltIter0IterL3MuonTrackMap,       TThltIter0IterL3MuonTrack,       NThltIter0_,       nhltIter0_ );
+  // // fill_seedTemplate(iEvent, t_hltIter2IterL3MuonPixelSeeds_,                      mvaHltIter2IterL3MuonPixelSeeds_,                      tracker, hltIter2IterL3MuonTrackMap,       TThltIter2IterL3MuonTrack,       NThltIter2_,       nhltIter2_ );
+  // // fill_seedTemplate(iEvent, t_hltIter3IterL3MuonPixelSeeds_,                      mvaHltIter3IterL3MuonPixelSeeds_,                      tracker, hltIter3IterL3MuonTrackMap,       TThltIter3IterL3MuonTrack,       NThltIter3_,       nhltIter3_ );
+  // // fill_seedTemplate(iEvent, t_hltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_, mvaHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_, tracker, hltIter0IterL3FromL1MuonTrackMap, TThltIter0IterL3FromL1MuonTrack, NThltIter0FromL1_, nhltIter0FromL1_ );
+  // fill_seedTemplate(iEvent, t_hltIter2IterL3FromL1MuonPixelSeeds_,                mvaHltIter2IterL3FromL1MuonPixelSeeds_,                tracker, hltIter2IterL3FromL1MuonTrackMap, TThltIter2IterL3FromL1MuonTrack, NThltIter2FromL1_, nhltIter2FromL1_ );
+  // // fill_seedTemplate(iEvent, t_hltIter3IterL3FromL1MuonPixelSeeds_,                mvaHltIter3IterL3FromL1MuonPixelSeeds_,                tracker, hltIter3IterL3FromL1MuonTrackMap, TThltIter3IterL3FromL1MuonTrack, NThltIter3FromL1_, nhltIter3FromL1_ );
+
+  // // fill_seedTemplate(iEvent, t_hltIterL3OISeedsFromL2Muons_, tracker, hltIterL3OIMuonTrackMap, TThltIterL3OIMuonTrack, NThltIterL3OI_, nhltIterL3OI_ );
+  // // fill_seedTemplate(iEvent, t_hltIter0IterL3MuonPixelSeedsFromPixelTracks_, tracker, hltIter0IterL3MuonTrackMap, TThltIter0IterL3MuonTrack, NThltIter0_, nhltIter0_ );
+  // // fill_seedTemplate(iEvent, t_hltIter2IterL3MuonPixelSeeds_, tracker, hltIter2IterL3MuonTrackMap, TThltIter2IterL3MuonTrack, NThltIter2_, nhltIter2_ );
+  // // fill_seedTemplate(iEvent, t_hltIter3IterL3MuonPixelSeeds_, tracker, hltIter3IterL3MuonTrackMap, TThltIter3IterL3MuonTrack, NThltIter3_, nhltIter3_ );
+  // // fill_seedTemplate(iEvent, t_hltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_, tracker, hltIter0IterL3FromL1MuonTrackMap, TThltIter0IterL3FromL1MuonTrack, NThltIter0FromL1_, nhltIter0FromL1_ );
+  // // fill_seedTemplate(iEvent, t_hltIter2IterL3FromL1MuonPixelSeeds_, tracker, hltIter2IterL3FromL1MuonTrackMap, TThltIter2IterL3FromL1MuonTrack, NThltIter2FromL1_, nhltIter2FromL1_ );
+  // // fill_seedTemplate(iEvent, t_hltIter3IterL3FromL1MuonPixelSeeds_, tracker, hltIter3IterL3FromL1MuonTrackMap, TThltIter3IterL3FromL1MuonTrack, NThltIter3FromL1_, nhltIter3FromL1_ );
 }
 
 void MuonHLTSeedNtupler::fill_trackTemplate(const edm::Event &iEvent, edm::EDGetTokenT<edm::View<reco::Track>>& theToken,
@@ -475,8 +504,8 @@ void MuonHLTSeedNtupler::fill_trackTemplate(const edm::Event &iEvent, edm::EDGet
 }
 
 void MuonHLTSeedNtupler::fill_seedTemplate(
-  const edm::Event &iEvent, edm::EDGetTokenT<TrajectorySeedCollection>& theToken, pairSeedMvaEstimator pairMvaEstimator,
-  edm::ESHandle<TrackerGeometry>& tracker, std::map<tmpTSOD,unsigned int>& trkMap, trkTemplate* TTtrack, TTree* NT, int &nSeed ) {
+  const edm::Event &iEvent, edm::EDGetTokenT<TrajectorySeedCollection>& theToken,
+  edm::ESHandle<TrackerGeometry>& tracker, std::map<tmpTSOD,unsigned int>& trkMap, trkTemplate* TTtrack, TTree* NT, int &nSeed, edm::ESHandle<MagneticField> magfieldH, const edm::EventSetup &iSetup, GeometricSearchTracker* geomTracker ) {
 
   edm::Handle<reco::GenParticleCollection> h_genParticle;
   bool hasGen = iEvent.getByToken(t_genParticle_, h_genParticle);
@@ -490,10 +519,18 @@ void MuonHLTSeedNtupler::fill_seedTemplate(
   edm::Handle<l1t::TkMuonCollection> h_L1TkMu;
   bool hasL1TkMu = iEvent.getByToken(t_L1TkMuon_, h_L1TkMu);
 
+  edm::Handle< std::vector< TTTrack< Ref_Phase2TrackerDigi_ > > > TTTrackHandle;
+  bool hasL1TTTrack = iEvent.getByToken(ttTrackToken_, TTTrackHandle);
+
   // edm::Handle<l1t::TkPrimaryVertexCollection> h_L1TkPrimaryVertex;
   // bool hasL1TkVtx = iEvent.getByToken(t_L1TkPrimaryVertex_, h_L1TkPrimaryVertex);
 
   edm::Handle< TrajectorySeedCollection > seedHandle;
+
+  edm::ESHandle<Propagator> propagatorAlongH;
+  iSetup.get<TrackingComponentsRecord>().get("PropagatorWithMaterialParabolicMf", propagatorAlongH);
+  std::unique_ptr<Propagator> propagatorAlong = SetPropagationDirection(*propagatorAlongH, alongMomentum);
+
   if( iEvent.getByToken( theToken, seedHandle) )
   {
     nSeed = seedHandle->size();
@@ -682,6 +719,23 @@ void MuonHLTSeedNtupler::fill_seedTemplate(
           dR_L1TkMuSeedP,
           dPhi_L1TkMuSeedP
         );
+      }
+
+      // HERE
+      vector< pair<LayerHit, LayerTSOS> > hitTsosPairs = getHitTsosPairs(
+        seed,
+        TTTrackHandle,
+        magfieldH,
+        *(propagatorAlong.get()),
+        geomTracker
+      );
+
+      bool found = ( hitTsosPairs.size()>0 );
+
+      if (found) {
+        if ( hitTsosPairs.size() > 1 ) theSeeds->fill_12( hitTsosPairs.at(0), hitTsosPairs.at(1), hitTsosPairs.size() );
+        if ( hitTsosPairs.size() > 2 ) theSeeds->fill_3( hitTsosPairs.at(2) );
+        if ( hitTsosPairs.size() > 3 ) theSeeds->fill_4( hitTsosPairs.at(3) );
       }
 
       // --L1TkMu, L1TkVertex association
