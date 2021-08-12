@@ -894,7 +894,7 @@ private:
     std::map<tmpTSOD,unsigned int>& trkMap, trkTemplate* TTtrack);
 
   void fill_seedTemplate(
-  const edm::Event &, edm::EDGetTokenT<TrajectorySeedCollection>&,
+  const edm::Event &, edm::EDGetTokenT<TrajectorySeedCollection>&, pairSeedMvaEstimator,
   edm::ESHandle<TrackerGeometry>&, std::map<tmpTSOD,unsigned int>&, trkTemplate*, TTree*, int &nSeed, edm::ESHandle<MagneticField> magfieldH, const edm::EventSetup &iSetup, GeometricSearchTracker* geomTracker );
 
   class seedL1TSOSTemplate : public seedTemplate {
