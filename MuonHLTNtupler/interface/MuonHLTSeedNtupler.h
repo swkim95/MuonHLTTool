@@ -804,4 +804,188 @@ private:
   void fill_seedTemplate(
   const edm::Event &, edm::EDGetTokenT<TrajectorySeedCollection>&, pairSeedMvaEstimator,
   edm::ESHandle<TrackerGeometry>&, std::map<tmpTSOD,unsigned int>&, trkTemplate*, TTree*, int &nSeed );
+
+  class seedL1TSOSTemplate : public seedTemplate {
+  private:
+    float l1x1_;
+    float l1y1_;
+    float l1z1_;
+    float l1x2_;
+    float l1y2_;
+    float l1z2_;
+    float hitx1_;
+    float hity1_;
+    float hitz1_;
+    float hitx2_;
+    float hity2_;
+    float hitz2_;
+    float l1x3_;
+    float l1y3_;
+    float l1z3_;
+    float hitx3_;
+    float hity3_;
+    float hitz3_;
+    float l1x4_;
+    float l1y4_;
+    float l1z4_;
+    float hitx4_;
+    float hity4_;
+    float hitz4_;
+    int nHits_;
+
+  public:
+    ~seedL1TSOSTemplate() {}
+
+    void clearL1Hit_12() {
+      l1x1_ = -99999.;
+      l1y1_ = -99999.;
+      l1z1_ = -99999.;
+      l1x2_ = -99999.;
+      l1y2_ = -99999.;
+      l1z2_ = -99999.;
+      hitx1_ = -99999.;
+      hity1_ = -99999.;
+      hitz1_ = -99999.;
+      hitx2_ = -99999.;
+      hity2_ = -99999.;
+      hitz2_ = -99999.;
+      nHits_ = -99999;
+    }
+
+    void clearL1Hit_3() {
+      l1x3_ = -99999.;
+      l1y3_ = -99999.;
+      l1z3_ = -99999.;
+      hitx3_ = -99999.;
+      hity3_ = -99999.;
+      hitz3_ = -99999.;
+    }
+
+    void clearL1Hit_4() {
+      l1x4_ = -99999.;
+      l1y4_ = -99999.;
+      l1z4_ = -99999.;
+      hitx4_ = -99999.;
+      hity4_ = -99999.;
+      hitz4_ = -99999.;
+    }
+
+    void clear() {
+      clear_base();
+      clearL1Hit_12();
+      clearL1Hit_3();
+      clearL1Hit_4();
+    }
+
+    void setBranch_12(TTree* tmpntpl) {
+      tmpntpl->Branch("l1x1", &l1x1_, "l1x1/F");
+      tmpntpl->Branch("l1y1", &l1y1_, "l1y1/F");
+      tmpntpl->Branch("l1z1", &l1z1_, "l1z1/F");
+      tmpntpl->Branch("hitx1", &hitx1_, "hitx1/F");
+      tmpntpl->Branch("hity1", &hity1_, "hity1/F");
+      tmpntpl->Branch("hitz1", &hitz1_, "hitz1/F");
+      tmpntpl->Branch("l1x2", &l1x2_, "l1x2/F");
+      tmpntpl->Branch("l1y2", &l1y2_, "l1y2/F");
+      tmpntpl->Branch("l1z2", &l1z2_, "l1z2/F");
+      tmpntpl->Branch("hitx2", &hitx2_, "hitx2/F");
+      tmpntpl->Branch("hity2", &hity2_, "hity2/F");
+      tmpntpl->Branch("hitz2", &hitz2_, "hitz2/F");
+      tmpntpl->Branch("nHits", &nHits_, "nHits/I");
+    }
+
+    void setBranch_3(TTree* tmpntpl) {
+      tmpntpl->Branch("l1x3", &l1x3_, "l1x3/F");
+      tmpntpl->Branch("l1y3", &l1y3_, "l1y3/F");
+      tmpntpl->Branch("l1z3", &l1z3_, "l1z3/F");
+      tmpntpl->Branch("hitx3", &hitx3_, "hitx3/F");
+      tmpntpl->Branch("hity3", &hity3_, "hity3/F");
+      tmpntpl->Branch("hitz3", &hitz3_, "hitz3/F");
+    }
+
+    void setBranch_4(TTree* tmpntpl) {
+      tmpntpl->Branch("l1x4", &l1x4_, "l1x4/F");
+      tmpntpl->Branch("l1y4", &l1y4_, "l1y4/F");
+      tmpntpl->Branch("l1z4", &l1z4_, "l1z4/F");
+      tmpntpl->Branch("hitx4", &hitx4_, "hitx4/F");
+      tmpntpl->Branch("hity4", &hity4_, "hity4/F");
+      tmpntpl->Branch("hitz4", &hitz4_, "hitz4/F");
+    }
+
+    void setBranch(TTree* tmpntpl) {
+      setBranch_base(tmpntpl);
+      setBranch_12(tmpntpl);
+      setBranch_3(tmpntpl);
+      setBranch_4(tmpntpl);
+    }
+
+    void fill_12(pair<LayerHit, LayerTSOS> firstHit, pair<LayerHit, LayerTSOS> secondHit, int nHits) {
+      auto hit1   = firstHit.first.second;
+      auto tsos1  = firstHit.second.second;
+
+      l1x1_ = tsos1.globalPosition().x();
+      l1y1_ = tsos1.globalPosition().y();
+      l1z1_ = tsos1.globalPosition().z();
+      hitx1_ = hit1->globalPosition().x();
+      hity1_ = hit1->globalPosition().y();
+      hitz1_ = hit1->globalPosition().z();
+
+      auto hit2   = secondHit.first.second;
+      auto tsos2  = secondHit.second.second;
+
+      l1x2_ = tsos2.globalPosition().x();
+      l1y2_ = tsos2.globalPosition().y();
+      l1z2_ = tsos2.globalPosition().z();
+      hitx2_ = hit2->globalPosition().x();
+      hity2_ = hit2->globalPosition().y();
+      hitz2_ = hit2->globalPosition().z();
+
+      nHits_ = nHits;
+    }
+
+    void fill_3(pair<LayerHit, LayerTSOS> thirdHit) {
+      auto hit3   = thirdHit.first.second;
+      auto tsos3  = thirdHit.second.second;
+
+      l1x3_ = tsos3.globalPosition().x();
+      l1y3_ = tsos3.globalPosition().y();
+      l1z3_ = tsos3.globalPosition().z();
+      hitx3_ = hit3->globalPosition().x();
+      hity3_ = hit3->globalPosition().y();
+      hitz3_ = hit3->globalPosition().z();
+    }
+
+    void fill_4(pair<LayerHit, LayerTSOS> fourthHit) {
+      auto hit4   = fourthHit.first.second;
+      auto tsos4  = fourthHit.second.second;
+
+      l1x4_ = tsos4.globalPosition().x();
+      l1y4_ = tsos4.globalPosition().y();
+      l1z4_ = tsos4.globalPosition().z();
+      hitx4_ = hit4->globalPosition().x();
+      hity4_ = hit4->globalPosition().y();
+      hitz4_ = hit4->globalPosition().z();
+    }
+  };
+
+  seedL1TSOSTemplate* theSeeds;
+
+  void testRun(
+    const edm::Event &, const edm::EventSetup&,
+    edm::EDGetTokenT<TrajectorySeedCollection>&
+  );
+
+  vector< LayerTSOS > getTsosOnPixels(
+    TTTrack<Ref_Phase2TrackerDigi_>,
+    edm::ESHandle<MagneticField>&,
+    const Propagator&,
+    GeometricSearchTracker*
+  );
+
+  vector< pair<LayerHit, LayerTSOS> > getHitTsosPairs(
+    TrajectorySeed,
+    edm::Handle< std::vector< TTTrack< Ref_Phase2TrackerDigi_ > > >,
+    edm::ESHandle<MagneticField>&,
+    const Propagator&,
+    GeometricSearchTracker*
+  );
 };
