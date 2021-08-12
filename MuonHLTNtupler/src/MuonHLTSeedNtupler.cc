@@ -696,6 +696,160 @@ void MuonHLTSeedNtupler::fill_seedTemplate(
   } // -- if getByToken is valid
 }
 
+void MuonHLTSeedNtupler::testRun(
+  const edm::Event &iEvent, const edm::EventSetup& iSetup,
+  edm::EDGetTokenT<TrajectorySeedCollection>& theToken
+) {
+
+
+  return;
+}
+
+vector< LayerTSOS > MuonHLTSeedNtupler::getTsosOnPixels(
+  TTTrack<Ref_Phase2TrackerDigi_> l1tk,
+  edm::ESHandle<MagneticField>& magfieldH,
+  const Propagator& propagatorAlong,
+  GeometricSearchTracker* geomTracker
+) {
+  vector< LayerTSOS > v_tsos = {};
+
+  std::vector<BarrelDetLayer const*>  const&  bpix = geomTracker->pixelBarrelLayers();
+  std::vector<ForwardDetLayer const*> const& nfpix = geomTracker->negPixelForwardLayers();
+  std::vector<ForwardDetLayer const*> const& pfpix = geomTracker->posPixelForwardLayers();
+
+  // -- L1TkMu selection
+  // if( L1TkMu->muRef().isNull() )  continue;
+  // if( L1TkMu.trkPtr().isNull() )  return v_tsos;
+  // FIXME this is random choice
+
+  // auto l1tk = *(L1TkMu.trkPtr());
+  int chargeTk = l1tk.rInv() > 0. ? 1 : -1;
+  GlobalPoint  gpos = l1tk.POCA();
+  GlobalVector gmom = l1tk.momentum();
+
+  FreeTrajectoryState fts = FreeTrajectoryState( gpos, gmom, chargeTk, magfieldH.product() );
+
+  for(auto it = bpix.begin(); it != bpix.end(); ++it) {
+    TrajectoryStateOnSurface tsos = propagatorAlong.propagate(fts, (**it).specificSurface());
+    if( !tsos.isValid() )  continue;
+
+    auto z0 = std::abs(tsos.globalPosition().z() - (**it).specificSurface().position().z());
+    auto deltaZ = 0.5f * (**it).surface().bounds().length();
+    deltaZ += 0.5f * (**it).surface().bounds().thickness() * std::abs(tsos.globalDirection().z()) / tsos.globalDirection().perp();
+    bool is_compatible  = (z0 < deltaZ);
+
+    if( is_compatible ) {
+      v_tsos.push_back( make_pair( (const DetLayer*)(*it), tsos) );
+    }
+  }
+  for(auto it = nfpix.begin(); it != nfpix.end(); ++it) {
+    TrajectoryStateOnSurface tsos = propagatorAlong.propagate(fts, (**it).specificSurface());
+    if( !tsos.isValid() )  continue;
+
+    auto r2 = tsos.localPosition().perp2();
+    float deltaR = 0.5f * (**it).surface().bounds().thickness() * tsos.localDirection().perp() / std::abs(tsos.localDirection().z());
+    auto ri2 = std::max((**it).specificSurface().innerRadius() - deltaR, 0.f);
+    ri2 *= ri2;
+    auto ro2 = (**it).specificSurface().outerRadius() + deltaR;
+    ro2 *= ro2;
+    bool is_compatible  = ((r2 > ri2) && (r2 < ro2));
+
+    if( is_compatible ) {
+      v_tsos.push_back( make_pair( (const DetLayer*)(*it), tsos) );
+    }
+  }
+  for(auto it = pfpix.begin(); it != pfpix.end(); ++it) {
+    TrajectoryStateOnSurface tsos = propagatorAlong.propagate(fts, (**it).specificSurface());
+    if( !tsos.isValid() )  continue;
+
+    auto r2 = tsos.localPosition().perp2();
+    float deltaR = 0.5f * (**it).surface().bounds().thickness() * tsos.localDirection().perp() / std::abs(tsos.localDirection().z());
+    auto ri2 = std::max((**it).specificSurface().innerRadius() - deltaR, 0.f);
+    ri2 *= ri2;
+    auto ro2 = (**it).specificSurface().outerRadius() + deltaR;
+    ro2 *= ro2;
+    bool is_compatible  = ((r2 > ri2) && (r2 < ro2));
+
+    if( is_compatible ) {
+      v_tsos.push_back( make_pair( (const DetLayer*)(*it), tsos) );
+    }
+  }
+
+  return v_tsos;
+}
+
+// -- hit, TSOS pairs for each L1TkMu
+vector< pair<LayerHit, LayerTSOS> > MuonHLTSeedNtupler::getHitTsosPairs(
+  TrajectorySeed seed,
+  edm::Handle< std::vector< TTTrack< Ref_Phase2TrackerDigi_ > > > TTTrackHandle,
+  edm::ESHandle<MagneticField>& magfieldH,
+  const Propagator& propagatorAlong,
+  GeometricSearchTracker* geomTracker
+) {
+  vector< pair<LayerHit, LayerTSOS> > out = {};
+
+  // FIXME this is random choice
+  float av_dr_min = 20.;
+
+  // -- loop on L1TkMu
+  for(auto l1tk=TTTrackHandle->begin(); l1tk!=TTTrackHandle->end(); ++l1tk) {
+
+    vector< LayerTSOS > v_tsos = getTsosOnPixels(
+      *l1tk,
+      magfieldH,
+      propagatorAlong,
+      geomTracker
+    );
+
+    // -- loop on recHits
+    vector<int> v_tsos_skip( v_tsos.size(), 0 );
+    vector< pair<LayerHit, LayerTSOS> > hitTsosPair = {};
+    int ihit = 0;
+    for( auto hit = seed.recHits().first; hit!=seed.recHits().second; ++hit ) {
+      // -- look for closest tsos by absolute distance
+      // FIXME this is random choice
+      int the_tsos = -99999;
+      float dr_min = 20.;
+      for( auto i=0U; i<v_tsos.size(); ++i ) {
+        if( v_tsos_skip.at(i) )  continue;
+        float dr = ( v_tsos.at(i).second.globalPosition() - hit->globalPosition() ).mag();
+        if( dr < dr_min ) {
+          dr_min = dr;
+          the_tsos = i;
+          v_tsos_skip.at(i) = 1;
+        }
+      }
+
+      if( the_tsos > -1 ) {
+        const DetLayer* thelayer =  geomTracker->idToLayer( hit->geographicalId() );
+        hitTsosPair.push_back( make_pair( make_pair( thelayer, &*hit), v_tsos.at(the_tsos) ) );
+      }
+
+      ihit++;
+    } // loop on recHits
+
+    // -- find tsos for all recHits?
+    // FIXME this is random choice
+    if( (int)hitTsosPair.size() == ihit ) {
+      float av_dr = 0.;
+      for( auto it=hitTsosPair.begin(); it!=hitTsosPair.end(); ++it ) {
+        auto hit  = it->first.second;
+        auto tsos = it->second.second;
+        av_dr += ( hit->globalPosition() - tsos.globalPosition() ).mag();
+      }
+      av_dr = av_dr > 0 ? av_dr / (float)hitTsosPair.size() : 1.e6;
+
+      if( av_dr < av_dr_min ) {
+        av_dr_min = av_dr;
+        out = hitTsosPair;
+      }
+    }
+
+  }  // loop on L1TkMu
+
+  return out;
+}
+
 void MuonHLTSeedNtupler::endJob() {
   for( int i=0; i<4; ++i ) {
     // delete mvaHltIterL3OISeedsFromL2Muons_.at(i).first;
