@@ -559,6 +559,7 @@ void MuonHLTSeedNtupler::fill_seedTemplate(
       ST->fill(seed, tracker);
       std::map<tmpTSOD,unsigned int>::const_iterator where = trkMap.find(seedTsod);
       int idxtmpL3 = (where==trkMap.end()) ? -1 : trkMap[seedTsod];
+      std::cout << "The idxtmpL3 = " << idxtmpL3 << std::endl;
       ST->fill_TP(TTtrack, idxtmpL3 );
 
       GlobalVector global_p = tracker->idToDet(seed.startingState().detId())->surface().toGlobal(seed.startingState().parameters().momentum());
@@ -787,6 +788,7 @@ void MuonHLTSeedNtupler::fill_seedTemplate(
       theSeeds->fill(seed, tracker);
       std::map<tmpTSOD,unsigned int>::const_iterator where = trkMap.find(seedTsod);
       int idxtmpL3 = (where==trkMap.end()) ? -1 : trkMap[seedTsod];
+      std::cout << "The idxtmpL3 = " << idxtmpL3 << std::endl;
       theSeeds->fill_TP(TTtrack, idxtmpL3 );
 
       GlobalVector global_p = tracker->idToDet(seed.startingState().detId())->surface().toGlobal(seed.startingState().parameters().momentum());
@@ -824,6 +826,7 @@ void MuonHLTSeedNtupler::fill_seedTemplate(
         cout << "v_mva.size() != 4" << endl;
         return;
       }
+      std::cout << "The mva variables mva0 ~ mva3 are = " << v_mva[0] << " " << v_mva[1] << " " << v_mva[2] << " " << v_mva[3] << std::endl;
       theSeeds->fill_Mva( v_mva[0], v_mva[1], v_mva[2], v_mva[3] );
 
       // -- GenParticle (muon) tag -- //
