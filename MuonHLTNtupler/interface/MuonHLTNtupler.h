@@ -93,7 +93,8 @@
 #include "L1Trigger/L1TMuon/interface/MicroGMTConfiguration.h"
 #include "DataFormats/Math/interface/angle_units.h"
 
-#include "HLTrigger/MuonHLTSeedMVAClassifier/interface/SeedMvaEstimator.h"
+//#include "HLTrigger/MuonHLTSeedMVAClassifier/interface/SeedMvaEstimator.h"
+#include "HLTrigger/MuonHLTSeedMVAClassifier/interface/SeedMvaEstimator2.h"
 
 #include "MuonHLTTool/MuonHLTNtupler/interface/MuonHLTobjCorrelator.h"
 
@@ -210,7 +211,9 @@ private:
   std::vector<edm::InputTag> pfIsoLabels_;
   std::vector<edm::EDGetTokenT<reco::RecoChargedCandidateIsolationMap>> pfIsoTokens_;
 
-  typedef std::vector< std::pair<SeedMvaEstimator*, SeedMvaEstimator*> > pairSeedMvaEstimator;
+  //typedef std::vector< std::pair<SeedMvaEstimator*, SeedMvaEstimator*> > pairSeedMvaEstimator;
+  typedef std::vector< std::pair<SeedMvaEstimatorPhase2*, SeedMvaEstimatorPhase2*> > pairSeedMvaEstimatorPhase2;
+
 
   TTree *ntuple_;
   static const int arrSize_ = 5000;
@@ -1480,7 +1483,7 @@ private:
     edm::Handle<reco::TrackToTrackingParticleAssociator>& theAssociator_,
     edm::Handle<TrackingParticleCollection>& TPCollection_,
     edm::ESHandle<TrackerGeometry>& tracker,
-    pairSeedMvaEstimator pairMvaEstimator,
+    pairSeedMvaEstimatorPhase2 pairSeedMvaEstimatorPhase2,
     std::map<tmpTSOD,unsigned int>& trkMap,
     trkTemplate* TTtrack
   );
@@ -1586,11 +1589,15 @@ private:
   // pairSeedMvaEstimator mvaHltIter2IterL3MuonPixelSeeds_;
   // pairSeedMvaEstimator mvaHltIter3IterL3MuonPixelSeeds_;
   // pairSeedMvaEstimator mvaHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_;
-  pairSeedMvaEstimator mvaHltIter2IterL3FromL1MuonPixelSeeds_;
+  //pairSeedMvaEstimator mvaHltIter2IterL3FromL1MuonPixelSeeds_;
   // pairSeedMvaEstimator mvaHltIter3IterL3FromL1MuonPixelSeeds_;
 
+  pairSeedMvaEstimatorPhase2 mvaPhase2HltIter2IterL3FromL1MuonPixelSeeds_;
+
+
   vector<float> getSeedMva(
-    pairSeedMvaEstimator pairMvaEstimator,
+    //pairSeedMvaEstimator pairMvaEstimator,
+    pairSeedMvaEstimatorPhase2 pairSeedMvaEstimatorPhase2,
     const TrajectorySeed& seed,
     GlobalVector global_p,
     GlobalPoint  global_x,
@@ -1600,9 +1607,9 @@ private:
   ) {
     vector<float> v_mva = {};
 
-    for(auto ic=0U; ic<pairMvaEstimator.size(); ++ic) {
+    for(auto ic=0U; ic<pairSeedMvaEstimatorPhase2.size(); ++ic) {
       if( fabs( global_p.eta() ) < 0.9 ) {
-        float mva = pairMvaEstimator.at(ic).first->computeMva(
+        float mva = pairSeedMvaEstimatorPhase2.at(ic).first->computeMva(
           seed,
           global_p,
           global_x,
@@ -1613,7 +1620,7 @@ private:
         v_mva.push_back( mva );
       }
       else {
-        float mva = pairMvaEstimator.at(ic).second->computeMva(
+        float mva = pairSeedMvaEstimatorPhase2.at(ic).second->computeMva(
           seed,
           global_p,
           global_x,
