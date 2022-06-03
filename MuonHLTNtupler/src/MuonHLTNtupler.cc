@@ -1854,6 +1854,23 @@ void MuonHLTNtupler::Fill_IterL3(const edm::Event &iEvent, const edm::EventSetup
   edm::Handle<TrackingParticleCollection> TPCollection;
   iEvent.getByToken(trackingParticleToken, TPCollection);
 
+  // For fill_trackTemplateMva Phase2
+  edm::ESHandle<MagneticField> magfieldH;
+  iSetup.get<IdealMagneticFieldRecord>().get(magfieldH);
+
+  edm::ESHandle<TrackerGeometry> trkgeom;
+  iSetup.get<TrackerDigiGeometryRecord>().get(trkgeom);
+
+  edm::ESHandle<GeometricDet> geomDet;
+  iSetup.get<IdealGeometryRecord>().get(geomDet);
+
+  edm::ESHandle<TrackerTopology> trkTopo;
+  iSetup.get<TrackerTopologyRcd>().get(trkTopo);
+
+  GeometricSearchTrackerBuilder builder;
+  GeometricSearchTracker* geomTracker = builder.build(&(*geomDet), &(*trkgeom), &(*trkTopo));
+
+
   if( iEvent.getByToken( t_iterL3Muon_, h_iterL3Muon) )
   {
     int _nIterL3Muon = 0;
@@ -2071,7 +2088,8 @@ void MuonHLTNtupler::Fill_IterL3(const edm::Event &iEvent, const edm::EventSetup
     // fill_trackTemplateMva(iEvent, t_hltIter2IterL3MuonTrack_,       theAssociator, TPCollection, tracker, mvaHltIter2IterL3MuonPixelSeeds_,                      hltIter2IterL3MuonTrackMap,      TThltIter2IterL3MuonTrack);
     // fill_trackTemplateMva(iEvent, t_hltIter3IterL3MuonTrack_,       theAssociator, TPCollection, tracker, mvaHltIter3IterL3MuonPixelSeeds_,                      hltIter3IterL3MuonTrackMap,      TThltIter3IterL3MuonTrack);
     // fill_trackTemplateMva(iEvent, t_hltIter0IterL3FromL1MuonTrack_, theAssociator, TPCollection, tracker, mvaHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_, hltIter0IterL3FromL1MuonTrackMap,TThltIter0IterL3FromL1MuonTrack);
-    fill_trackTemplateMva(iEvent, t_hltIter2IterL3FromL1MuonTrack_, theAssociator, TPCollection, tracker, mvaPhase2HltIter2IterL3FromL1MuonPixelSeeds_,                hltIter2IterL3FromL1MuonTrackMap,TThltIter2IterL3FromL1MuonTrack);
+    // fill_trackTemplateMva(iEvent, t_hltIter2IterL3FromL1MuonTrack_, theAssociator, TPCollection, tracker, mvaPhase2HltIter2IterL3FromL1MuonPixelSeeds_,                hltIter2IterL3FromL1MuonTrackMap,TThltIter2IterL3FromL1MuonTrack);
+    fill_trackTemplateMva(iEvent, t_hltIter2IterL3FromL1MuonTrack_, theAssociator, TPCollection, tracker, mvaPhase2HltIter2IterL3FromL1MuonPixelSeeds_, hltIter2IterL3FromL1MuonTrackMap,TThltIter2IterL3FromL1MuonTrack, magfieldH, iSetup, geomTracker);
     // fill_trackTemplateMva(iEvent, t_hltIter3IterL3FromL1MuonTrack_, theAssociator, TPCollection, tracker, mvaHltIter3IterL3FromL1MuonPixelSeeds_,                hltIter3IterL3FromL1MuonTrackMap,TThltIter3IterL3FromL1MuonTrack);
   }
 }
@@ -2449,9 +2467,13 @@ void MuonHLTNtupler::fill_trackTemplateMva(
   edm::Handle<reco::TrackToTrackingParticleAssociator>& theAssociator_,
   edm::Handle<TrackingParticleCollection>& TPCollection_,
   edm::ESHandle<TrackerGeometry>& tracker,
-  pairSeedMvaEstimatorPhase2 pairSeedMvaEstimatorPhase2,,
+  pairSeedMvaEstimatorPhase2 pairSeedMvaEstimatorPhase2,
   std::map<tmpTSOD,unsigned int>& trkMap,
-  trkTemplate* TTtrack
+  trkTemplate* TTtrack,
+
+  edm::ESHandle<MagneticField> magfieldH,
+  const edm::EventSetup &iSetup,
+  GeometricSearchTracker* geomTracker
 ) {
 
   // edm::Handle<l1t::MuonBxCollection> h_L1Muon;
@@ -2512,9 +2534,10 @@ void MuonHLTNtupler::fill_trackTemplateMva(
           seed,
           global_p,
           global_x,
-          // h_L1Muon,
-          h_L2Muon,
-          h_L1TkMu
+          h_L1TkMu,
+          magfieldH,
+          iSetup,
+          geomTracker
         );
         TTtrack->fillMva( mva[0], mva[1], mva[2], mva[3] );
       }

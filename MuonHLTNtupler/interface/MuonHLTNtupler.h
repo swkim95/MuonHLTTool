@@ -96,6 +96,17 @@
 //#include "HLTrigger/MuonHLTSeedMVAClassifier/interface/SeedMvaEstimator.h"
 #include "HLTrigger/MuonHLTSeedMVAClassifier/interface/SeedMvaEstimator2.h"
 
+// -- for L1TkMu propagation
+#include "TrackingTools/GeomPropagators/interface/Propagator.h"
+#include "TrackingTools/Records/interface/TrackingComponentsRecord.h"
+#include "TrackingTools/TrajectoryState/interface/FreeTrajectoryState.h"
+#include "RecoTracker/TkDetLayers/interface/GeometricSearchTracker.h"
+#include "RecoTracker/TkDetLayers/interface/GeometricSearchTrackerBuilder.h"
+#include "Geometry/TrackerNumberingBuilder/interface/GeometricDet.h"
+#include "Geometry/Records/interface/IdealGeometryRecord.h"
+#include "DataFormats/TrackerCommon/interface/TrackerTopology.h"
+#include "Geometry/Records/interface/TrackerTopologyRcd.h"
+
 #include "MuonHLTTool/MuonHLTNtupler/interface/MuonHLTobjCorrelator.h"
 
 #include "TTree.h"
@@ -1488,6 +1499,22 @@ private:
     trkTemplate* TTtrack
   );
 
+  void fill_trackTemplateMva( // for pairSeedMvaEstimatorPhase2
+    const edm::Event &iEvent,
+    edm::EDGetTokenT<edm::View<reco::Track>>& theToken,
+    edm::Handle<reco::TrackToTrackingParticleAssociator>& theAssociator_,
+    edm::Handle<TrackingParticleCollection>& TPCollection_,
+    edm::ESHandle<TrackerGeometry>& tracker,
+    pairSeedMvaEstimatorPhase2 pairSeedMvaEstimatorPhase2,
+    std::map<tmpTSOD,unsigned int>& trkMap,
+    trkTemplate* TTtrack,
+
+    edm::ESHandle<MagneticField> magfieldH,
+    const edm::EventSetup &iSetup,
+    GeometricSearchTracker* geomTracker
+  );
+
+
   void fill_tpTemplate(
     const edm::Event &iEvent,
     edm::EDGetTokenT<reco::SimToRecoCollection>& assoToken,
@@ -1601,10 +1628,16 @@ private:
     const TrajectorySeed& seed,
     GlobalVector global_p,
     GlobalPoint  global_x,
-    // edm::Handle<l1t::MuonBxCollection> h_L1Muon,
-    edm::Handle<reco::RecoChargedCandidateCollection> h_L2Muon,
-    edm::Handle<l1t::TkMuonCollection> h_L1TkMu
+    edm::Handle<l1t::TkMuonCollection> h_L1TkMu,
+    edm::ESHandle<MagneticField> magfieldH,
+    const edm::EventSetup &iSetup,
+    GeometricSearchTracker* geomTracker
   ) {
+
+  edm::ESHandle<Propagator> propagatorAlongH;
+  iSetup.get<TrackingComponentsRecord>().get("PropagatorWithMaterialParabolicMf", propagatorAlongH);
+  std::unique_ptr<Propagator> propagatorAlong = SetPropagationDirection(*propagatorAlongH, alongMomentum);
+
     vector<float> v_mva = {};
 
     for(auto ic=0U; ic<pairSeedMvaEstimatorPhase2.size(); ++ic) {
@@ -1613,9 +1646,10 @@ private:
           seed,
           global_p,
           global_x,
-          // h_L1Muon,
-          h_L2Muon,
-          h_L1TkMu
+          h_L1TkMu,
+          magfieldH,
+          *(propagatorAlong.get()),
+          geomTracker
         );
         v_mva.push_back( mva );
       }
@@ -1624,9 +1658,10 @@ private:
           seed,
           global_p,
           global_x,
-          // h_L1Muon,
-          h_L2Muon,
-          h_L1TkMu
+          h_L1TkMu,
+          magfieldH,
+          *(propagatorAlong.get()),
+          geomTracker
         );
         v_mva.push_back( mva );
       }
