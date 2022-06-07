@@ -341,7 +341,9 @@ process.DQMStore.enableMultiThread = True
 process.GlobalTag.globaltag = "111X_mcRun4_realistic_T15_v5"
 
 process.source.fileNames = cms.untracked.vstring(
-    "/store/mc/Phase2HLTTDRSummer20ReRECOMiniAOD/DYToLL_M-50_TuneCP5_14TeV-pythia8/FEVT/FlatPU0To200_pilot_111X_mcRun4_realistic_T15_v1-v2/30026/83959981-E532-9E46-9C60-6C464C4E9D8F.root"
+    "/store/mc/Phase2HLTTDRSummer20ReRECOMiniAOD/DYToLL_M-50_TuneCP5_14TeV-pythia8/FEVT/PU200_pilot_111X_mcRun4_realistic_T15_v1-v1/100000/00695E54-EAD4-3444-A833-3FE1C2BC8880.root"
+
+    #"/store/mc/Phase2HLTTDRSummer20ReRECOMiniAOD/DYToLL_M-50_TuneCP5_14TeV-pythia8/FEVT/FlatPU0To200_pilot_111X_mcRun4_realistic_T15_v1-v2/30026/83959981-E532-9E46-9C60-6C464C4E9D8F.root"
 
     # "/store/mc/Phase2HLTTDRSummer20ReRECOMiniAOD/DoubleMuon_gun_FlatPt-1To100/FEVT/NoPU_111X_mcRun4_realistic_T15_v1-v1/100000/183F7FEF-A746-B740-840A-62A504300C63.root"
 
