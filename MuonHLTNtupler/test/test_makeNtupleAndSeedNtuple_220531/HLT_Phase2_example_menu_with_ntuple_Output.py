@@ -198,7 +198,7 @@ if doNtuple:
     process.TFileService.fileName = cms.string("Ntuple_SeedNtuple.root")
     
     from HLTrigger.MuonHLTSeedMVAClassifier.customizerForMuonHLTSeeding import *
-    WPNAME = 'NoMVACut'
+    WPNAME = 'NoMVACut_with_ntuple'
     doSort = False
     nSeedMax_B = (-1,)
     nSeedMax_E = (-1,)
