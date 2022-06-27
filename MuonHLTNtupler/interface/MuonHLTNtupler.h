@@ -1021,9 +1021,9 @@ private:
     std::vector<double> bestMatchTP_sharedFraction;
     std::vector<int> matchedTPsize;
     std::vector<float> mva0;
-    std::vector<float> mva1;
-    std::vector<float> mva2;
-    std::vector<float> mva3;
+    //std::vector<float> mva1;
+    //std::vector<float> mva2;
+    //std::vector<float> mva3;
 
     // Isolations
     // iso[#iso type][#ev]
@@ -1058,9 +1058,9 @@ private:
       bestMatchTP_sharedFraction.clear();
       matchedTPsize.clear();
       mva0.clear();
-      mva1.clear();
-      mva2.clear();
-      mva3.clear();
+      //mva1.clear();
+      //mva2.clear();
+      //mva3.clear();
 
       for(unsigned i=0; i<TrkIsolations_tag.size(); ++i) {
         TrkIsolations_value.at(i).clear();
@@ -1111,9 +1111,9 @@ private:
       tmpntpl->Branch(name+"_bestMatchTP_sharedFraction", &bestMatchTP_sharedFraction);
       tmpntpl->Branch(name+"_matchedTPsize", &matchedTPsize);
       tmpntpl->Branch(name+"_mva0", &mva0);
-      tmpntpl->Branch(name+"_mva1", &mva1);
-      tmpntpl->Branch(name+"_mva2", &mva2);
-      tmpntpl->Branch(name+"_mva3", &mva3);
+      //tmpntpl->Branch(name+"_mva1", &mva1);
+      //tmpntpl->Branch(name+"_mva2", &mva2);
+      //tmpntpl->Branch(name+"_mva3", &mva3);
 
       if(doIso) {
         for(unsigned i=0; i<TrkIsolations_tag.size(); ++i) {
@@ -1193,12 +1193,13 @@ private:
     int matchedIDpassedL3(int idx) { return linkToL3s.at(idx); }
     void fillBestTPsharedFrac(double frac) { bestMatchTP_sharedFraction.push_back(frac); }
     void fillmatchedTPsize(int TPsize) { matchedTPsize.push_back(TPsize); }
-    void fillMva( float mva0_, float mva1_, float mva2_, float mva3_ ) {
+    //void fillMva( float mva0_, float mva1_, float mva2_, float mva3_ ) {
+    void fillMva( float mva0_) {
       // FIXME tmp solution
       mva0.push_back( (mva0_ +0.5) );
-      mva1.push_back( (mva1_ +0.5) );
-      mva2.push_back( (mva2_ +0.5) );
-      mva3.push_back( (mva3_ +0.5) );
+      //mva1.push_back( (mva1_ +0.5) );
+      //mva2.push_back( (mva2_ +0.5) );
+      //mva3.push_back( (mva3_ +0.5) );
     }
   };
 
@@ -1545,9 +1546,9 @@ private:
   // edm::FileInPath mvaFileHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_B_2_;
   // edm::FileInPath mvaFileHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_B_3_;
   edm::FileInPath mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_0_;
-  edm::FileInPath mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_1_;
-  edm::FileInPath mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_2_;
-  edm::FileInPath mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_3_;
+  //edm::FileInPath mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_1_;
+  //edm::FileInPath mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_2_;
+  //edm::FileInPath mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_3_;
   // edm::FileInPath mvaFileHltIter3IterL3FromL1MuonPixelSeeds_B_0_;
   // edm::FileInPath mvaFileHltIter3IterL3FromL1MuonPixelSeeds_B_1_;
   // edm::FileInPath mvaFileHltIter3IterL3FromL1MuonPixelSeeds_B_2_;
@@ -1573,9 +1574,9 @@ private:
   // edm::FileInPath mvaFileHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_E_2_;
   // edm::FileInPath mvaFileHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_E_3_;
   edm::FileInPath mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_0_;
-  edm::FileInPath mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_1_;
-  edm::FileInPath mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_2_;
-  edm::FileInPath mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_3_;
+  //edm::FileInPath mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_1_;
+  //edm::FileInPath mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_2_;
+  //edm::FileInPath mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_3_;
   // edm::FileInPath mvaFileHltIter3IterL3FromL1MuonPixelSeeds_E_0_;
   // edm::FileInPath mvaFileHltIter3IterL3FromL1MuonPixelSeeds_E_1_;
   // edm::FileInPath mvaFileHltIter3IterL3FromL1MuonPixelSeeds_E_2_;
@@ -1666,10 +1667,14 @@ private:
         v_mva.push_back( mva );
       }
     }
-    if( v_mva.size() != 4 ) {
-      cout << "getSeedMva: v_mva.size() != 4" << endl;
-      return { -99999., -99999., -99999., -99999. };
+    if( v_mva.size() != 1 ) {
+      cout << "getSeedMva: v_mva.size() != 1" << endl;
+      return { -99999.};
     }
+    //if( v_mva.size() != 4 ) {
+    //  cout << "getSeedMva: v_mva.size() != 4" << endl;
+    //  return { -99999., -99999., -99999., -99999.};
+    //}
 
     return v_mva;
   }

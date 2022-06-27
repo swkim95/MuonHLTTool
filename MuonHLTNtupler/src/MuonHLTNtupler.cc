@@ -183,9 +183,9 @@ t_genParticle_       ( consumes< reco::GenParticleCollection >            (iConf
   // mvaFileHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_B_2_ = iConfig.getUntrackedParameter<edm::FileInPath>("mvaFileHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_B_2");
   // mvaFileHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_B_3_ = iConfig.getUntrackedParameter<edm::FileInPath>("mvaFileHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_B_3");
   mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_0_                = iConfig.getUntrackedParameter<edm::FileInPath>("mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_0");
-  mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_1_                = iConfig.getUntrackedParameter<edm::FileInPath>("mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_1");
-  mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_2_                = iConfig.getUntrackedParameter<edm::FileInPath>("mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_2");
-  mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_3_                = iConfig.getUntrackedParameter<edm::FileInPath>("mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_3");
+  //mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_1_                = iConfig.getUntrackedParameter<edm::FileInPath>("mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_1");
+  //mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_2_                = iConfig.getUntrackedParameter<edm::FileInPath>("mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_2");
+  //mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_3_                = iConfig.getUntrackedParameter<edm::FileInPath>("mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_3");
   // mvaFileHltIter3IterL3FromL1MuonPixelSeeds_B_0_                = iConfig.getUntrackedParameter<edm::FileInPath>("mvaFileHltIter3IterL3FromL1MuonPixelSeeds_B_0");
   // mvaFileHltIter3IterL3FromL1MuonPixelSeeds_B_1_                = iConfig.getUntrackedParameter<edm::FileInPath>("mvaFileHltIter3IterL3FromL1MuonPixelSeeds_B_1");
   // mvaFileHltIter3IterL3FromL1MuonPixelSeeds_B_2_                = iConfig.getUntrackedParameter<edm::FileInPath>("mvaFileHltIter3IterL3FromL1MuonPixelSeeds_B_2");
@@ -211,9 +211,9 @@ t_genParticle_       ( consumes< reco::GenParticleCollection >            (iConf
   // mvaFileHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_E_2_ = iConfig.getUntrackedParameter<edm::FileInPath>("mvaFileHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_E_2");
   // mvaFileHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_E_3_ = iConfig.getUntrackedParameter<edm::FileInPath>("mvaFileHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_E_3");
   mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_0_                = iConfig.getUntrackedParameter<edm::FileInPath>("mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_0");
-  mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_1_                = iConfig.getUntrackedParameter<edm::FileInPath>("mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_1");
-  mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_2_                = iConfig.getUntrackedParameter<edm::FileInPath>("mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_2");
-  mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_3_                = iConfig.getUntrackedParameter<edm::FileInPath>("mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_3");
+  //mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_1_                = iConfig.getUntrackedParameter<edm::FileInPath>("mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_1");
+  //mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_2_                = iConfig.getUntrackedParameter<edm::FileInPath>("mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_2");
+  //mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_3_                = iConfig.getUntrackedParameter<edm::FileInPath>("mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_3");
   // mvaFileHltIter3IterL3FromL1MuonPixelSeeds_E_0_                = iConfig.getUntrackedParameter<edm::FileInPath>("mvaFileHltIter3IterL3FromL1MuonPixelSeeds_E_0");
   // mvaFileHltIter3IterL3FromL1MuonPixelSeeds_E_1_                = iConfig.getUntrackedParameter<edm::FileInPath>("mvaFileHltIter3IterL3FromL1MuonPixelSeeds_E_1");
   // mvaFileHltIter3IterL3FromL1MuonPixelSeeds_E_2_                = iConfig.getUntrackedParameter<edm::FileInPath>("mvaFileHltIter3IterL3FromL1MuonPixelSeeds_E_2");
@@ -451,12 +451,12 @@ void MuonHLTNtupler::beginJob()
     mvaPhase2HltIter2IterL3FromL1MuonPixelSeeds_ = {
       make_pair( new SeedMvaEstimatorPhase2(mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_0_, mvaScaleMeanHltIter2IterL3FromL1MuonPixelSeeds_B_, mvaScaleStdHltIter2IterL3FromL1MuonPixelSeeds_B_),
                  new SeedMvaEstimatorPhase2(mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_0_, mvaScaleMeanHltIter2IterL3FromL1MuonPixelSeeds_E_, mvaScaleStdHltIter2IterL3FromL1MuonPixelSeeds_E_) ),
-      make_pair( new SeedMvaEstimatorPhase2(mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_1_, mvaScaleMeanHltIter2IterL3FromL1MuonPixelSeeds_B_, mvaScaleStdHltIter2IterL3FromL1MuonPixelSeeds_B_),
-                 new SeedMvaEstimatorPhase2(mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_1_, mvaScaleMeanHltIter2IterL3FromL1MuonPixelSeeds_E_, mvaScaleStdHltIter2IterL3FromL1MuonPixelSeeds_E_) ),
-      make_pair( new SeedMvaEstimatorPhase2(mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_2_, mvaScaleMeanHltIter2IterL3FromL1MuonPixelSeeds_B_, mvaScaleStdHltIter2IterL3FromL1MuonPixelSeeds_B_),
-                 new SeedMvaEstimatorPhase2(mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_2_, mvaScaleMeanHltIter2IterL3FromL1MuonPixelSeeds_E_, mvaScaleStdHltIter2IterL3FromL1MuonPixelSeeds_E_) ),
-      make_pair( new SeedMvaEstimatorPhase2(mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_3_, mvaScaleMeanHltIter2IterL3FromL1MuonPixelSeeds_B_, mvaScaleStdHltIter2IterL3FromL1MuonPixelSeeds_B_),
-                 new SeedMvaEstimatorPhase2(mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_3_, mvaScaleMeanHltIter2IterL3FromL1MuonPixelSeeds_E_, mvaScaleStdHltIter2IterL3FromL1MuonPixelSeeds_E_) )
+      //make_pair( new SeedMvaEstimatorPhase2(mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_1_, mvaScaleMeanHltIter2IterL3FromL1MuonPixelSeeds_B_, mvaScaleStdHltIter2IterL3FromL1MuonPixelSeeds_B_),
+      //           new SeedMvaEstimatorPhase2(mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_1_, mvaScaleMeanHltIter2IterL3FromL1MuonPixelSeeds_E_, mvaScaleStdHltIter2IterL3FromL1MuonPixelSeeds_E_) ),
+      //make_pair( new SeedMvaEstimatorPhase2(mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_2_, mvaScaleMeanHltIter2IterL3FromL1MuonPixelSeeds_B_, mvaScaleStdHltIter2IterL3FromL1MuonPixelSeeds_B_),
+      //           new SeedMvaEstimatorPhase2(mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_2_, mvaScaleMeanHltIter2IterL3FromL1MuonPixelSeeds_E_, mvaScaleStdHltIter2IterL3FromL1MuonPixelSeeds_E_) ),
+      //make_pair( new SeedMvaEstimatorPhase2(mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_3_, mvaScaleMeanHltIter2IterL3FromL1MuonPixelSeeds_B_, mvaScaleStdHltIter2IterL3FromL1MuonPixelSeeds_B_),
+      //           new SeedMvaEstimatorPhase2(mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_3_, mvaScaleMeanHltIter2IterL3FromL1MuonPixelSeeds_E_, mvaScaleStdHltIter2IterL3FromL1MuonPixelSeeds_E_) )
     };
     // mvaHltIter3IterL3FromL1MuonPixelSeeds_ = {
     //   make_pair( new SeedMvaEstimator(mvaFileHltIter3IterL3FromL1MuonPixelSeeds_B_0_, mvaScaleMeanHltIter3IterL3FromL1MuonPixelSeeds_B_, mvaScaleStdHltIter3IterL3FromL1MuonPixelSeeds_B_),
@@ -2328,7 +2328,8 @@ void MuonHLTNtupler::fill_trackTemplate(
         // -- fill dummy
         TTtrack->linkIterL3(-1);
         TTtrack->linkIterL3NoId(-1);
-        TTtrack->fillMva( -99999., -99999., -99999., -99999. );
+        //TTtrack->fillMva( -99999., -99999., -99999., -99999. );
+        TTtrack->fillMva( -99999.);
 
         if(doIso) {
           vector<float> trkIsolations = {};
@@ -2539,10 +2540,13 @@ void MuonHLTNtupler::fill_trackTemplateMva(
           iSetup,
           geomTracker
         );
-        TTtrack->fillMva( mva[0], mva[1], mva[2], mva[3] );
+        //TTtrack->fillMva( mva[0], mva[1], mva[2], mva[3] );
+        TTtrack->fillMva( mva[0] );
+
       }
       else {
-        TTtrack->fillMva( -99999., -99999., -99999., -99999. );
+        //TTtrack->fillMva( -99999., -99999., -99999., -99999. );
+        TTtrack->fillMva( -99999.);
       }
     }
   }
@@ -2609,7 +2613,8 @@ void MuonHLTNtupler::endJob() {
   }
 
   if(doMVA) {
-    for( int i=0; i<4; ++i ) {
+    //for( int i=0; i<4; ++i ) {
+    for( int i=0; i<1; ++i ) {
       // delete mvaHltIterL3OISeedsFromL2Muons_.at(i).first;
       // delete mvaHltIterL3OISeedsFromL2Muons_.at(i).second;
       // delete mvaHltIter0IterL3MuonPixelSeedsFromPixelTracks_.at(i).first;
