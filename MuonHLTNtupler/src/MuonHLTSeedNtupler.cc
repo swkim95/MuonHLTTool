@@ -1100,9 +1100,9 @@ vector< pair<LayerHit, LayerTSOS> > MuonHLTSeedNtupler::getHitTsosPairs(
     vector< pair<LayerHit, LayerTSOS> > hitTsosPair = {};
     int ihit = 0;
     // For CMSSW_12_~ 
-    //for (const auto& hit : seed.recHits() ) {
+    for (const auto& hit : seed.recHits() ) {
     // For CMSSW_11_~ 
-    for( auto hit = seed.recHits().first; hit!=seed.recHits().second; ++hit ) {
+    //for( auto hit = seed.recHits().first; hit!=seed.recHits().second; ++hit ) {
       // -- look for closest tsos by absolute distance
       // FIXME this is random choice
       int the_tsos = -99999;
