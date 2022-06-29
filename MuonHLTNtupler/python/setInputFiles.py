@@ -193,7 +193,7 @@ def setInputFiles( process, name, maxEv = -1, setOutput = True, outputDir = '.' 
         ]
 
     else:
-        print 'Wrong name: ', name
+        print('Wrong name: ', name)
         sys.exit()
 
     process.maxEvents.input = maxEv
@@ -204,10 +204,10 @@ def setInputFiles( process, name, maxEv = -1, setOutput = True, outputDir = '.' 
           closeFileFast = cms.untracked.bool(False),
         )
 
-    print name
-    print 'maxEv: ', process.maxEvents.input
-    print 'input files:', process.source.fileNames
+    print(name)
+    print('maxEv: ', process.maxEvents.input)
+    print('input files:', process.source.fileNames)
     if(setOutput):
-        print 'output file: ', process.TFileService.fileName
+        print('output file: ', process.TFileService.fileName)
 
     return process
