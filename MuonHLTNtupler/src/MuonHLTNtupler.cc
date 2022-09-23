@@ -3,7 +3,8 @@
 
 #include "MuonHLTTool/MuonHLTNtupler/interface/MuonHLTNtupler.h"
 
-#include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/Framework/interface/one/EDAnalyzer.h"
+//#include "FWCore/Framework/interface/EDAnalyzer.h"
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/ServiceRegistry/interface/Service.h"
@@ -124,8 +125,15 @@ t_lumiScaler_        ( consumes< LumiScalersCollection >                  (iConf
 t_offlineLumiScaler_ ( consumes< LumiScalersCollection >                  (iConfig.getUntrackedParameter<edm::InputTag>("offlineLumiScaler" )) ),
 t_PUSummaryInfo_     ( consumes< std::vector<PileupSummaryInfo> >         (iConfig.getUntrackedParameter<edm::InputTag>("PUSummaryInfo"     )) ),
 t_genEventInfo_      ( consumes< GenEventInfoProduct >                    (iConfig.getUntrackedParameter<edm::InputTag>("genEventInfo"      )) ),
-t_genParticle_       ( consumes< reco::GenParticleCollection >            (iConfig.getUntrackedParameter<edm::InputTag>("genParticle"       )) )
+t_genParticle_       ( consumes< reco::GenParticleCollection >            (iConfig.getUntrackedParameter<edm::InputTag>("genParticle"       )) ),
+
+trackerTopologyESToken_(esConsumes<TrackerTopology, TrackerTopologyRcd>()),
+trackerGeometryESToken_(esConsumes<TrackerGeometry, TrackerDigiGeometryRecord>())
 {
+  // ----- 220718 fix ----
+  //edm::ConsumesCollector iC = consumesCollector();
+  //trackerTopologyESToken_ = iC.esConsumes<TrackerTopology, TrackerTopologyRcd>();
+  //trackerGeometryESToken_ = iC.esConsumes<TrackerGeometry, TrackerDigiGeometryRecord>();
 
   trackCollectionNames_ = iConfig.getUntrackedParameter<std::vector<std::string>>("trackCollectionNames");
   trackCollectionLabels_ = iConfig.getUntrackedParameter<std::vector<edm::InputTag> >("trackCollectionLabels");
@@ -253,6 +261,9 @@ void MuonHLTNtupler::analyze(const edm::Event &iEvent, const edm::EventSetup &iS
 {
   Init();
 
+  _trackerTopology = &iSetup.getData(trackerTopologyESToken_);
+  _trackerGeometry = &iSetup.getData(trackerGeometryESToken_);
+
   // -- basic info.
   isRealData_ = iEvent.isRealData();
 
@@ -340,7 +351,7 @@ void MuonHLTNtupler::analyze(const edm::Event &iEvent, const edm::EventSetup &iS
   Fill_HLTMuon(iEvent);
   Fill_L1Muon(iEvent);
   Fill_IterL3(iEvent, iSetup);
-  if( doSeed )  Fill_Seed(iEvent, iSetup);
+  //if( doSeed )  Fill_Seed(iEvent, iSetup);
   if( !isRealData_ ) {
     Fill_GenParticle(iEvent);
     // Fill_TP(iEvent, TrkParticle);
@@ -1176,14 +1187,14 @@ void MuonHLTNtupler::Fill_L1Track(const edm::Event &iEvent, const edm::EventSetu
 
   // edm::Handle< TTTrackAssociationMap< Ref_Phase2TrackerDigi_ > > MCTruthTTTrackHandle;
   // iEvent.getByToken(ttTrackMCTruthToken_, MCTruthTTTrackHandle);
-
-  edm::ESHandle<TrackerGeometry> tGeomHandle;
-  iSetup.get<TrackerDigiGeometryRecord>().get(tGeomHandle);
-  edm::ESHandle<TrackerTopology> tTopoHandle;
-  iSetup.get<TrackerTopologyRcd>().get(tTopoHandle);
-
-  const TrackerTopology* const tTopo = tTopoHandle.product();
-  const TrackerGeometry* const theTrackerGeom = tGeomHandle.product();
+  
+  // ----- 220718 fix ----
+  //edm::ESHandle<TrackerGeometry> tGeomHandle;
+  //iSetup.get<TrackerDigiGeometryRecord>().get(tGeomHandle);
+  //edm::ESHandle<TrackerTopology> tTopoHandle;
+  //iSetup.get<TrackerTopologyRcd>().get(tTopoHandle);
+  //const TrackerTopology* const tTopo = tTopoHandle.product();
+  //const TrackerGeometry* const theTrackerGeom = tGeomHandle.product();
 
   if (SaveAllTracks){
   if (DebugMode) {
@@ -1251,10 +1262,13 @@ void MuonHLTNtupler::Fill_L1Track(const edm::Event &iEvent, const edm::EventSetu
     for (int is=0; is<tmp_trk_nstub; is++) {
 
       //detID of stub
-      DetId detIdStub = theTrackerGeom->idToDet( (stubRefs.at(is)->clusterRef(0))->getDetId() )->geographicalId();
+      // 220718 fix
+      //DetId detIdStub = theTrackerGeom->idToDet( (stubRefs.at(is)->clusterRef(0))->getDetId() )->geographicalId();
+      DetId detIdStub = _trackerGeometry->idToDet( (stubRefs.at(is)->clusterRef(0))->getDetId() )->geographicalId();
 
       MeasurementPoint coords = stubRefs.at(is)->clusterRef(0)->findAverageLocalCoordinatesCentered();
-      const GeomDet* theGeomDet = theTrackerGeom->idToDet(detIdStub);
+      //const GeomDet* theGeomDet = theTrackerGeom->idToDet(detIdStub);
+      const GeomDet* theGeomDet = _trackerGeometry->idToDet(detIdStub);
       Global3DPoint posStub = theGeomDet->surface().toGlobal( theGeomDet->topology().localPosition(coords) );
 
       double x=posStub.x();
@@ -1265,13 +1279,16 @@ void MuonHLTNtupler::Fill_L1Track(const edm::Event &iEvent, const edm::EventSetu
       int layer=-999999;
       if ( detIdStub.subdetId()==StripSubdetector::TOB ) {
         isBarrel = 1;
-        layer  = static_cast<int>(tTopo->layer(detIdStub));
+        // ----- 220718 fix ----
+        //layer  = static_cast<int>(tTopo->layer(detIdStub));
+        layer  = static_cast<int>(_trackerTopology->layer(detIdStub));
         if (DebugMode) cout << "   stub in layer " << layer << " at position x y z = " << x << " " << y << " " << z << endl;
         tmp_trk_lhits+=pow(10,layer-1);
       }
       else if ( detIdStub.subdetId()==StripSubdetector::TID ) {
         isBarrel = 0;
-        layer  = static_cast<int>(tTopo->layer(detIdStub));
+        //layer  = static_cast<int>(tTopo->layer(detIdStub));
+        layer  = static_cast<int>(_trackerTopology->layer(detIdStub));
         if (DebugMode) cout << "   stub in disk " << layer << " at position x y z = " << x << " " << y << " " << z << endl;
         tmp_trk_dhits+=pow(10,layer-1);
       }
@@ -2051,8 +2068,8 @@ void MuonHLTNtupler::Fill_IterL3(const edm::Event &iEvent, const edm::EventSetup
   //////////////////////////
   // -- Tracks from each algo -- //
   //////////////////////////
-  edm::ESHandle<TrackerGeometry> tracker;
-  iSetup.get<TrackerDigiGeometryRecord>().get(tracker);
+  //edm::ESHandle<TrackerGeometry> tracker;
+  //iSetup.get<TrackerDigiGeometryRecord>().get(tracker);
 
   if(doMVA) {
     // fill_trackTemplateMva(iEvent, t_hltIterL3OIMuonTrack_,          theAssociator, TPCollection, tracker, mvaHltIterL3OISeedsFromL2Muons_,                       hltIterL3OIMuonTrackMap,         TThltIterL3OIMuonTrack);
@@ -2060,185 +2077,185 @@ void MuonHLTNtupler::Fill_IterL3(const edm::Event &iEvent, const edm::EventSetup
     // fill_trackTemplateMva(iEvent, t_hltIter2IterL3MuonTrack_,       theAssociator, TPCollection, tracker, mvaHltIter2IterL3MuonPixelSeeds_,                      hltIter2IterL3MuonTrackMap,      TThltIter2IterL3MuonTrack);
     // fill_trackTemplateMva(iEvent, t_hltIter3IterL3MuonTrack_,       theAssociator, TPCollection, tracker, mvaHltIter3IterL3MuonPixelSeeds_,                      hltIter3IterL3MuonTrackMap,      TThltIter3IterL3MuonTrack);
     // fill_trackTemplateMva(iEvent, t_hltIter0IterL3FromL1MuonTrack_, theAssociator, TPCollection, tracker, mvaHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_, hltIter0IterL3FromL1MuonTrackMap,TThltIter0IterL3FromL1MuonTrack);
-    fill_trackTemplateMva(iEvent, t_hltIter2IterL3FromL1MuonTrack_, theAssociator, TPCollection, tracker, mvaHltIter2IterL3FromL1MuonPixelSeeds_,                hltIter2IterL3FromL1MuonTrackMap,TThltIter2IterL3FromL1MuonTrack);
+    fill_trackTemplateMva(iEvent, t_hltIter2IterL3FromL1MuonTrack_, theAssociator, TPCollection, _trackerGeometry, mvaHltIter2IterL3FromL1MuonPixelSeeds_,                hltIter2IterL3FromL1MuonTrackMap,TThltIter2IterL3FromL1MuonTrack);
     // fill_trackTemplateMva(iEvent, t_hltIter3IterL3FromL1MuonTrack_, theAssociator, TPCollection, tracker, mvaHltIter3IterL3FromL1MuonPixelSeeds_,                hltIter3IterL3FromL1MuonTrackMap,TThltIter3IterL3FromL1MuonTrack);
   }
 }
 
-void MuonHLTNtupler::Fill_Seed(const edm::Event &iEvent, const edm::EventSetup &iSetup)
-{
-  // TrackerHitAssociator associate(iEvent, trackerHitAssociatorConfig_);
-  edm::ESHandle<TrackerGeometry> tracker;
-  iSetup.get<TrackerDigiGeometryRecord>().get(tracker);
+// void MuonHLTNtupler::Fill_Seed(const edm::Event &iEvent, const edm::EventSetup &iSetup)
+// {
+//   // TrackerHitAssociator associate(iEvent, trackerHitAssociatorConfig_);
+//   edm::ESHandle<TrackerGeometry> tracker;
+//   iSetup.get<TrackerDigiGeometryRecord>().get(tracker);
 
-  //////////////////////////
-  // -- hltIterL3OISeedsFromL2Muons -- //
-  //////////////////////////
-  edm::Handle< TrajectorySeedCollection > h_hltIterL3OISeedsFromL2Muons;
-  if( iEvent.getByToken( t_hltIterL3OISeedsFromL2Muons_, h_hltIterL3OISeedsFromL2Muons) )
-  {
-    for( auto i=0U; i<h_hltIterL3OISeedsFromL2Muons->size(); ++i )
-    {
-      const auto& seed(h_hltIterL3OISeedsFromL2Muons->at(i));
+//   //////////////////////////
+//   // -- hltIterL3OISeedsFromL2Muons -- //
+//   //////////////////////////
+//   edm::Handle< TrajectorySeedCollection > h_hltIterL3OISeedsFromL2Muons;
+//   if( iEvent.getByToken( t_hltIterL3OISeedsFromL2Muons_, h_hltIterL3OISeedsFromL2Muons) )
+//   {
+//     for( auto i=0U; i<h_hltIterL3OISeedsFromL2Muons->size(); ++i )
+//     {
+//       const auto& seed(h_hltIterL3OISeedsFromL2Muons->at(i));
 
-      SThltIterL3OISeedsFromL2Muons->fill(seed, tracker);
+//       SThltIterL3OISeedsFromL2Muons->fill(seed, tracker);
 
-      tmpTSOD seedTsod(seed.startingState());
-      std::map<tmpTSOD,unsigned int>::const_iterator where = MuonIterSeedMap.find(seedTsod);
-      SThltIterL3OISeedsFromL2Muons->linkIterL3((where==MuonIterSeedMap.end()) ? -1 : MuonIterSeedMap[seedTsod]);
+//       tmpTSOD seedTsod(seed.startingState());
+//       std::map<tmpTSOD,unsigned int>::const_iterator where = MuonIterSeedMap.find(seedTsod);
+//       SThltIterL3OISeedsFromL2Muons->linkIterL3((where==MuonIterSeedMap.end()) ? -1 : MuonIterSeedMap[seedTsod]);
 
-      std::map<tmpTSOD,unsigned int>::const_iterator where2 = hltIterL3OIMuonTrackMap.find(seedTsod);
-      SThltIterL3OISeedsFromL2Muons->linktmpL3((where2==hltIterL3OIMuonTrackMap.end()) ? -1 : hltIterL3OIMuonTrackMap[seedTsod]);
-      SThltIterL3OISeedsFromL2Muons->matchingL3((where2==hltIterL3OIMuonTrackMap.end()) ? -1 : TThltIterL3OIMuonTrack->matchedIDpassedL3(hltIterL3OIMuonTrackMap[seedTsod]));
+//       std::map<tmpTSOD,unsigned int>::const_iterator where2 = hltIterL3OIMuonTrackMap.find(seedTsod);
+//       SThltIterL3OISeedsFromL2Muons->linktmpL3((where2==hltIterL3OIMuonTrackMap.end()) ? -1 : hltIterL3OIMuonTrackMap[seedTsod]);
+//       SThltIterL3OISeedsFromL2Muons->matchingL3((where2==hltIterL3OIMuonTrackMap.end()) ? -1 : TThltIterL3OIMuonTrack->matchedIDpassedL3(hltIterL3OIMuonTrackMap[seedTsod]));
 
-      // std::cout << "OI RecHit loop start" << std::endl;
-      // for (auto rechit = seed.recHits().first; rechit != seed.recHits().second; ++rechit) {
-      //   // std::cout << "OI RecHit is valid : " << rechit->isValid() << std::endl;
-      //   auto matched = associate.associateHit(*rechit);
-      //   // std::cout << "OI Matched RecHit size = " << matched.size() << std::endl;
-      // }
-    } // -- end of seed iteration
-  } // -- if getByToken is valid
+//       // std::cout << "OI RecHit loop start" << std::endl;
+//       // for (auto rechit = seed.recHits().first; rechit != seed.recHits().second; ++rechit) {
+//       //   // std::cout << "OI RecHit is valid : " << rechit->isValid() << std::endl;
+//       //   auto matched = associate.associateHit(*rechit);
+//       //   // std::cout << "OI Matched RecHit size = " << matched.size() << std::endl;
+//       // }
+//     } // -- end of seed iteration
+//   } // -- if getByToken is valid
 
-  //////////////////////////
-  // -- hltIter0IterL3MuonPixelSeedsFromPixelTracks -- //
-  //////////////////////////
-  edm::Handle< TrajectorySeedCollection > h_hltIter0IterL3MuonPixelSeedsFromPixelTracks;
-  if( iEvent.getByToken( t_hltIter0IterL3MuonPixelSeedsFromPixelTracks_, h_hltIter0IterL3MuonPixelSeedsFromPixelTracks) )
-  {
-    for( auto i=0U; i<h_hltIter0IterL3MuonPixelSeedsFromPixelTracks->size(); ++i )
-    {
-      const auto& seed(h_hltIter0IterL3MuonPixelSeedsFromPixelTracks->at(i));
+//   //////////////////////////
+//   // -- hltIter0IterL3MuonPixelSeedsFromPixelTracks -- //
+//   //////////////////////////
+//   edm::Handle< TrajectorySeedCollection > h_hltIter0IterL3MuonPixelSeedsFromPixelTracks;
+//   if( iEvent.getByToken( t_hltIter0IterL3MuonPixelSeedsFromPixelTracks_, h_hltIter0IterL3MuonPixelSeedsFromPixelTracks) )
+//   {
+//     for( auto i=0U; i<h_hltIter0IterL3MuonPixelSeedsFromPixelTracks->size(); ++i )
+//     {
+//       const auto& seed(h_hltIter0IterL3MuonPixelSeedsFromPixelTracks->at(i));
 
-      SThltIter0IterL3MuonPixelSeedsFromPixelTracks->fill(seed, tracker);
+//       SThltIter0IterL3MuonPixelSeedsFromPixelTracks->fill(seed, tracker);
 
-      tmpTSOD seedTsod(seed.startingState());
-      std::map<tmpTSOD,unsigned int>::const_iterator where = MuonIterSeedMap.find(seedTsod);
-      SThltIter0IterL3MuonPixelSeedsFromPixelTracks->linkIterL3((where==MuonIterSeedMap.end()) ? -1 : MuonIterSeedMap[seedTsod]);
+//       tmpTSOD seedTsod(seed.startingState());
+//       std::map<tmpTSOD,unsigned int>::const_iterator where = MuonIterSeedMap.find(seedTsod);
+//       SThltIter0IterL3MuonPixelSeedsFromPixelTracks->linkIterL3((where==MuonIterSeedMap.end()) ? -1 : MuonIterSeedMap[seedTsod]);
 
-      std::map<tmpTSOD,unsigned int>::const_iterator where2 = hltIter0IterL3MuonTrackMap.find(seedTsod);
-      SThltIter0IterL3MuonPixelSeedsFromPixelTracks->linktmpL3((where2==hltIter0IterL3MuonTrackMap.end()) ? -1 : hltIter0IterL3MuonTrackMap[seedTsod]);
-      SThltIter0IterL3MuonPixelSeedsFromPixelTracks->matchingL3((where2==hltIter0IterL3MuonTrackMap.end()) ? -1 : TThltIter0IterL3MuonTrack->matchedIDpassedL3(hltIter0IterL3MuonTrackMap[seedTsod]));
+//       std::map<tmpTSOD,unsigned int>::const_iterator where2 = hltIter0IterL3MuonTrackMap.find(seedTsod);
+//       SThltIter0IterL3MuonPixelSeedsFromPixelTracks->linktmpL3((where2==hltIter0IterL3MuonTrackMap.end()) ? -1 : hltIter0IterL3MuonTrackMap[seedTsod]);
+//       SThltIter0IterL3MuonPixelSeedsFromPixelTracks->matchingL3((where2==hltIter0IterL3MuonTrackMap.end()) ? -1 : TThltIter0IterL3MuonTrack->matchedIDpassedL3(hltIter0IterL3MuonTrackMap[seedTsod]));
 
-      // std::cout << "IO RecHit loop start" << std::endl;
-      // for (auto rechit = seed.recHits().first; rechit != seed.recHits().second; ++rechit) {
-      //   // std::cout << "IO RecHit is valid : " << rechit->isValid() << std::endl;
-      //   auto matched = associate.associateHit(*rechit);
-      //   // std::cout << "IO Matched RecHit size = " << matched.size() << std::endl;
-      // }
-    } // -- end of seed iteration
-  } // -- if getByToken is valid
+//       // std::cout << "IO RecHit loop start" << std::endl;
+//       // for (auto rechit = seed.recHits().first; rechit != seed.recHits().second; ++rechit) {
+//       //   // std::cout << "IO RecHit is valid : " << rechit->isValid() << std::endl;
+//       //   auto matched = associate.associateHit(*rechit);
+//       //   // std::cout << "IO Matched RecHit size = " << matched.size() << std::endl;
+//       // }
+//     } // -- end of seed iteration
+//   } // -- if getByToken is valid
 
-  //////////////////////////
-  // -- hltIter2IterL3MuonPixelSeeds -- //
-  //////////////////////////
-  edm::Handle< TrajectorySeedCollection > h_hltIter2IterL3MuonPixelSeeds;
-  if( iEvent.getByToken( t_hltIter2IterL3MuonPixelSeeds_, h_hltIter2IterL3MuonPixelSeeds) )
-  {
-    for( auto i=0U; i<h_hltIter2IterL3MuonPixelSeeds->size(); ++i )
-    {
-      const auto& seed(h_hltIter2IterL3MuonPixelSeeds->at(i));
+//   //////////////////////////
+//   // -- hltIter2IterL3MuonPixelSeeds -- //
+//   //////////////////////////
+//   edm::Handle< TrajectorySeedCollection > h_hltIter2IterL3MuonPixelSeeds;
+//   if( iEvent.getByToken( t_hltIter2IterL3MuonPixelSeeds_, h_hltIter2IterL3MuonPixelSeeds) )
+//   {
+//     for( auto i=0U; i<h_hltIter2IterL3MuonPixelSeeds->size(); ++i )
+//     {
+//       const auto& seed(h_hltIter2IterL3MuonPixelSeeds->at(i));
 
-      SThltIter2IterL3MuonPixelSeeds->fill(seed, tracker);
+//       SThltIter2IterL3MuonPixelSeeds->fill(seed, tracker);
 
-      tmpTSOD seedTsod(seed.startingState());
-      std::map<tmpTSOD,unsigned int>::const_iterator where = MuonIterSeedMap.find(seedTsod);
-      SThltIter2IterL3MuonPixelSeeds->linkIterL3((where==MuonIterSeedMap.end()) ? -1 : MuonIterSeedMap[seedTsod]);
+//       tmpTSOD seedTsod(seed.startingState());
+//       std::map<tmpTSOD,unsigned int>::const_iterator where = MuonIterSeedMap.find(seedTsod);
+//       SThltIter2IterL3MuonPixelSeeds->linkIterL3((where==MuonIterSeedMap.end()) ? -1 : MuonIterSeedMap[seedTsod]);
 
-      std::map<tmpTSOD,unsigned int>::const_iterator where2 = hltIter2IterL3MuonTrackMap.find(seedTsod);
-      SThltIter2IterL3MuonPixelSeeds->linktmpL3((where2==hltIter2IterL3MuonTrackMap.end()) ? -1 : hltIter2IterL3MuonTrackMap[seedTsod]);
-      SThltIter2IterL3MuonPixelSeeds->matchingL3((where2==hltIter2IterL3MuonTrackMap.end()) ? -1 : TThltIter2IterL3MuonTrack->matchedIDpassedL3(hltIter2IterL3MuonTrackMap[seedTsod]));
-    } // -- end of seed iteration
-  } // -- if getByToken is valid
+//       std::map<tmpTSOD,unsigned int>::const_iterator where2 = hltIter2IterL3MuonTrackMap.find(seedTsod);
+//       SThltIter2IterL3MuonPixelSeeds->linktmpL3((where2==hltIter2IterL3MuonTrackMap.end()) ? -1 : hltIter2IterL3MuonTrackMap[seedTsod]);
+//       SThltIter2IterL3MuonPixelSeeds->matchingL3((where2==hltIter2IterL3MuonTrackMap.end()) ? -1 : TThltIter2IterL3MuonTrack->matchedIDpassedL3(hltIter2IterL3MuonTrackMap[seedTsod]));
+//     } // -- end of seed iteration
+//   } // -- if getByToken is valid
 
-  //////////////////////////
-  // -- hltIter3IterL3MuonPixelSeeds -- //
-  //////////////////////////
-  edm::Handle< TrajectorySeedCollection > h_hltIter3IterL3MuonPixelSeeds;
-  if( iEvent.getByToken( t_hltIter3IterL3MuonPixelSeeds_, h_hltIter3IterL3MuonPixelSeeds) )
-  {
-    for( auto i=0U; i<h_hltIter3IterL3MuonPixelSeeds->size(); ++i )
-    {
-      const auto& seed(h_hltIter3IterL3MuonPixelSeeds->at(i));
+//   //////////////////////////
+//   // -- hltIter3IterL3MuonPixelSeeds -- //
+//   //////////////////////////
+//   edm::Handle< TrajectorySeedCollection > h_hltIter3IterL3MuonPixelSeeds;
+//   if( iEvent.getByToken( t_hltIter3IterL3MuonPixelSeeds_, h_hltIter3IterL3MuonPixelSeeds) )
+//   {
+//     for( auto i=0U; i<h_hltIter3IterL3MuonPixelSeeds->size(); ++i )
+//     {
+//       const auto& seed(h_hltIter3IterL3MuonPixelSeeds->at(i));
 
-      SThltIter3IterL3MuonPixelSeeds->fill(seed, tracker);
+//       SThltIter3IterL3MuonPixelSeeds->fill(seed, tracker);
 
-      tmpTSOD seedTsod(seed.startingState());
-      std::map<tmpTSOD,unsigned int>::const_iterator where = MuonIterSeedMap.find(seedTsod);
-      SThltIter3IterL3MuonPixelSeeds->linkIterL3((where==MuonIterSeedMap.end()) ? -1 : MuonIterSeedMap[seedTsod]);
+//       tmpTSOD seedTsod(seed.startingState());
+//       std::map<tmpTSOD,unsigned int>::const_iterator where = MuonIterSeedMap.find(seedTsod);
+//       SThltIter3IterL3MuonPixelSeeds->linkIterL3((where==MuonIterSeedMap.end()) ? -1 : MuonIterSeedMap[seedTsod]);
 
-      std::map<tmpTSOD,unsigned int>::const_iterator where2 = hltIter3IterL3MuonTrackMap.find(seedTsod);
-      SThltIter3IterL3MuonPixelSeeds->linktmpL3((where2==hltIter3IterL3MuonTrackMap.end()) ? -1 : hltIter3IterL3MuonTrackMap[seedTsod]);
-      SThltIter3IterL3MuonPixelSeeds->matchingL3((where2==hltIter3IterL3MuonTrackMap.end()) ? -1 : TThltIter3IterL3MuonTrack->matchedIDpassedL3(hltIter3IterL3MuonTrackMap[seedTsod]));
-    } // -- end of seed iteration
-  } // -- if getByToken is valid
+//       std::map<tmpTSOD,unsigned int>::const_iterator where2 = hltIter3IterL3MuonTrackMap.find(seedTsod);
+//       SThltIter3IterL3MuonPixelSeeds->linktmpL3((where2==hltIter3IterL3MuonTrackMap.end()) ? -1 : hltIter3IterL3MuonTrackMap[seedTsod]);
+//       SThltIter3IterL3MuonPixelSeeds->matchingL3((where2==hltIter3IterL3MuonTrackMap.end()) ? -1 : TThltIter3IterL3MuonTrack->matchedIDpassedL3(hltIter3IterL3MuonTrackMap[seedTsod]));
+//     } // -- end of seed iteration
+//   } // -- if getByToken is valid
 
-  //////////////////////////
-  // -- hltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks -- //
-  //////////////////////////
-  edm::Handle< TrajectorySeedCollection > h_hltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks;
-  if( iEvent.getByToken( t_hltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_, h_hltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks) )
-  {
-    for( auto i=0U; i<h_hltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks->size(); ++i )
-    {
-      const auto& seed(h_hltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks->at(i));
+//   //////////////////////////
+//   // -- hltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks -- //
+//   //////////////////////////
+//   edm::Handle< TrajectorySeedCollection > h_hltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks;
+//   if( iEvent.getByToken( t_hltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_, h_hltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks) )
+//   {
+//     for( auto i=0U; i<h_hltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks->size(); ++i )
+//     {
+//       const auto& seed(h_hltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks->at(i));
 
-      SThltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks->fill(seed, tracker);
+//       SThltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks->fill(seed, tracker);
 
-      tmpTSOD seedTsod(seed.startingState());
-      std::map<tmpTSOD,unsigned int>::const_iterator where = MuonIterSeedMap.find(seedTsod);
-      SThltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks->linkIterL3((where==MuonIterSeedMap.end()) ? -1 : MuonIterSeedMap[seedTsod]);
+//       tmpTSOD seedTsod(seed.startingState());
+//       std::map<tmpTSOD,unsigned int>::const_iterator where = MuonIterSeedMap.find(seedTsod);
+//       SThltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks->linkIterL3((where==MuonIterSeedMap.end()) ? -1 : MuonIterSeedMap[seedTsod]);
 
-      std::map<tmpTSOD,unsigned int>::const_iterator where2 = hltIter0IterL3FromL1MuonTrackMap.find(seedTsod);
-      SThltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks->linktmpL3((where2==hltIter0IterL3FromL1MuonTrackMap.end()) ? -1 : hltIter0IterL3FromL1MuonTrackMap[seedTsod]);
-      SThltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks->matchingL3((where2==hltIter0IterL3FromL1MuonTrackMap.end()) ? -1 : TThltIter0IterL3FromL1MuonTrack->matchedIDpassedL3(hltIter0IterL3FromL1MuonTrackMap[seedTsod]));
-    } // -- end of seed iteration
-  } // -- if getByToken is valid
+//       std::map<tmpTSOD,unsigned int>::const_iterator where2 = hltIter0IterL3FromL1MuonTrackMap.find(seedTsod);
+//       SThltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks->linktmpL3((where2==hltIter0IterL3FromL1MuonTrackMap.end()) ? -1 : hltIter0IterL3FromL1MuonTrackMap[seedTsod]);
+//       SThltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks->matchingL3((where2==hltIter0IterL3FromL1MuonTrackMap.end()) ? -1 : TThltIter0IterL3FromL1MuonTrack->matchedIDpassedL3(hltIter0IterL3FromL1MuonTrackMap[seedTsod]));
+//     } // -- end of seed iteration
+//   } // -- if getByToken is valid
 
-  //////////////////////////
-  // -- hltIter2IterL3FromL1MuonPixelSeeds -- //
-  //////////////////////////
-  edm::Handle< TrajectorySeedCollection > h_hltIter2IterL3FromL1MuonPixelSeeds;
-  if( iEvent.getByToken( t_hltIter2IterL3FromL1MuonPixelSeeds_, h_hltIter2IterL3FromL1MuonPixelSeeds) )
-  {
-    for( auto i=0U; i<h_hltIter2IterL3FromL1MuonPixelSeeds->size(); ++i )
-    {
-      const auto& seed(h_hltIter2IterL3FromL1MuonPixelSeeds->at(i));
+//   //////////////////////////
+//   // -- hltIter2IterL3FromL1MuonPixelSeeds -- //
+//   //////////////////////////
+//   edm::Handle< TrajectorySeedCollection > h_hltIter2IterL3FromL1MuonPixelSeeds;
+//   if( iEvent.getByToken( t_hltIter2IterL3FromL1MuonPixelSeeds_, h_hltIter2IterL3FromL1MuonPixelSeeds) )
+//   {
+//     for( auto i=0U; i<h_hltIter2IterL3FromL1MuonPixelSeeds->size(); ++i )
+//     {
+//       const auto& seed(h_hltIter2IterL3FromL1MuonPixelSeeds->at(i));
 
-      SThltIter2IterL3FromL1MuonPixelSeeds->fill(seed, tracker);
+//       SThltIter2IterL3FromL1MuonPixelSeeds->fill(seed, tracker);
 
-      tmpTSOD seedTsod(seed.startingState());
-      std::map<tmpTSOD,unsigned int>::const_iterator where = MuonIterSeedMap.find(seedTsod);
-      SThltIter2IterL3FromL1MuonPixelSeeds->linkIterL3((where==MuonIterSeedMap.end()) ? -1 : MuonIterSeedMap[seedTsod]);
+//       tmpTSOD seedTsod(seed.startingState());
+//       std::map<tmpTSOD,unsigned int>::const_iterator where = MuonIterSeedMap.find(seedTsod);
+//       SThltIter2IterL3FromL1MuonPixelSeeds->linkIterL3((where==MuonIterSeedMap.end()) ? -1 : MuonIterSeedMap[seedTsod]);
 
-      std::map<tmpTSOD,unsigned int>::const_iterator where2 = hltIter2IterL3FromL1MuonTrackMap.find(seedTsod);
-      SThltIter2IterL3FromL1MuonPixelSeeds->linktmpL3((where2==hltIter2IterL3FromL1MuonTrackMap.end()) ? -1 : hltIter2IterL3FromL1MuonTrackMap[seedTsod]);
-      SThltIter2IterL3FromL1MuonPixelSeeds->matchingL3((where2==hltIter2IterL3FromL1MuonTrackMap.end()) ? -1 : TThltIter2IterL3FromL1MuonTrack->matchedIDpassedL3(hltIter2IterL3FromL1MuonTrackMap[seedTsod]));
-    } // -- end of seed iteration
-  } // -- if getByToken is valid
+//       std::map<tmpTSOD,unsigned int>::const_iterator where2 = hltIter2IterL3FromL1MuonTrackMap.find(seedTsod);
+//       SThltIter2IterL3FromL1MuonPixelSeeds->linktmpL3((where2==hltIter2IterL3FromL1MuonTrackMap.end()) ? -1 : hltIter2IterL3FromL1MuonTrackMap[seedTsod]);
+//       SThltIter2IterL3FromL1MuonPixelSeeds->matchingL3((where2==hltIter2IterL3FromL1MuonTrackMap.end()) ? -1 : TThltIter2IterL3FromL1MuonTrack->matchedIDpassedL3(hltIter2IterL3FromL1MuonTrackMap[seedTsod]));
+//     } // -- end of seed iteration
+//   } // -- if getByToken is valid
 
-  //////////////////////////
-  // -- hltIter3IterL3FromL1MuonPixelSeeds -- //
-  //////////////////////////
-  edm::Handle< TrajectorySeedCollection > h_hltIter3IterL3FromL1MuonPixelSeeds;
-  if( iEvent.getByToken( t_hltIter3IterL3FromL1MuonPixelSeeds_, h_hltIter3IterL3FromL1MuonPixelSeeds) )
-  {
-    for( auto i=0U; i<h_hltIter3IterL3FromL1MuonPixelSeeds->size(); ++i )
-    {
-      const auto& seed(h_hltIter3IterL3FromL1MuonPixelSeeds->at(i));
+//   //////////////////////////
+//   // -- hltIter3IterL3FromL1MuonPixelSeeds -- //
+//   //////////////////////////
+//   edm::Handle< TrajectorySeedCollection > h_hltIter3IterL3FromL1MuonPixelSeeds;
+//   if( iEvent.getByToken( t_hltIter3IterL3FromL1MuonPixelSeeds_, h_hltIter3IterL3FromL1MuonPixelSeeds) )
+//   {
+//     for( auto i=0U; i<h_hltIter3IterL3FromL1MuonPixelSeeds->size(); ++i )
+//     {
+//       const auto& seed(h_hltIter3IterL3FromL1MuonPixelSeeds->at(i));
 
-      SThltIter3IterL3FromL1MuonPixelSeeds->fill(seed, tracker);
+//       SThltIter3IterL3FromL1MuonPixelSeeds->fill(seed, tracker);
 
-      tmpTSOD seedTsod(seed.startingState());
-      std::map<tmpTSOD,unsigned int>::const_iterator where = MuonIterSeedMap.find(seedTsod);
-      SThltIter3IterL3FromL1MuonPixelSeeds->linkIterL3((where==MuonIterSeedMap.end()) ? -1 : MuonIterSeedMap[seedTsod]);
+//       tmpTSOD seedTsod(seed.startingState());
+//       std::map<tmpTSOD,unsigned int>::const_iterator where = MuonIterSeedMap.find(seedTsod);
+//       SThltIter3IterL3FromL1MuonPixelSeeds->linkIterL3((where==MuonIterSeedMap.end()) ? -1 : MuonIterSeedMap[seedTsod]);
 
-      std::map<tmpTSOD,unsigned int>::const_iterator where2 = hltIter3IterL3FromL1MuonTrackMap.find(seedTsod);
-      SThltIter3IterL3FromL1MuonPixelSeeds->linktmpL3((where2==hltIter3IterL3FromL1MuonTrackMap.end()) ? -1 : hltIter3IterL3FromL1MuonTrackMap[seedTsod]);
-      SThltIter3IterL3FromL1MuonPixelSeeds->matchingL3((where2==hltIter3IterL3FromL1MuonTrackMap.end()) ? -1 : TThltIter3IterL3FromL1MuonTrack->matchedIDpassedL3(hltIter3IterL3FromL1MuonTrackMap[seedTsod]));
-    } // -- end of seed iteration
-  } // -- if getByToken is valid
-}
+//       std::map<tmpTSOD,unsigned int>::const_iterator where2 = hltIter3IterL3FromL1MuonTrackMap.find(seedTsod);
+//       SThltIter3IterL3FromL1MuonPixelSeeds->linktmpL3((where2==hltIter3IterL3FromL1MuonTrackMap.end()) ? -1 : hltIter3IterL3FromL1MuonTrackMap[seedTsod]);
+//       SThltIter3IterL3FromL1MuonPixelSeeds->matchingL3((where2==hltIter3IterL3FromL1MuonTrackMap.end()) ? -1 : TThltIter3IterL3FromL1MuonTrack->matchedIDpassedL3(hltIter3IterL3FromL1MuonTrackMap[seedTsod]));
+//     } // -- end of seed iteration
+//   } // -- if getByToken is valid
+// }
 
 void MuonHLTNtupler::Fill_TP( const edm::Event &iEvent, tpTemplate* tpTmp )
 {
@@ -2437,7 +2454,8 @@ void MuonHLTNtupler::fill_trackTemplateMva(
   edm::EDGetTokenT<edm::View<reco::Track>>& theToken,
   edm::Handle<reco::TrackToTrackingParticleAssociator>& theAssociator_,
   edm::Handle<TrackingParticleCollection>& TPCollection_,
-  edm::ESHandle<TrackerGeometry>& tracker,
+  //edm::ESHandle<TrackerGeometry>& tracker,
+  const TrackerGeometry* tracker,
   pairSeedMvaEstimator pairMvaEstimator,
   std::map<tmpTSOD,unsigned int>& trkMap,
   trkTemplate* TTtrack

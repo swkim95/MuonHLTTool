@@ -1,7 +1,8 @@
 // -- ntuple maker for Muon HLT study
 // -- author: Kyeongpil Lee (Seoul National University, kplee@cern.ch)
 
-#include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/Framework/interface/one/EDAnalyzer.h"
+//#include "FWCore/Framework/interface/EDAnalyzer.h"
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/ServiceRegistry/interface/Service.h"
@@ -10,6 +11,9 @@
 #include "FWCore/Framework/interface/ConsumesCollector.h"
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/Framework/interface/EventSetup.h"
+#include "FWCore/Utilities/interface/ESGetToken.h"
+#include "FWCore/Utilities/interface/ESInputTag.h"
+
 
 #include "DataFormats/Common/interface/Handle.h"
 #include "DataFormats/Common/interface/Ref.h"
@@ -104,7 +108,7 @@ using namespace std;
 using namespace reco;
 using namespace edm;
 
-class MuonHLTNtupler : public edm::EDAnalyzer
+class MuonHLTNtupler : public edm::one::EDAnalyzer<>
 {
 public:
   MuonHLTNtupler(const edm::ParameterSet &iConfig);
@@ -128,7 +132,7 @@ private:
 
   //For Rerun (Fill_IterL3*)
   void Fill_IterL3(const edm::Event &iEvent, const edm::EventSetup &iSetup);
-  void Fill_Seed(const edm::Event &iEvent, const edm::EventSetup &iSetup);
+  //void Fill_Seed(const edm::Event &iEvent, const edm::EventSetup &iSetup);
 
   bool SavedTriggerCondition( std::string& pathName );
   bool SavedFilterCondition( std::string& filterName );
@@ -196,6 +200,10 @@ private:
   edm::EDGetTokenT< GenEventInfoProduct >                    t_genEventInfo_;
   edm::EDGetTokenT< reco::GenParticleCollection >            t_genParticle_;
 
+  // ----- 220718 fix ----
+  const edm::ESGetToken<TrackerTopology, TrackerTopologyRcd> trackerTopologyESToken_;
+  const edm::ESGetToken<TrackerGeometry, TrackerDigiGeometryRecord> trackerGeometryESToken_;
+
   std::vector<std::string>   trackCollectionNames_;
   std::vector<edm::InputTag> trackCollectionLabels_;
   std::vector<edm::InputTag> associationLabels_;
@@ -210,6 +218,10 @@ private:
   std::vector<edm::InputTag> pfIsoLabels_;
   std::vector<edm::EDGetTokenT<reco::RecoChargedCandidateIsolationMap>> pfIsoTokens_;
 
+  // ----- 220718 fix ----
+  const TrackerTopology* _trackerTopology;
+  const TrackerGeometry* _trackerGeometry;
+  
   typedef std::vector< std::pair<SeedMvaEstimator*, SeedMvaEstimator*> > pairSeedMvaEstimator;
 
   TTree *ntuple_;
@@ -1479,7 +1491,8 @@ private:
     edm::EDGetTokenT<edm::View<reco::Track>>& theToken,
     edm::Handle<reco::TrackToTrackingParticleAssociator>& theAssociator_,
     edm::Handle<TrackingParticleCollection>& TPCollection_,
-    edm::ESHandle<TrackerGeometry>& tracker,
+    //edm::ESHandle<TrackerGeometry>& tracker,
+    const TrackerGeometry* tracker,
     pairSeedMvaEstimator pairMvaEstimator,
     std::map<tmpTSOD,unsigned int>& trkMap,
     trkTemplate* TTtrack

@@ -1,0 +1,64 @@
+available crabDir list: 
+'crab_PU200-MuonGun_L3FromL1TkMuon_20220718',
+
+
+# of CRAB dirs :  1
+
+--------------------------------------------------
+Name:crab_PU200-MuonGun_L3FromL1TkMuon_20220718
+task:220718_101346
+nJobs=313
+CRAB project directory:		/afs/cern.ch/user/s/sungwon/private/MuonHLT_ML/Multi_CMSSW_12_2nd/CMSSW_12_4_0/src/MuonHLTTool/MuonHLTNtupler/test/test_DiMuon/crab_PhaseII_CMSSW_12_4_0_20220718/crab_PU200-MuonGun_L3FromL1TkMuon_20220718
+Task name:			220718_101346:sungwon_crab_PU200-MuonGun_L3FromL1TkMuon_20220718
+Grid scheduler - Task Worker:	crab3@vocms0119.cern.ch - crab-prod-tw01
+Status on the CRAB server:	SUBMITTED
+Task URL to use for HELP:	https://cmsweb.cern.ch/crabserver/ui/task/220718_101346%3Asungwon_crab_PU200-MuonGun_L3FromL1TkMuon_20220718
+Dashboard monitoring URL:	https://monit-grafana.cern.ch/d/cmsTMDetail/cms-task-monitoring-task-view?orgId=11&var-user=sungwon&var-task=220718_101346%3Asungwon_crab_PU200-MuonGun_L3FromL1TkMuon_20220718&from=1658135627000&to=now
+Warning:			Task requests 4000 MB of memory, but only 2500 MB are guaranteed to be available. Jobs may not find a site where to run and stay idle forever.
+Status on the scheduler:	SUBMITTED
+
+Jobs status:                    failed       		  4.2% ( 13/313)
+				finished     		 61.7% (193/313)
+				idle         		  1.0% (  3/313)
+				running      		 26.8% ( 84/313)
+				transferring 		  6.4% ( 20/313)
+
+No publication information (publication has been disabled in the CRAB configuration file)
+
+Error Summary: (use crab status --verboseErrors for details about the errors)
+
+ 12 jobs failed with exit code 50115
+
+Could not find exit code details for 1 jobs.
+
+Have a look at https://twiki.cern.ch/twiki/bin/viewauth/CMSPublic/JobExitCodes for a description of the exit codes.
+
+Warning: the max jobs memory is less than 70% of the task requested value (4000 MB), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Warning: the max jobs runtime is less than 30% of the task requested value (2750 min), please consider to request a lower value for failed jobs (allowed through crab resubmit) and/or improve the jobs splitting (e.g. config.Data.splitting = 'Automatic') in a new task.
+
+Summary of run jobs:
+ * Memory: 0MB min, 2709MB max, 2258MB ave
+ * Runtime: 0:00:00 min, 4:40:08 max, 1:46:04 ave
+ * CPU eff: 26% min, 171% max, 57% ave
+ * Waste: 127:41:38 (24% of total)
+
+Log file is /afs/cern.ch/user/s/sungwon/private/MuonHLT_ML/Multi_CMSSW_12_2nd/CMSSW_12_4_0/src/MuonHLTTool/MuonHLTNtupler/test/test_DiMuon/crab_PhaseII_CMSSW_12_4_0_20220718/crab_PU200-MuonGun_L3FromL1TkMuon_20220718/crab.log
+Pending jobs: 1
+
+
+#--SUMMARY --#
+
+[Pending > 60\%]
+
+[Pending > 80\%]
+
+[Completed list]
+
+[Failed list]
+crab_PU200-MuonGun_L3FromL1TkMuon_20220718
+Sending resubmit request to the server.
+Resubmit request sent to the server.
+Please use ' crab status ' to check how the resubmission process proceeds.
+Notice it may take a couple of minutes for the resubmission to get fully processed.
+Log file is /afs/cern.ch/user/s/sungwon/private/MuonHLT_ML/Multi_CMSSW_12_2nd/CMSSW_12_4_0/src/MuonHLTTool/MuonHLTNtupler/test/test_DiMuon/crab_PhaseII_CMSSW_12_4_0_20220718/crab_PU200-MuonGun_L3FromL1TkMuon_20220718/crab.log
