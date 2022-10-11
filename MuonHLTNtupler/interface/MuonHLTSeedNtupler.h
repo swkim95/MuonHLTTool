@@ -1,7 +1,8 @@
 // -- ntuple maker for Muon HLT study
 // -- author: Kyeongpil Lee (Seoul National University, kplee@cern.ch)
 
-#include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/Framework/interface/one/EDAnalyzer.h"
+//#include "FWCore/Framework/interface/EDAnalyzer.h"
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/ServiceRegistry/interface/Service.h"
@@ -115,7 +116,7 @@ using namespace edm;
 typedef pair<const DetLayer*, TrajectoryStateOnSurface> LayerTSOS;
 typedef pair<const DetLayer*, const TrackingRecHit*> LayerHit;
 
-class MuonHLTSeedNtupler : public edm::EDAnalyzer
+class MuonHLTSeedNtupler : public edm::one::EDAnalyzer<>
 {
 public:
   MuonHLTSeedNtupler(const edm::ParameterSet &iConfig);

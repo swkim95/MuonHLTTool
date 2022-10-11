@@ -1,7 +1,10 @@
 // -- ntuple maker for Muon HLT study
 // -- author: Kyeongpil Lee (Seoul National University, kplee@cern.ch)
 
-#include "FWCore/Framework/interface/EDAnalyzer.h"
+// ------ For CMSSW_12 ------
+#include "FWCore/Framework/interface/one/EDAnalyzer.h"  
+//#include "FWCore/Framework/interface/EDAnalyzer.h"
+// --------------------------
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/ServiceRegistry/interface/Service.h"
@@ -10,7 +13,10 @@
 #include "FWCore/Framework/interface/ConsumesCollector.h"
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/Framework/interface/EventSetup.h"
-
+// ------ For CMSSW_12 ------
+#include "FWCore/Utilities/interface/ESGetToken.h"
+#include "FWCore/Utilities/interface/ESInputTag.h"
+// ---------------------------
 #include "DataFormats/Common/interface/Handle.h"
 #include "DataFormats/Common/interface/Ref.h"
 #include "DataFormats/Common/interface/View.h"
@@ -116,7 +122,9 @@ using namespace std;
 using namespace reco;
 using namespace edm;
 
-class MuonHLTNtupler : public edm::EDAnalyzer
+// ------ For CMSSW_12 -------
+//class MuonHLTNtupler : public edm::EDAnalyzer
+class MuonHLTNtupler : public edm::one::EDAnalyzer<>
 {
 public:
   MuonHLTNtupler(const edm::ParameterSet &iConfig);
@@ -139,6 +147,7 @@ private:
   void Fill_GenParticle(const edm::Event &iEvent);
 
   //For Rerun (Fill_IterL3*)
+  //May comment out Fill_Seed from CMSSW_12, but not sure 
   void Fill_IterL3(const edm::Event &iEvent, const edm::EventSetup &iSetup);
   void Fill_Seed(const edm::Event &iEvent, const edm::EventSetup &iSetup);
 
@@ -207,7 +216,10 @@ private:
   edm::EDGetTokenT< std::vector<PileupSummaryInfo> >         t_PUSummaryInfo_;
   edm::EDGetTokenT< GenEventInfoProduct >                    t_genEventInfo_;
   edm::EDGetTokenT< reco::GenParticleCollection >            t_genParticle_;
-
+  // ------ For CMSSW_12 -------
+  const edm::ESGetToken<TrackerTopology, TrackerTopologyRcd> trackerTopologyESToken_;
+  const edm::ESGetToken<TrackerGeometry, TrackerDigiGeometryRecord> trackerGeometryESToken_;
+  // ---------------------------
   std::vector<std::string>   trackCollectionNames_;
   std::vector<edm::InputTag> trackCollectionLabels_;
   std::vector<edm::InputTag> associationLabels_;
@@ -225,6 +237,10 @@ private:
   //typedef std::vector< std::pair<SeedMvaEstimator*, SeedMvaEstimator*> > pairSeedMvaEstimator;
   typedef std::vector< std::pair<SeedMvaEstimatorPhase2*, SeedMvaEstimatorPhase2*> > pairSeedMvaEstimatorPhase2;
 
+  // ----------- For CMSSW_12 -----------
+  const TrackerTopology* _trackerTopology;
+  const TrackerGeometry* _trackerGeometry;
+  // --------------------------------------
 
   TTree *ntuple_;
   static const int arrSize_ = 5000;

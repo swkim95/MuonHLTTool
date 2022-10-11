@@ -3,7 +3,8 @@
 
 #include "MuonHLTTool/MuonHLTNtupler/interface/MuonHLTSeedNtupler.h"
 
-#include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/Framework/interface/one/EDAnalyzer.h"
+//#include "FWCore/Framework/interface/EDAnalyzer.h"
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/ServiceRegistry/interface/Service.h"
@@ -1100,7 +1101,8 @@ vector< pair<LayerHit, LayerTSOS> > MuonHLTSeedNtupler::getHitTsosPairs(
     vector< pair<LayerHit, LayerTSOS> > hitTsosPair = {};
     int ihit = 0;
     // For CMSSW_12_~ 
-    for (const auto& hit : seed.recHits() ) {
+    // for (const auto& hit : seed.recHits() ) {
+    for (auto const& hit : seed.recHits() ) {
     // For CMSSW_11_~ 
     //for( auto hit = seed.recHits().first; hit!=seed.recHits().second; ++hit ) {
       // -- look for closest tsos by absolute distance

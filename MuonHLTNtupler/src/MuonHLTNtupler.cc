@@ -3,7 +3,11 @@
 
 #include "MuonHLTTool/MuonHLTNtupler/interface/MuonHLTNtupler.h"
 
-#include "FWCore/Framework/interface/EDAnalyzer.h"
+// -------- For CMSSW_12 -----------
+#include "FWCore/Framework/interface/one/EDAnalyzer.h"
+//#include "FWCore/Framework/interface/EDAnalyzer.h"
+// ---------------------------------
+
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/ServiceRegistry/interface/Service.h"
@@ -124,7 +128,12 @@ t_lumiScaler_        ( consumes< LumiScalersCollection >                  (iConf
 t_offlineLumiScaler_ ( consumes< LumiScalersCollection >                  (iConfig.getUntrackedParameter<edm::InputTag>("offlineLumiScaler" )) ),
 t_PUSummaryInfo_     ( consumes< std::vector<PileupSummaryInfo> >         (iConfig.getUntrackedParameter<edm::InputTag>("PUSummaryInfo"     )) ),
 t_genEventInfo_      ( consumes< GenEventInfoProduct >                    (iConfig.getUntrackedParameter<edm::InputTag>("genEventInfo"      )) ),
-t_genParticle_       ( consumes< reco::GenParticleCollection >            (iConfig.getUntrackedParameter<edm::InputTag>("genParticle"       )) )
+t_genParticle_       ( consumes< reco::GenParticleCollection >            (iConfig.getUntrackedParameter<edm::InputTag>("genParticle"       )) ),
+
+// ---------- For CMSSW_12 -----------
+trackerTopologyESToken_(esConsumes<TrackerTopology, TrackerTopologyRcd>()),
+trackerGeometryESToken_(esConsumes<TrackerGeometry, TrackerDigiGeometryRecord>())
+// ----------------------------------- 
 {
 
   trackCollectionNames_ = iConfig.getUntrackedParameter<std::vector<std::string>>("trackCollectionNames");
@@ -252,6 +261,9 @@ t_genParticle_       ( consumes< reco::GenParticleCollection >            (iConf
 void MuonHLTNtupler::analyze(const edm::Event &iEvent, const edm::EventSetup &iSetup)
 {
   Init();
+
+  _trackerTopology = &iSetup.getData(trackerTopologyESToken_);
+  _trackerGeometry = &iSetup.getData(trackerGeometryESToken_);
 
   // -- basic info.
   isRealData_ = iEvent.isRealData();
@@ -1188,13 +1200,14 @@ void MuonHLTNtupler::Fill_L1Track(const edm::Event &iEvent, const edm::EventSetu
   // edm::Handle< TTTrackAssociationMap< Ref_Phase2TrackerDigi_ > > MCTruthTTTrackHandle;
   // iEvent.getByToken(ttTrackMCTruthToken_, MCTruthTTTrackHandle);
 
-  edm::ESHandle<TrackerGeometry> tGeomHandle;
-  iSetup.get<TrackerDigiGeometryRecord>().get(tGeomHandle);
-  edm::ESHandle<TrackerTopology> tTopoHandle;
-  iSetup.get<TrackerTopologyRcd>().get(tTopoHandle);
-
-  const TrackerTopology* const tTopo = tTopoHandle.product();
-  const TrackerGeometry* const theTrackerGeom = tGeomHandle.product();
+  // ----- Comment out for CMSSW_12 ----------- 
+  // edm::ESHandle<TrackerGeometry> tGeomHandle;
+  // iSetup.get<TrackerDigiGeometryRecord>().get(tGeomHandle);
+  // edm::ESHandle<TrackerTopology> tTopoHandle;
+  // iSetup.get<TrackerTopologyRcd>().get(tTopoHandle);
+  // const TrackerTopology* const tTopo = tTopoHandle.product();
+  // const TrackerGeometry* const theTrackerGeom = tGeomHandle.product();
+  // ------------------------------------------
 
   if (SaveAllTracks){
   if (DebugMode) {
@@ -1262,11 +1275,15 @@ void MuonHLTNtupler::Fill_L1Track(const edm::Event &iEvent, const edm::EventSetu
     for (int is=0; is<tmp_trk_nstub; is++) {
 
       //detID of stub
-      DetId detIdStub = theTrackerGeom->idToDet( (stubRefs.at(is)->clusterRef(0))->getDetId() )->geographicalId();
-
+      // ---------- For CMSSW_12 --------------
+      //DetId detIdStub = theTrackerGeom->idToDet( (stubRefs.at(is)->clusterRef(0))->getDetId() )->geographicalId();
+      DetId detIdStub = _trackerGeometry->idToDet( (stubRefs.at(is)->clusterRef(0))->getDetId() )->geographicalId();
+      
       MeasurementPoint coords = stubRefs.at(is)->clusterRef(0)->findAverageLocalCoordinatesCentered();
-      const GeomDet* theGeomDet = theTrackerGeom->idToDet(detIdStub);
+      //const GeomDet* theGeomDet = theTrackerGeom->idToDet(detIdStub);
+      const GeomDet* theGeomDet = _trackerGeometry->idToDet(detIdStub);
       Global3DPoint posStub = theGeomDet->surface().toGlobal( theGeomDet->topology().localPosition(coords) );
+      // -------------------------------------------
 
       double x=posStub.x();
       double y=posStub.y();
@@ -1276,13 +1293,19 @@ void MuonHLTNtupler::Fill_L1Track(const edm::Event &iEvent, const edm::EventSetu
       int layer=-999999;
       if ( detIdStub.subdetId()==StripSubdetector::TOB ) {
         isBarrel = 1;
-        layer  = static_cast<int>(tTopo->layer(detIdStub));
+        // ---------- For CMSSW_12 ----------------
+        // layer  = static_cast<int>(tTopo->layer(detIdStub));
+        layer = static_cast<int>(_trackerTopology->layer(detIdStub));
+        // -------------------------------------------
         if (DebugMode) cout << "   stub in layer " << layer << " at position x y z = " << x << " " << y << " " << z << endl;
         tmp_trk_lhits+=pow(10,layer-1);
       }
       else if ( detIdStub.subdetId()==StripSubdetector::TID ) {
         isBarrel = 0;
-        layer  = static_cast<int>(tTopo->layer(detIdStub));
+        // ---------- For CMSSW_12 ----------------
+        // layer  = static_cast<int>(tTopo->layer(detIdStub));
+        layer = static_cast<int>(_trackerTopology->layer(detIdStub));
+        // -------------------------------------------
         if (DebugMode) cout << "   stub in disk " << layer << " at position x y z = " << x << " " << y << " " << z << endl;
         tmp_trk_dhits+=pow(10,layer-1);
       }
