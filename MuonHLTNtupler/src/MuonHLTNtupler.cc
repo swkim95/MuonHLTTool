@@ -2599,8 +2599,8 @@ void MuonHLTNtupler::endJob() {
       // delete mvaHltIter3IterL3MuonPixelSeeds_.at(i).second;
       // delete mvaHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_.at(i).first;
       // delete mvaHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_.at(i).second;
-      delete mvaHltIter2IterL3FromL1MuonPixelSeeds_.at(i).first;
-      delete mvaHltIter2IterL3FromL1MuonPixelSeeds_.at(i).second;
+      delete mvaPhase2HltIter2IterL3FromL1MuonPixelSeeds_.at(i).first;
+      delete mvaPhase2HltIter2IterL3FromL1MuonPixelSeeds_.at(i).second;
       // delete mvaHltIter3IterL3FromL1MuonPixelSeeds_.at(i).first;
       // delete mvaHltIter3IterL3FromL1MuonPixelSeeds_.at(i).second;
     }

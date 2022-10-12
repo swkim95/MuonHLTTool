@@ -144,7 +144,7 @@ private:
 
   //For Rerun (Fill_IterL3*)
   void Fill_IterL3(const edm::Event &iEvent, const edm::EventSetup &iSetup);
-  //void Fill_Seed(const edm::Event &iEvent, const edm::EventSetup &iSetup);
+  void Fill_Seed(const edm::Event &iEvent, const edm::EventSetup &iSetup);
 
   bool SavedTriggerCondition( std::string& pathName );
   bool SavedFilterCondition( std::string& filterName );
@@ -1513,7 +1513,7 @@ private:
     edm::ESHandle<TrackerGeometry>& tracker,
     pairSeedMvaEstimatorPhase2 pairSeedMvaEstimatorPhase2,
     std::map<tmpTSOD,unsigned int>& trkMap,
-    trkTemplate* TTtrack
+    trkTemplate* TTtrack,
     edm::ESHandle<MagneticField> magfieldH,
     const edm::EventSetup &iSetup,
     GeometricSearchTracker* geomTracker
