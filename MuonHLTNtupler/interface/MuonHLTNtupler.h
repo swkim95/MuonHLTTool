@@ -97,7 +97,19 @@
 #include "L1Trigger/L1TMuon/interface/MicroGMTConfiguration.h"
 #include "DataFormats/Math/interface/angle_units.h"
 
-#include "HLTrigger/MuonHLTSeedMVAClassifier/interface/SeedMvaEstimator.h"
+// #include "HLTrigger/MuonHLTSeedMVAClassifier/interface/SeedMvaEstimator.h"
+#include "HLTrigger/MuonHLTSeedMVAClassifier/interface/SeedMvaEstimator2.h"
+
+// -- for L1TkMu propagation
+#include "TrackingTools/GeomPropagators/interface/Propagator.h"
+#include "TrackingTools/Records/interface/TrackingComponentsRecord.h"
+#include "TrackingTools/TrajectoryState/interface/FreeTrajectoryState.h"
+#include "RecoTracker/TkDetLayers/interface/GeometricSearchTracker.h"
+#include "RecoTracker/TkDetLayers/interface/GeometricSearchTrackerBuilder.h"
+#include "Geometry/TrackerNumberingBuilder/interface/GeometricDet.h"
+#include "Geometry/Records/interface/IdealGeometryRecord.h"
+#include "DataFormats/TrackerCommon/interface/TrackerTopology.h"
+#include "Geometry/Records/interface/TrackerTopologyRcd.h"
 
 #include "MuonHLTTool/MuonHLTNtupler/interface/MuonHLTobjCorrelator.h"
 
@@ -200,9 +212,13 @@ private:
   edm::EDGetTokenT< GenEventInfoProduct >                    t_genEventInfo_;
   edm::EDGetTokenT< reco::GenParticleCollection >            t_genParticle_;
 
-  // ----- 220718 fix ----
+  // ------ For CMSSW_12 -------
   const edm::ESGetToken<TrackerTopology, TrackerTopologyRcd> trackerTopologyESToken_;
   const edm::ESGetToken<TrackerGeometry, TrackerDigiGeometryRecord> trackerGeometryESToken_;
+  const edm::ESGetToken<MagneticField, IdealMagneticFieldRecord> magFieldESToken_;
+  const edm::ESGetToken<GeometricDet, IdealGeometryRecord> geomDetESToken_;
+  const edm::ESGetToken<Propagator, TrackingComponentsRecord> propagatorESToken_;
+  // ---------------------------
 
   std::vector<std::string>   trackCollectionNames_;
   std::vector<edm::InputTag> trackCollectionLabels_;
@@ -218,11 +234,14 @@ private:
   std::vector<edm::InputTag> pfIsoLabels_;
   std::vector<edm::EDGetTokenT<reco::RecoChargedCandidateIsolationMap>> pfIsoTokens_;
 
-  // ----- 220718 fix ----
+  // ----------- For CMSSW_12 -----------
   const TrackerTopology* _trackerTopology;
   const TrackerGeometry* _trackerGeometry;
-  
-  typedef std::vector< std::pair<SeedMvaEstimator*, SeedMvaEstimator*> > pairSeedMvaEstimator;
+  const GeometricDet* _geometryDetector;
+  const MagneticField* _magneticField;
+  // --------------------------------------
+
+  typedef std::vector< std::pair<SeedMvaEstimatorPhase2*, SeedMvaEstimatorPhase2*> > pairSeedMvaEstimatorPhase2;
 
   TTree *ntuple_;
   static const int arrSize_ = 5000;
@@ -1491,11 +1510,13 @@ private:
     edm::EDGetTokenT<edm::View<reco::Track>>& theToken,
     edm::Handle<reco::TrackToTrackingParticleAssociator>& theAssociator_,
     edm::Handle<TrackingParticleCollection>& TPCollection_,
-    //edm::ESHandle<TrackerGeometry>& tracker,
-    const TrackerGeometry* tracker,
-    pairSeedMvaEstimator pairMvaEstimator,
+    edm::ESHandle<TrackerGeometry>& tracker,
+    pairSeedMvaEstimatorPhase2 pairSeedMvaEstimatorPhase2,
     std::map<tmpTSOD,unsigned int>& trkMap,
     trkTemplate* TTtrack
+    edm::ESHandle<MagneticField> magfieldH,
+    const edm::EventSetup &iSetup,
+    GeometricSearchTracker* geomTracker
   );
 
   void fill_tpTemplate(
@@ -1594,45 +1615,45 @@ private:
   std::vector<double> mvaScaleStdHltIter2IterL3FromL1MuonPixelSeeds_E_;
   // std::vector<double> mvaScaleStdHltIter3IterL3FromL1MuonPixelSeeds_E_;
 
-  // pairSeedMvaEstimator mvaHltIterL3OISeedsFromL2Muons_;
-  // pairSeedMvaEstimator mvaHltIter0IterL3MuonPixelSeedsFromPixelTracks_;
-  // pairSeedMvaEstimator mvaHltIter2IterL3MuonPixelSeeds_;
-  // pairSeedMvaEstimator mvaHltIter3IterL3MuonPixelSeeds_;
-  // pairSeedMvaEstimator mvaHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_;
-  pairSeedMvaEstimator mvaHltIter2IterL3FromL1MuonPixelSeeds_;
-  // pairSeedMvaEstimator mvaHltIter3IterL3FromL1MuonPixelSeeds_;
+  pairSeedMvaEstimatorPhase2 mvaPhase2HltIter2IterL3FromL1MuonPixelSeeds_;
 
   vector<float> getSeedMva(
-    pairSeedMvaEstimator pairMvaEstimator,
+    pairSeedMvaEstimatorPhase2 pairSeedMvaEstimatorPhase2,
     const TrajectorySeed& seed,
     GlobalVector global_p,
     GlobalPoint  global_x,
-    // edm::Handle<l1t::MuonBxCollection> h_L1Muon,
-    edm::Handle<reco::RecoChargedCandidateCollection> h_L2Muon,
-    edm::Handle<l1t::TkMuonCollection> h_L1TkMu
+    edm::Handle<l1t::TkMuonCollection> h_L1TkMu,
+    edm::ESHandle<MagneticField> magfieldH,
+    const edm::EventSetup &iSetup,
+    GeometricSearchTracker* geomTracker
   ) {
+    edm::ESHandle<Propagator> propagatorAlongH = iSetup.getHandle(propagatorESToken_);
+    std::unique_ptr<Propagator> propagatorAlong = SetPropagationDirection(*propagatorAlongH, alongMomentum);
+
     vector<float> v_mva = {};
 
-    for(auto ic=0U; ic<pairMvaEstimator.size(); ++ic) {
+    for(auto ic=0U; ic<pairSeedMvaEstimatorPhase2.size(); ++ic) {
       if( fabs( global_p.eta() ) < 0.9 ) {
-        float mva = pairMvaEstimator.at(ic).first->computeMva(
+        float mva = pairSeedMvaEstimatorPhase2.at(ic).first->computeMva(
           seed,
           global_p,
           global_x,
-          // h_L1Muon,
-          h_L2Muon,
-          h_L1TkMu
+          h_L1TkMu,
+          magfieldH,
+          *(propagatorAlong.get()),
+          geomTracker
         );
         v_mva.push_back( mva );
       }
       else {
-        float mva = pairMvaEstimator.at(ic).second->computeMva(
+        float mva = pairSeedMvaEstimatorPhase2.at(ic).second->computeMva(
           seed,
           global_p,
           global_x,
-          // h_L1Muon,
-          h_L2Muon,
-          h_L1TkMu
+          h_L1TkMu,
+          magfieldH,
+          *(propagatorAlong.get()),
+          geomTracker
         );
         v_mva.push_back( mva );
       }

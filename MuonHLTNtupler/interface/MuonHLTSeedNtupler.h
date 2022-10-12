@@ -1,7 +1,8 @@
 // -- ntuple maker for Muon HLT study
 // -- author: Kyeongpil Lee (Seoul National University, kplee@cern.ch)
 
-#include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/Framework/interface/one/EDAnalyzer.h"
+//#include "FWCore/Framework/interface/EDAnalyzer.h"
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/ServiceRegistry/interface/Service.h"
@@ -11,7 +12,10 @@
 #include "FWCore/Framework/interface/ESHandle.h"
 #include "FWCore/Framework/interface/EventSetup.h"
 #include "FWCore/ParameterSet/interface/FileInPath.h"
-
+// ------ For CMSSW_12 ------
+#include "FWCore/Utilities/interface/ESGetToken.h"
+#include "FWCore/Utilities/interface/ESInputTag.h"
+// ---------------------------
 #include "DataFormats/Common/interface/Handle.h"
 #include "DataFormats/Common/interface/View.h"
 #include "DataFormats/Common/interface/TriggerResults.h"
@@ -105,6 +109,8 @@
 #include "DataFormats/TrackerCommon/interface/TrackerTopology.h"
 #include "Geometry/Records/interface/TrackerTopologyRcd.h"
 
+#include "MuonHLTTool/MuonHLTNtupler/interface/MuonHLTobjCorrelator.h"
+
 #include "TTree.h"
 #include "TString.h"
 
@@ -115,7 +121,7 @@ using namespace edm;
 typedef pair<const DetLayer*, TrajectoryStateOnSurface> LayerTSOS;
 typedef pair<const DetLayer*, const TrackingRecHit*> LayerHit;
 
-class MuonHLTSeedNtupler : public edm::EDAnalyzer
+class MuonHLTSeedNtupler : public edm::one::EDAnalyzer<>
 {
 public:
   MuonHLTSeedNtupler(const edm::ParameterSet &iConfig);
@@ -167,6 +173,14 @@ private:
   edm::EDGetTokenT< edm::View<reco::Track> >               t_hltIter3IterL3FromL1MuonTrack_;
 
   edm::EDGetTokenT< reco::GenParticleCollection >            t_genParticle_;
+
+  // ------ For CMSSW_12 -------
+  const edm::ESGetToken<TrackerTopology, TrackerTopologyRcd> trackerTopologyESToken_;
+  const edm::ESGetToken<TrackerGeometry, TrackerDigiGeometryRecord> trackerGeometryESToken_;
+  const edm::ESGetToken<MagneticField, IdealMagneticFieldRecord> magFieldESToken_;
+  const edm::ESGetToken<GeometricDet, IdealGeometryRecord> geomDetESToken_;
+  const edm::ESGetToken<Propagator, TrackingComponentsRecord> propagatorESToken_;
+  // ---------------------------
 
   // edm::FileInPath mvaFileHltIterL3OISeedsFromL2Muons_B_0_;
   // edm::FileInPath mvaFileHltIterL3OISeedsFromL2Muons_B_1_;
@@ -898,12 +912,28 @@ private:
     std::map<tmpTSOD,unsigned int>& trkMap, trkTemplate* TTtrack);
 
   void fill_seedTemplate(
-  const edm::Event &, edm::EDGetTokenT<TrajectorySeedCollection>&, //pairSeedMvaEstimator
-  edm::ESHandle<TrackerGeometry>&, std::map<tmpTSOD,unsigned int>&, trkTemplate*, TTree*, int &nSeed );
+    const edm::Event &,
+    edm::EDGetTokenT<TrajectorySeedCollection>&, //pairSeedMvaEstimator
+    edm::ESHandle<TrackerGeometry>&,
+    std::map<tmpTSOD,unsigned int>&,
+    trkTemplate*,
+    TTree*,
+    int &nSeed
+  );
 
   void fill_seedTemplate(
-  const edm::Event &, edm::EDGetTokenT<TrajectorySeedCollection>&, pairSeedMvaEstimatorPhase2,
-  edm::ESHandle<TrackerGeometry>&, std::map<tmpTSOD,unsigned int>&, trkTemplate*, TTree*, int &nSeed, edm::ESHandle<MagneticField> magfieldH, const edm::EventSetup &iSetup, GeometricSearchTracker* geomTracker );
+  const edm::Event &,
+  edm::EDGetTokenT<TrajectorySeedCollection>&,
+  pairSeedMvaEstimatorPhase2,
+  edm::ESHandle<TrackerGeometry>&,
+  std::map<tmpTSOD,unsigned int>&,
+  trkTemplate*,
+  TTree*,
+  int &nSeed,
+  edm::ESHandle<MagneticField> magfieldH,
+  const edm::EventSetup &iSetup,
+  GeometricSearchTracker* geomTracker
+);
 
   // HERE
 

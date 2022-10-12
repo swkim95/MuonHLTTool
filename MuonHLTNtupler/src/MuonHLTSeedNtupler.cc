@@ -3,7 +3,8 @@
 
 #include "MuonHLTTool/MuonHLTNtupler/interface/MuonHLTSeedNtupler.h"
 
-#include "FWCore/Framework/interface/EDAnalyzer.h"
+#include "FWCore/Framework/interface/one/EDAnalyzer.h"
+//#include "FWCore/Framework/interface/EDAnalyzer.h"
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/ServiceRegistry/interface/Service.h"
@@ -100,7 +101,13 @@ t_hltIter0IterL3FromL1MuonTrack_    ( consumes< edm::View<reco::Track> >        
 t_hltIter2IterL3FromL1MuonTrack_    ( consumes< edm::View<reco::Track> >         (iConfig.getUntrackedParameter<edm::InputTag>("hltIter2IterL3FromL1MuonTrack"    )) ),
 t_hltIter3IterL3FromL1MuonTrack_    ( consumes< edm::View<reco::Track> >         (iConfig.getUntrackedParameter<edm::InputTag>("hltIter3IterL3FromL1MuonTrack"    )) ),
 
-t_genParticle_       ( consumes< reco::GenParticleCollection >            (iConfig.getUntrackedParameter<edm::InputTag>("genParticle"       )) )
+t_genParticle_       ( consumes< reco::GenParticleCollection >            (iConfig.getUntrackedParameter<edm::InputTag>("genParticle"       )) ),
+
+trackerTopologyESToken_(esConsumes<TrackerTopology, TrackerTopologyRcd>()),
+trackerGeometryESToken_(esConsumes<TrackerGeometry, TrackerDigiGeometryRecord>()),
+magFieldESToken_(esConsumes<MagneticField, IdealMagneticFieldRecord>()),
+geomDetESToken_(esConsumes<GeometricDet, IdealGeometryRecord>()),
+propagatorESToken_(esConsumes<Propagator, TrackingComponentsRecord>(edm::ESInputTag("", "PropagatorWithMaterialParabolicMf")))
 {
   // mvaFileHltIterL3OISeedsFromL2Muons_B_0_                       = iConfig.getParameter<edm::FileInPath>("mvaFileHltIterL3OISeedsFromL2Muons_B_0");
   // mvaFileHltIterL3OISeedsFromL2Muons_B_1_                       = iConfig.getParameter<edm::FileInPath>("mvaFileHltIterL3OISeedsFromL2Muons_B_1");
@@ -438,20 +445,11 @@ void MuonHLTSeedNtupler::Fill_IterL3TT(const edm::Event &iEvent)
 void MuonHLTSeedNtupler::Fill_Seed(const edm::Event &iEvent, const edm::EventSetup &iSetup)
 {
   // TrackerHitAssociator associate(iEvent, trackerHitAssociatorConfig_);
-  edm::ESHandle<TrackerGeometry> tracker;
-  iSetup.get<TrackerDigiGeometryRecord>().get(tracker);
-
-  edm::ESHandle<MagneticField> magfieldH;
-  iSetup.get<IdealMagneticFieldRecord>().get(magfieldH);
-
-  edm::ESHandle<TrackerGeometry> trkgeom;
-  iSetup.get<TrackerDigiGeometryRecord>().get(trkgeom);
-
-  edm::ESHandle<GeometricDet> geomDet;
-  iSetup.get<IdealGeometryRecord>().get(geomDet);
-
-  edm::ESHandle<TrackerTopology> trkTopo;
-  iSetup.get<TrackerTopologyRcd>().get(trkTopo);
+  edm::ESHandle<TrackerGeometry> tracker = iSetup.getHandle(trackerGeometryESToken_);
+  edm::ESHandle<MagneticField> magfieldH = iSetup.getHandle(magFieldESToken_);
+  edm::ESHandle<TrackerGeometry> trkgeom = iSetup.getHandle(trackerGeometryESToken_);
+  edm::ESHandle<GeometricDet> geomDet = iSetup.getHandle(geomDetESToken_);
+  edm::ESHandle<TrackerTopology> trkTopo = iSetup.getHandle(trackerTopologyESToken_);
 
   GeometricSearchTrackerBuilder builder;
   GeometricSearchTracker* geomTracker = builder.build(&(*geomDet), &(*trkgeom), &(*trkTopo));
@@ -766,8 +764,7 @@ void MuonHLTSeedNtupler::fill_seedTemplate(
 
   edm::Handle< TrajectorySeedCollection > seedHandle;
 
-  edm::ESHandle<Propagator> propagatorAlongH;
-  iSetup.get<TrackingComponentsRecord>().get("PropagatorWithMaterialParabolicMf", propagatorAlongH);
+  edm::ESHandle<Propagator> propagatorAlongH = iSetup.getHandle(propagatorESToken_);
   std::unique_ptr<Propagator> propagatorAlong = SetPropagationDirection(*propagatorAlongH, alongMomentum);
 
   if( hasL1TkMu && iEvent.getByToken( theToken, seedHandle) )
