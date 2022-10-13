@@ -34,7 +34,7 @@
 <use name="TrackingTools/TrackAssociator"/>
 <use name="RecoTracker/TkDetLayers"/>
 <use name="CommonTools/MVAUtils"/>
-<use name="HLTrigger/MuonHLTSeedMVAClassifier"/>
+<use name="HLTrigger/MuonHLTSeedMVAClassifierPhase2"/>
 <use name="L1Trigger/L1TMuon"/>
 <!--   <flags   EDM_PLUGIN="1"/> -->
 <flags EDM_PLUGIN="1"/>

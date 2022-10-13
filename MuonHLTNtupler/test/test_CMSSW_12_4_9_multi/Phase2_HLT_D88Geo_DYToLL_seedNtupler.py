@@ -168,6 +168,7 @@ if doNtuple:
     process.seedNtupler.L1TrackInputTag = cms.InputTag("TTTracksFromTrackletEmulation", "", "MYHLT")
     process.seedNtupler.L1TrackInputTag = cms.InputTag("TTTracksFromTrackletEmulation", "Level1TTTracks", "RECO")
 
+    process.seedNtupler.L1TkMuon                      = cms.untracked.InputTag("L1TkMuons", "", "HLT")
     process.seedNtupler.L2Muon                        = cms.untracked.InputTag("hltL2MuonFromL1TkMuonCandidates", "", "MYHLT")
 
     process.seedNtupler.hltIterL3OISeedsFromL2Muons                       = cms.untracked.InputTag("hltPhase2L3OISeedsFromL2Muons", "", "MYHLT")
@@ -180,14 +181,14 @@ if doNtuple:
 
     process.TFileService.fileName = cms.string("seedNtuple_D88Geo_DYToLL.root")
     
-    # from HLTrigger.MuonHLTSeedMVAClassifier.customizerForMuonHLTSeeding import *
-    # WPNAME = 'noMVAcut_noSeedMax'
-    # doSort = False
-    # nSeedMax_B = (-1,)
-    # nSeedMax_E = (-1,)
-    # mvaCuts_B = (0,)
-    # mvaCuts_E = (0,)
-    # process = customizerFuncForMuonHLTSeeding(process, "MYHLT", WPNAME, doSort, nSeedMax_B, nSeedMax_E, mvaCuts_B, mvaCuts_E )
+    #from HLTrigger.MuonHLTSeedMVAClassifierPhase2.customizerForMuonHLTSeeding import *
+    #WPNAME = 'noMVAcut_noSeedMax'
+    #doSort = False
+    #nSeedMax_B = (-1,)
+    #nSeedMax_E = (-1,)
+    #mvaCuts_B = (0,)
+    #mvaCuts_E = (0,)
+    #process = customizerFuncForMuonHLTSeeding(process, "MYHLT", WPNAME, doSort, nSeedMax_B, nSeedMax_E, mvaCuts_B, mvaCuts_E )
 
 doDQMOut = False
 if doDQMOut:

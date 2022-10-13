@@ -1,0 +1,713 @@
+13-Oct-2022 14:53:08 CEST  Initiating request to open file root://eoscms.cern.ch//eos/cms/store/mc/PhaseIISpring22DRMiniAOD/DYToLL_M-50_TuneCP5_14TeV-pythia8/GEN-SIM-RECO/PU200_BSzpz35_123X_mcRun4_realistic_v11_ext1-v1/2560000/01df93c7-f1d3-4ccb-a77c-41e9887c1cf2.root
+%MSG-w XrdAdaptorInternal:  file_open 13-Oct-2022 14:53:09 CEST pre-events
+Failed to open file at URL root://eoscms.cern.ch:1094//eos/cms/store/mc/PhaseIISpring22DRMiniAOD/DYToLL_M-50_TuneCP5_14TeV-pythia8/GEN-SIM-RECO/PU200_BSzpz35_123X_mcRun4_realistic_v11_ext1-v1/2560000/01df93c7-f1d3-4ccb-a77c-41e9887c1cf2.root?xrdcl.requuid=80101506-de38-4740-b50a-94c1ad1451e1.
+%MSG
+%MSG-w XrdAdaptorInternal:  file_open 13-Oct-2022 14:53:09 CEST pre-events
+Failed to open file at URL root://eoscms.cern.ch:1094//eos/cms/store/mc/PhaseIISpring22DRMiniAOD/DYToLL_M-50_TuneCP5_14TeV-pythia8/GEN-SIM-RECO/PU200_BSzpz35_123X_mcRun4_realistic_v11_ext1-v1/2560000/01df93c7-f1d3-4ccb-a77c-41e9887c1cf2.root?tried=&xrdcl.requuid=b053153e-5017-4862-a843-3a33347626a8.
+%MSG
+13-Oct-2022 14:53:09 CEST  Initiating request to open file root://xrootd-cms.infn.it//store/mc/PhaseIISpring22DRMiniAOD/DYToLL_M-50_TuneCP5_14TeV-pythia8/GEN-SIM-RECO/PU200_BSzpz35_123X_mcRun4_realistic_v11_ext1-v1/2560000/01df93c7-f1d3-4ccb-a77c-41e9887c1cf2.root
+%MSG-w XrdAdaptor:  file_open 13-Oct-2022 14:53:13 CEST pre-events
+Data is served from recas.ba.infn.it instead of original site T2_FR_GRIF_LLR
+%MSG
+13-Oct-2022 14:53:30 CEST  Successfully opened file root://xrootd-cms.infn.it//store/mc/PhaseIISpring22DRMiniAOD/DYToLL_M-50_TuneCP5_14TeV-pythia8/GEN-SIM-RECO/PU200_BSzpz35_123X_mcRun4_realistic_v11_ext1-v1/2560000/01df93c7-f1d3-4ccb-a77c-41e9887c1cf2.root
+Begin processing the 1st record. Run 1, Event 123362, LumiSection 782 on stream 0 at 13-Oct-2022 14:54:05.668 CEST
+%MSG-w Muon:  L3MuonProducer:hltPhase2L3GlbMuon 13-Oct-2022 15:04:07 CEST  Run: 1 Event: 123419
+     Failed to load tracker track trajectory
+%MSG
+%MSG-w RecoMuon:  L3MuonProducer:hltPhase2L3GlbMuon 13-Oct-2022 15:04:07 CEST  Run: 1 Event: 123419
+     Failed to load tracker track trajectory
+%MSG
+%MSG-w GlobalMuon:  L3MuonProducer:hltPhase2L3GlbMuon 13-Oct-2022 15:04:07 CEST  Run: 1 Event: 123419
+     Failed to load tracker track trajectory
+%MSG
+%MSG-w GlobalTrajectoryBuilderBase:  L3MuonProducer:hltPhase2L3GlbMuon  13-Oct-2022 15:04:07 CEST Run: 1 Event: 123419
+     Failed to load tracker track trajectory
+%MSG
+%MSG-w Muon:  L3MuonProducer:hltL3MuonsPhase2L3OI 13-Oct-2022 15:04:08 CEST  Run: 1 Event: 123419
+     Failed to load tracker track trajectory
+%MSG
+%MSG-w RecoMuon:  L3MuonProducer:hltL3MuonsPhase2L3OI 13-Oct-2022 15:04:08 CEST  Run: 1 Event: 123419
+     Failed to load tracker track trajectory
+%MSG
+%MSG-w GlobalMuon:  L3MuonProducer:hltL3MuonsPhase2L3OI  13-Oct-2022 15:04:08 CEST Run: 1 Event: 123419
+     Failed to load tracker track trajectory
+%MSG
+%MSG-w GlobalTrajectoryBuilderBase:  L3MuonProducer:hltL3MuonsPhase2L3OI  13-Oct-2022 15:04:08 CEST Run: 1 Event: 123419
+     Failed to load tracker track trajectory
+%MSG
+[2022-10-13 15:13:24.234628 +0200][Error  ][PostMaster        ][18660] [eoscms.cern.ch:1094] Forcing error on disconnect: [ERROR] Operation interrupted.
+13-Oct-2022 15:21:41 CEST  Closed file root://xrootd-cms.infn.it//store/mc/PhaseIISpring22DRMiniAOD/DYToLL_M-50_TuneCP5_14TeV-pythia8/GEN-SIM-RECO/PU200_BSzpz35_123X_mcRun4_realistic_v11_ext1-v1/2560000/01df93c7-f1d3-4ccb-a77c-41e9887c1cf2.root
+
+TriggerSummaryProducerAOD::globalEndJob - accumulated tags:
+ Overall number of Collections/Filters: 2/23
+ The collections: 2
+  0 hltL1TkMuons::MYHLT
+  1 hltPhase2L3MuonCandidates::MYHLT
+ The filters:23
+  0 hltDiMuon178RelTrkIsoFiltered0p4::MYHLT
+  1 hltDiMuon178RelTrkIsoFiltered0p4DzFiltered0p2::MYHLT
+  2 hltDoubleMuon7DZ1p0::MYHLT
+  3 hltL1SingleMuFiltered5::MYHLT
+  4 hltL1TkDoubleMuFiltered7::MYHLT
+  5 hltL1TkSingleMuFiltered15::MYHLT
+  6 hltL1TkSingleMuFiltered22::MYHLT
+  7 hltL1TripleMuFiltered3::MYHLT
+  8 hltL3crIsoL1TkSingleMu22L3f24QL3pfecalIsoFiltered0p41::MYHLT
+  9 hltL3crIsoL1TkSingleMu22L3f24QL3pfhcalIsoFiltered0p40::MYHLT
+  10 hltL3crIsoL1TkSingleMu22L3f24QL3pfhgcalIsoFiltered4p70::MYHLT
+  11 hltL3crIsoL1TkSingleMu22L3f24QL3trkIsoRegionalNewFiltered0p07EcalHcalHgcalTrk::MYHLT
+  12 hltL3fL1DoubleMu155fFiltered17::MYHLT
+  13 hltL3fL1DoubleMu155fFiltered37::MYHLT
+  14 hltL3fL1DoubleMu155fPreFiltered27::MYHLT
+  15 hltL3fL1DoubleMu155fPreFiltered8::MYHLT
+  16 hltL3fL1TkSingleMu22L3Filtered24Q::MYHLT
+  17 hltL3fL1TkSingleMu22L3Filtered50Q::MYHLT
+  18 hltL3fL1TkTripleMu533L31055DZFiltered0p2::MYHLT
+  19 hltL3fL1TkTripleMu533L3Filtered1055::MYHLT
+  20 hltL3fL1TkTripleMu533PreFiltered555::MYHLT
+  21 hltTripleMuon3DR0::MYHLT
+  22 hltTripleMuon3DZ1p0::MYHLT
+TriggerSummaryProducerAOD::endJob.
+
+
+TrigReport ---------- Event  Summary ------------
+TrigReport Events total = 160 passed = 160 failed = 0
+
+TrigReport ---------- Path   Summary ------------
+TrigReport  Trig Bit#   Executed     Passed     Failed      Error Name
+TrigReport     1    0        160         37        123          0 L1T_SingleTkMuon_22
+TrigReport     1    1        160         22        138          0 L1T_DoubleTkMuon_15_7
+TrigReport     1    2        160          2        158          0 L1T_TripleTkMuon_5_3_3
+TrigReport     1    3        160        160          0          0 HLT_Mu50_FromL1TkMuon_Open
+TrigReport     1    4        160          6        154          0 HLT_Mu50_FromL1TkMuon
+TrigReport     1    5        160         30        130          0 HLT_IsoMu24_FromL1TkMuon
+TrigReport     1    6        160         11        149          0 HLT_Mu37_Mu27_FromL1TkMuon
+TrigReport     1    7        160         21        139          0 HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_FromL1TkMuon
+TrigReport     1    8        160          0        160          0 HLT_TriMu_10_5_5_DZ_FromL1TkMuon
+TrigReport     1    9        160          0        160          0 HLTriggerFinalPath
+TrigReport     1   10        160        160          0          0 mypath
+
+TrigReport -------End-Path   Summary ------------
+TrigReport  Trig Bit#   Executed     Passed     Failed      Error Name
+TrigReport     0    0        160        160          0          0 myendpath
+
+TrigReport ---------- Modules in Path: L1T_SingleTkMuon_22 ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0        160        160          0          0 hltTriggerType
+TrigReport     1    1        160         37        123          0 hltL1TkSingleMuFiltered22
+TrigReport     1    2         37         37          0          0 hltBoolEnd
+
+TrigReport ---------- Modules in Path: L1T_DoubleTkMuon_15_7 ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0        160        160          0          0 hltTriggerType
+TrigReport     1    1        160         22        138          0 hltL1TkDoubleMuFiltered7
+TrigReport     1    2         22         22          0          0 hltL1TkSingleMuFiltered15
+TrigReport     1    3         22         22          0          0 hltDoubleMuon7DZ1p0
+TrigReport     1    4         22         22          0          0 hltBoolEnd
+
+TrigReport ---------- Modules in Path: L1T_TripleTkMuon_5_3_3 ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0        160        160          0          0 hltTriggerType
+TrigReport     1    1        160         19        141          0 hltL1TripleMuFiltered3
+TrigReport     1    2         19         17          2          0 hltL1SingleMuFiltered5
+TrigReport     1    3         17          2         15          0 hltTripleMuon3DZ1p0
+TrigReport     1    4          2          2          0          0 hltTripleMuon3DR0
+TrigReport     1    5          2          2          0          0 hltBoolEnd
+
+TrigReport ---------- Modules in Path: HLT_Mu50_FromL1TkMuon_Open ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0        160        160          0          0 hltTriggerType
+TrigReport     1    1        160        160          0          0 hltL1TkSingleMuFiltered22
+TrigReport     1    2        160        160          0          0 hltL3fL1TkSingleMu22L3Filtered50Q
+TrigReport     1    3        160        160          0          0 hltBoolEnd
+
+TrigReport ---------- Modules in Path: HLT_Mu50_FromL1TkMuon ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0        160        160          0          0 hltTriggerType
+TrigReport     1    1        160         37        123          0 hltL1TkSingleMuFiltered22
+TrigReport     1    2         37          6         31          0 hltL3fL1TkSingleMu22L3Filtered50Q
+TrigReport     1    3          6          6          0          0 hltBoolEnd
+
+TrigReport ---------- Modules in Path: HLT_IsoMu24_FromL1TkMuon ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0        160        160          0          0 hltTriggerType
+TrigReport     1    1        160         37        123          0 hltL1TkSingleMuFiltered22
+TrigReport     1    2         37         34          3          0 hltL3fL1TkSingleMu22L3Filtered24Q
+TrigReport     1    3         34         33          1          0 hltL3crIsoL1TkSingleMu22L3f24QL3pfecalIsoFiltered0p41
+TrigReport     1    4         33         30          3          0 hltL3crIsoL1TkSingleMu22L3f24QL3pfhcalIsoFiltered0p40
+TrigReport     1    5         30         30          0          0 hltL3crIsoL1TkSingleMu22L3f24QL3pfhgcalIsoFiltered4p70
+TrigReport     1    6         30         30          0          0 hltL3crIsoL1TkSingleMu22L3f24QL3trkIsoRegionalNewFiltered0p07EcalHcalHgcalTrk
+TrigReport     1    7         30         30          0          0 hltBoolEnd
+
+TrigReport ---------- Modules in Path: HLT_Mu37_Mu27_FromL1TkMuon ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0        160        160          0          0 hltTriggerType
+TrigReport     1    1        160         22        138          0 hltL1TkDoubleMuFiltered7
+TrigReport     1    2         22         22          0          0 hltL1TkSingleMuFiltered15
+TrigReport     1    3         22         22          0          0 hltDoubleMuon7DZ1p0
+TrigReport     1    4         22         13          9          0 hltL3fL1DoubleMu155fPreFiltered27
+TrigReport     1    5         13         11          2          0 hltL3fL1DoubleMu155fFiltered37
+TrigReport     1    6         11         11          0          0 hltBoolEnd
+
+TrigReport ---------- Modules in Path: HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_FromL1TkMuon ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0        160        160          0          0 hltTriggerType
+TrigReport     1    1        160         22        138          0 hltL1TkDoubleMuFiltered7
+TrigReport     1    2         22         22          0          0 hltL1TkSingleMuFiltered15
+TrigReport     1    3         22         22          0          0 hltDoubleMuon7DZ1p0
+TrigReport     1    4         22         21          1          0 hltL3fL1DoubleMu155fPreFiltered8
+TrigReport     1    5         21         21          0          0 hltL3fL1DoubleMu155fFiltered17
+TrigReport     1    6         21         21          0          0 hltDiMuon178RelTrkIsoFiltered0p4
+TrigReport     1    7         21         21          0          0 hltDiMuon178RelTrkIsoFiltered0p4DzFiltered0p2
+TrigReport     1    8         21         21          0          0 hltBoolEnd
+
+TrigReport ---------- Modules in Path: HLT_TriMu_10_5_5_DZ_FromL1TkMuon ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0        160        160          0          0 hltTriggerType
+TrigReport     1    1        160         19        141          0 hltL1TripleMuFiltered3
+TrigReport     1    2         19         17          2          0 hltL1SingleMuFiltered5
+TrigReport     1    3         17          2         15          0 hltTripleMuon3DZ1p0
+TrigReport     1    4          2          2          0          0 hltTripleMuon3DR0
+TrigReport     1    5          2          1          1          0 hltL3fL1TkTripleMu533PreFiltered555
+TrigReport     1    6          1          1          0          0 hltL3fL1TkTripleMu533L3Filtered1055
+TrigReport     1    7          1          0          1          0 hltL3fL1TkTripleMu533L31055DZFiltered0p2
+TrigReport     1    8          0          0          0          0 hltBoolEnd
+
+TrigReport ---------- Modules in Path: HLTriggerFinalPath ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0        160        160          0          0 hltTriggerSummaryAOD
+TrigReport     1    1        160        160          0          0 hltTriggerSummaryRAW
+TrigReport     1    2        160          0        160          0 hltBoolFalse
+
+TrigReport ---------- Modules in Path: mypath ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     1    0        160        160          0          0 hltTPClusterProducer
+TrigReport     1    1        160        160          0          0 hltTrackAssociatorByHits
+TrigReport     1    2        160        160          0          0 hltPhase2L3MuonsNoIDTracks
+TrigReport     1    3        160        160          0          0 hltPhase2L3MuonsTracks
+TrigReport     1    4        160        160          0          0 AhltPhase2L3OIMuonTrackSelectionHighPurity
+TrigReport     1    5        160        160          0          0 AhltIter0Phase2L3FromL1TkMuonTrackSelectionHighPurity
+TrigReport     1    6        160        160          0          0 AhltIter2Phase2L3FromL1TkMuonTrackSelectionHighPurity
+TrigReport     1    7        160        160          0          0 AhltIter2Phase2L3FromL1TkMuonMerged
+TrigReport     1    8        160        160          0          0 AhltPhase2L3MuonsNoID
+TrigReport     1    9        160        160          0          0 AhltPhase2L3Muons
+
+TrigReport ------ Modules in End-Path: myendpath ------------
+TrigReport  Trig Bit#    Visited     Passed     Failed      Error Name
+TrigReport     0    0        160        160          0          0 ntupler
+
+TrigReport ---------- Module Summary ------------
+TrigReport    Visited   Executed     Passed     Failed      Error Name
+TrigReport        160        160        160          0          0 AhltIter0Phase2L3FromL1TkMuonTrackSelectionHighPurity
+TrigReport        160        160        160          0          0 AhltIter2Phase2L3FromL1TkMuonMerged
+TrigReport        160        160        160          0          0 AhltIter2Phase2L3FromL1TkMuonTrackSelectionHighPurity
+TrigReport        160        160        160          0          0 AhltPhase2L3Muons
+TrigReport        160        160        160          0          0 AhltPhase2L3MuonsNoID
+TrigReport        160        160        160          0          0 AhltPhase2L3OIMuonTrackSelectionHighPurity
+TrigReport         90         30         30          0          0 HGCalRecHit
+TrigReport        120         30         30          0          0 HGCalUncalibRecHit
+TrigReport        160        160        160          0          0 HLT_IsoMu24_FromL1TkMuon
+TrigReport        160        160        160          0          0 HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_FromL1TkMuon
+TrigReport        160        160        160          0          0 HLT_Mu37_Mu27_FromL1TkMuon
+TrigReport        160        160        160          0          0 HLT_Mu50_FromL1TkMuon
+TrigReport        160        160        160          0          0 HLT_Mu50_FromL1TkMuon_Open
+TrigReport        160        160        160          0          0 HLT_TriMu_10_5_5_DZ_FromL1TkMuon
+TrigReport        160        160        160          0          0 HLTriggerFinalPath
+TrigReport        160        160        160          0          0 L1T_DoubleTkMuon_15_7
+TrigReport        160        160        160          0          0 L1T_SingleTkMuon_22
+TrigReport        160        160        160          0          0 L1T_TripleTkMuon_5_3_3
+TrigReport        160        160        160          0          0 MeasurementTrackerEvent
+TrigReport        160        160        160          0          0 TriggerResults
+TrigReport         34         34         34          0          0 bunchSpacingProducer
+TrigReport         90         30         30          0          0 hgcalDigis
+TrigReport         30         30         30          0          0 hgcalLayerClusters
+TrigReport        289        160        160          0          0 hltBoolEnd
+TrigReport        160        160          0        160          0 hltBoolFalse
+TrigReport        160        160        160          0          0 hltCsc2DRecHits
+TrigReport        160        160        160          0          0 hltCscSegments
+TrigReport         21         21         21          0          0 hltDiMuon178RelTrkIsoFiltered0p4
+TrigReport         21         21         21          0          0 hltDiMuon178RelTrkIsoFiltered0p4DzFiltered0p2
+TrigReport         66         22         22          0          0 hltDoubleMuon7DZ1p0
+TrigReport        160        160        160          0          0 hltDt1DRecHits
+TrigReport        160        160        160          0          0 hltDt4DSegments
+TrigReport        136         34         34          0          0 hltEcalDetIdToBeRecovered
+TrigReport        442         34         34          0          0 hltEcalDigis
+TrigReport         34         34         34          0          0 hltEcalPreshowerDigis
+TrigReport         34         34         34          0          0 hltEcalPreshowerRecHit
+TrigReport         68         34         34          0          0 hltEcalRecHit
+TrigReport         68         34         34          0          0 hltEcalUncalibRecHit
+TrigReport         34         34         34          0          0 hltFixedGridRhoFastjetAllCaloForMuons
+TrigReport        160        160        160          0          0 hltGemRecHits
+TrigReport        160        160        160          0          0 hltGemSegments
+TrigReport         34         34         34          0          0 hltHbhereco
+TrigReport        204         34         34          0          0 hltHcalDigis
+TrigReport         34         34         34          0          0 hltHfprereco
+TrigReport         34         34         34          0          0 hltHfreco
+TrigReport         34         34         34          0          0 hltHoreco
+TrigReport        160        160        160          0          0 hltIter0Phase2L3FromL1TkMuonCkfTrackCandidates
+TrigReport        640        160        160          0          0 hltIter0Phase2L3FromL1TkMuonCtfWithMaterialTracks
+TrigReport        160        160        160          0          0 hltIter0Phase2L3FromL1TkMuonPixelSeedsFromPixelTracks
+TrigReport        320        160        160          0          0 hltIter0Phase2L3FromL1TkMuonTrackCutClassifier
+TrigReport        160        160        160          0          0 hltIter0Phase2L3FromL1TkMuonTrackSelectionHighPurity
+TrigReport        160        160        160          0          0 hltIter2Phase2L3FromL1TkMuonCkfTrackCandidates
+TrigReport        320        160        160          0          0 hltIter2Phase2L3FromL1TkMuonClustersRefRemoval
+TrigReport        640        160        160          0          0 hltIter2Phase2L3FromL1TkMuonCtfWithMaterialTracks
+TrigReport        160        160        160          0          0 hltIter2Phase2L3FromL1TkMuonMaskedMeasurementTrackerEvent
+TrigReport        640        160        160          0          0 hltIter2Phase2L3FromL1TkMuonMerged
+TrigReport        160        160        160          0          0 hltIter2Phase2L3FromL1TkMuonPixelClusterCheck
+TrigReport        160        160        160          0          0 hltIter2Phase2L3FromL1TkMuonPixelHitDoublets
+TrigReport        160        160        160          0          0 hltIter2Phase2L3FromL1TkMuonPixelHitTriplets
+TrigReport        160        160        160          0          0 hltIter2Phase2L3FromL1TkMuonPixelLayerTriplets
+TrigReport        160        160        160          0          0 hltIter2Phase2L3FromL1TkMuonPixelSeeds
+TrigReport        320        160        160          0          0 hltIter2Phase2L3FromL1TkMuonTrackCutClassifier
+TrigReport        160        160        160          0          0 hltIter2Phase2L3FromL1TkMuonTrackSelectionHighPurity
+TrigReport         38         19         17          2          0 hltL1SingleMuFiltered5
+TrigReport        480        160         22        138          0 hltL1TkDoubleMuFiltered7
+TrigReport        160        160        160          0          0 hltL1TkMuons
+TrigReport         66         22         22          0          0 hltL1TkSingleMuFiltered15
+TrigReport        640        160         37        123          0 hltL1TkSingleMuFiltered22
+TrigReport        320        160         19        141          0 hltL1TripleMuFiltered3
+TrigReport        160        160        160          0          0 hltL2MuonFromL1TkMuonCandidates
+TrigReport        160        160        160          0          0 hltL2MuonSeedsFromL1TkMuon
+TrigReport        640        160        160          0          0 hltL2MuonsFromL1TkMuon
+TrigReport        160        160        160          0          0 hltL2OfflineMuonSeeds
+TrigReport        320        160        160          0          0 hltL3MuonsPhase2L3OI
+TrigReport         34         34         33          1          0 hltL3crIsoL1TkSingleMu22L3f24QL3pfecalIsoFiltered0p41
+TrigReport         33         33         30          3          0 hltL3crIsoL1TkSingleMu22L3f24QL3pfhcalIsoFiltered0p40
+TrigReport         30         30         30          0          0 hltL3crIsoL1TkSingleMu22L3f24QL3pfhgcalIsoFiltered4p70
+TrigReport         30         30         30          0          0 hltL3crIsoL1TkSingleMu22L3f24QL3trkIsoRegionalNewFiltered0p07EcalHcalHgcalTrk
+TrigReport         21         21         21          0          0 hltL3fL1DoubleMu155fFiltered17
+TrigReport         13         13         11          2          0 hltL3fL1DoubleMu155fFiltered37
+TrigReport         22         22         13          9          0 hltL3fL1DoubleMu155fPreFiltered27
+TrigReport         22         22         21          1          0 hltL3fL1DoubleMu155fPreFiltered8
+TrigReport         37         37         34          3          0 hltL3fL1TkSingleMu22L3Filtered24Q
+TrigReport        197        160          6        154          0 hltL3fL1TkSingleMu22L3Filtered50Q
+TrigReport          1          1          0          1          0 hltL3fL1TkTripleMu533L31055DZFiltered0p2
+TrigReport          1          1          1          0          0 hltL3fL1TkTripleMu533L3Filtered1055
+TrigReport          2          2          1          1          0 hltL3fL1TkTripleMu533PreFiltered555
+TrigReport         34         34         34          0          0 hltParticleFlowClusterECALUncorrectedUnseeded
+TrigReport         34         34         34          0          0 hltParticleFlowClusterECALUnseeded
+TrigReport         33         33         33          0          0 hltParticleFlowClusterHBHEForMuons
+TrigReport         33         33         33          0          0 hltParticleFlowClusterHCALForMuons
+TrigReport         34         34         34          0          0 hltParticleFlowClusterPSUnseeded
+TrigReport         34         34         34          0          0 hltParticleFlowRecHitECALUnseeded
+TrigReport         33         33         33          0          0 hltParticleFlowRecHitHBHEForMuons
+TrigReport         34         34         34          0          0 hltParticleFlowRecHitPSUnseeded
+TrigReport        160        160        160          0          0 hltPhase2L3FromL1TkMuonPixelLayerQuadruplets
+TrigReport        160        160        160          0          0 hltPhase2L3FromL1TkMuonPixelTracks
+TrigReport        160        160        160          0          0 hltPhase2L3FromL1TkMuonPixelTracksHitDoublets
+TrigReport        160        160        160          0          0 hltPhase2L3FromL1TkMuonPixelTracksHitQuadruplets
+TrigReport        160        160        160          0          0 hltPhase2L3FromL1TkMuonPixelTracksTrackingRegions
+TrigReport        160        160        160          0          0 hltPhase2L3FromL1TkMuonPixelVertices
+TrigReport        160        160        160          0          0 hltPhase2L3FromL1TkMuonTrimmedPixelVertices
+TrigReport        160        160        160          0          0 hltPhase2L3GlbMuon
+TrigReport        160        160        160          0          0 hltPhase2L3MuonCandidates
+TrigReport         30         30         30          0          0 hltPhase2L3MuonGeneralTracks
+TrigReport         60         30         30          0          0 hltPhase2L3MuonHighPtTripletStepClusters
+TrigReport         30         30         30          0          0 hltPhase2L3MuonHighPtTripletStepHitDoublets
+TrigReport         30         30         30          0          0 hltPhase2L3MuonHighPtTripletStepHitTriplets
+TrigReport         30         30         30          0          0 hltPhase2L3MuonHighPtTripletStepSeedLayers
+TrigReport         30         30         30          0          0 hltPhase2L3MuonHighPtTripletStepSeeds
+TrigReport         30         30         30          0          0 hltPhase2L3MuonHighPtTripletStepTrackCandidates
+TrigReport         60         30         30          0          0 hltPhase2L3MuonHighPtTripletStepTrackCutClassifier
+TrigReport         30         30         30          0          0 hltPhase2L3MuonHighPtTripletStepTrackingRegions
+TrigReport        120         30         30          0          0 hltPhase2L3MuonHighPtTripletStepTracks
+TrigReport         30         30         30          0          0 hltPhase2L3MuonHighPtTripletStepTracksSelectionHighPurity
+TrigReport         30         30         30          0          0 hltPhase2L3MuonInitialStepSeeds
+TrigReport         30         30         30          0          0 hltPhase2L3MuonInitialStepTrackCandidates
+TrigReport         60         30         30          0          0 hltPhase2L3MuonInitialStepTrackCutClassifier
+TrigReport        120         30         30          0          0 hltPhase2L3MuonInitialStepTracks
+TrigReport         30         30         30          0          0 hltPhase2L3MuonInitialStepTracksSelectionHighPurity
+TrigReport        160        160        160          0          0 hltPhase2L3MuonMerged
+TrigReport         30         30         30          0          0 hltPhase2L3MuonPixelFitterByHelixProjections
+TrigReport         30         30         30          0          0 hltPhase2L3MuonPixelTrackFilterByKinematics
+TrigReport         30         30         30          0          0 hltPhase2L3MuonPixelTracks
+TrigReport        160        160        160          0          0 hltPhase2L3MuonPixelTracksFilter
+TrigReport        160        160        160          0          0 hltPhase2L3MuonPixelTracksFitter
+TrigReport         30         30         30          0          0 hltPhase2L3MuonPixelTracksHitDoublets
+TrigReport         30         30         30          0          0 hltPhase2L3MuonPixelTracksHitQuadruplets
+TrigReport         30         30         30          0          0 hltPhase2L3MuonPixelTracksSeedLayers
+TrigReport         30         30         30          0          0 hltPhase2L3MuonPixelTracksTrackingRegions
+TrigReport         30         30         30          0          0 hltPhase2L3MuonPixelVertices
+TrigReport        160        160        160          0          0 hltPhase2L3Muons
+TrigReport         34         34         34          0          0 hltPhase2L3MuonsEcalIsodR0p3dRVeto0p000
+TrigReport         33         33         33          0          0 hltPhase2L3MuonsHcalIsodR0p3dRVeto0p000
+TrigReport         30         30         30          0          0 hltPhase2L3MuonsHgcalLCIsodR0p2dRVetoEM0p00dRVetoHad0p02minEEM0p00minEHad0p00
+TrigReport        160        160        160          0          0 hltPhase2L3MuonsNoID
+TrigReport        160        160        160          0          0 hltPhase2L3MuonsNoIDTracks
+TrigReport        160        160        160          0          0 hltPhase2L3MuonsTracks
+TrigReport         30         30         30          0          0 hltPhase2L3MuonsTrkIsoRegionalNewdR0p3dRVeto0p005dz0p25dr0p20ChisqInfPtMin0p0Cut0p07
+TrigReport         21         21         21          0          0 hltPhase2L3MuonsTrkIsoRegionalNewdR0p3dRVeto0p005dz0p25dr0p20ChisqInfPtMin0p0Cut0p4
+TrigReport        160        160        160          0          0 hltPhase2L3OIL3MuonCandidates
+TrigReport        160        160        160          0          0 hltPhase2L3OIL3Muons
+TrigReport        160        160        160          0          0 hltPhase2L3OIL3MuonsLinksCombination
+TrigReport        640        160        160          0          0 hltPhase2L3OIMuCtfWithMaterialTracks
+TrigReport        320        160        160          0          0 hltPhase2L3OIMuonTrackCutClassifier
+TrigReport        160        160        160          0          0 hltPhase2L3OIMuonTrackSelectionHighPurity
+TrigReport        160        160        160          0          0 hltPhase2L3OISeedsFromL2Muons
+TrigReport        160        160        160          0          0 hltPhase2L3OITrackCandidates
+TrigReport        160        160        160          0          0 hltRpcRecHits
+TrigReport        160        160        160          0          0 hltScalersRawToDigi
+TrigReport        160        160        160          0          0 hltTPClusterProducer
+TrigReport         34         34         34          0          0 hltTowerMakerForAll
+TrigReport        160        160        160          0          0 hltTrackAssociatorByHits
+TrigReport        160        160        160          0          0 hltTriggerSummaryAOD
+TrigReport        160        160        160          0          0 hltTriggerSummaryRAW
+TrigReport       1440        160        160          0          0 hltTriggerType
+TrigReport          4          2          2          0          0 hltTripleMuon3DR0
+TrigReport         34         17          2         15          0 hltTripleMuon3DZ1p0
+TrigReport        160        160        160          0          0 myendpath
+TrigReport        160        160        160          0          0 mypath
+TrigReport        160        160        160          0          0 ntupler
+TrigReport        160        160        160          0          0 siPhase2Clusters
+TrigReport        160        160        160          0          0 siPixelClusterShapeCache
+TrigReport        160        160        160          0          0 siPixelClusters
+TrigReport        160        160        160          0          0 siPixelRecHits
+TrigReport         30         30         30          0          0 trackerClusterCheck
+
+TimeReport ---------- Event  Summary ---[sec]----
+TimeReport       event loop CPU/event = 8.323922
+TimeReport      event loop Real/event = 10.476804
+TimeReport     sum Streams Real/event = 10.283325
+TimeReport efficiency CPU/Real/thread = 0.794510
+
+TimeReport ---------- Path   Summary ---[Real sec]----
+TimeReport  per event     per exec  Name
+TimeReport   1.807696     1.807696  L1T_SingleTkMuon_22
+TimeReport   1.807669     1.807669  L1T_DoubleTkMuon_15_7
+TimeReport   1.807634     1.807634  L1T_TripleTkMuon_5_3_3
+TimeReport   6.705142     6.705142  HLT_Mu50_FromL1TkMuon_Open
+TimeReport   3.519053     3.519053  HLT_Mu50_FromL1TkMuon
+TimeReport   4.122102     4.122102  HLT_IsoMu24_FromL1TkMuon
+TimeReport   2.849789     2.849789  HLT_Mu37_Mu27_FromL1TkMuon
+TimeReport   2.849777     2.849777  HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_FromL1TkMuon
+TimeReport   1.925992     1.925992  HLT_TriMu_10_5_5_DZ_FromL1TkMuon
+TimeReport   8.143930     8.143930  HLTriggerFinalPath
+TimeReport   8.169771     8.169771  mypath
+TimeReport  per event     per exec  Name
+
+TimeReport -------End-Path   Summary ---[Real sec]----
+TimeReport  per event     per exec  Name
+TimeReport   8.732700     8.732700  myendpath
+TimeReport  per event     per exec  Name
+
+TimeReport ---------- Modules in Path: L1T_SingleTkMuon_22 ---[Real sec]----
+TimeReport  per event    per visit  Name
+TimeReport   0.000000     0.000000  hltTriggerType
+TimeReport   0.000000     0.000000  hltL1TkSingleMuFiltered22
+TimeReport   0.000000     0.000000  hltBoolEnd
+
+TimeReport ---------- Modules in Path: L1T_DoubleTkMuon_15_7 ---[Real sec]----
+TimeReport  per event    per visit  Name
+TimeReport   0.000000     0.000000  hltTriggerType
+TimeReport   0.000000     0.000000  hltL1TkDoubleMuFiltered7
+TimeReport   0.000000     0.000000  hltL1TkSingleMuFiltered15
+TimeReport   0.000000     0.000000  hltDoubleMuon7DZ1p0
+TimeReport   0.000000     0.000000  hltBoolEnd
+
+TimeReport ---------- Modules in Path: L1T_TripleTkMuon_5_3_3 ---[Real sec]----
+TimeReport  per event    per visit  Name
+TimeReport   0.000000     0.000000  hltTriggerType
+TimeReport   0.000000     0.000000  hltL1TripleMuFiltered3
+TimeReport   0.000000     0.000000  hltL1SingleMuFiltered5
+TimeReport   0.000000     0.000000  hltTripleMuon3DZ1p0
+TimeReport   0.000000     0.000000  hltTripleMuon3DR0
+TimeReport   0.000000     0.000000  hltBoolEnd
+
+TimeReport ---------- Modules in Path: HLT_Mu50_FromL1TkMuon_Open ---[Real sec]----
+TimeReport  per event    per visit  Name
+TimeReport   0.000000     0.000000  hltTriggerType
+TimeReport   0.000000     0.000000  -hltL1TkSingleMuFiltered22
+TimeReport   0.000057     0.000057  -hltL3fL1TkSingleMu22L3Filtered50Q
+TimeReport   0.000001     0.000001  hltBoolEnd
+
+TimeReport ---------- Modules in Path: HLT_Mu50_FromL1TkMuon ---[Real sec]----
+TimeReport  per event    per visit  Name
+TimeReport   0.000000     0.000000  hltTriggerType
+TimeReport   0.000000     0.000000  hltL1TkSingleMuFiltered22
+TimeReport   0.000000     0.000000  hltL3fL1TkSingleMu22L3Filtered50Q
+TimeReport   0.000000     0.000000  hltBoolEnd
+
+TimeReport ---------- Modules in Path: HLT_IsoMu24_FromL1TkMuon ---[Real sec]----
+TimeReport  per event    per visit  Name
+TimeReport   0.000000     0.000000  hltTriggerType
+TimeReport   0.000003     0.000003  hltL1TkSingleMuFiltered22
+TimeReport   0.000003     0.000012  hltL3fL1TkSingleMu22L3Filtered24Q
+TimeReport   0.000026     0.000124  hltL3crIsoL1TkSingleMu22L3f24QL3pfecalIsoFiltered0p41
+TimeReport   0.000002     0.000012  hltL3crIsoL1TkSingleMu22L3f24QL3pfhcalIsoFiltered0p40
+TimeReport   0.000008     0.000044  hltL3crIsoL1TkSingleMu22L3f24QL3pfhgcalIsoFiltered4p70
+TimeReport   0.000003     0.000018  hltL3crIsoL1TkSingleMu22L3f24QL3trkIsoRegionalNewFiltered0p07EcalHcalHgcalTrk
+TimeReport   0.000000     0.000000  hltBoolEnd
+
+TimeReport ---------- Modules in Path: HLT_Mu37_Mu27_FromL1TkMuon ---[Real sec]----
+TimeReport  per event    per visit  Name
+TimeReport   0.000000     0.000000  hltTriggerType
+TimeReport   0.000000     0.000000  hltL1TkDoubleMuFiltered7
+TimeReport   0.000000     0.000000  hltL1TkSingleMuFiltered15
+TimeReport   0.000000     0.000000  hltDoubleMuon7DZ1p0
+TimeReport   0.000004     0.000026  hltL3fL1DoubleMu155fPreFiltered27
+TimeReport   0.000001     0.000007  hltL3fL1DoubleMu155fFiltered37
+TimeReport   0.000000     0.000000  hltBoolEnd
+
+TimeReport ---------- Modules in Path: HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_FromL1TkMuon ---[Real sec]----
+TimeReport  per event    per visit  Name
+TimeReport   0.000000     0.000000  hltTriggerType
+TimeReport   0.000005     0.000005  hltL1TkDoubleMuFiltered7
+TimeReport   0.000001     0.000007  hltL1TkSingleMuFiltered15
+TimeReport   0.000003     0.000020  hltDoubleMuon7DZ1p0
+TimeReport   0.000002     0.000016  hltL3fL1DoubleMu155fPreFiltered8
+TimeReport   0.000001     0.000008  hltL3fL1DoubleMu155fFiltered17
+TimeReport   0.000009     0.000070  hltDiMuon178RelTrkIsoFiltered0p4
+TimeReport   0.000004     0.000032  hltDiMuon178RelTrkIsoFiltered0p4DzFiltered0p2
+TimeReport   0.000000     0.000000  hltBoolEnd
+
+TimeReport ---------- Modules in Path: HLT_TriMu_10_5_5_DZ_FromL1TkMuon ---[Real sec]----
+TimeReport  per event    per visit  Name
+TimeReport   0.000001     0.000001  hltTriggerType
+TimeReport   0.000029     0.000029  hltL1TripleMuFiltered3
+TimeReport   0.000001     0.000008  hltL1SingleMuFiltered5
+TimeReport   0.000005     0.000043  hltTripleMuon3DZ1p0
+TimeReport   0.000007     0.000551  hltTripleMuon3DR0
+TimeReport   0.000000     0.000018  hltL3fL1TkTripleMu533PreFiltered555
+TimeReport   0.000000     0.000052  hltL3fL1TkTripleMu533L3Filtered1055
+TimeReport   0.000188     0.030063  hltL3fL1TkTripleMu533L31055DZFiltered0p2
+TimeReport   0.000000     0.000000  hltBoolEnd
+
+TimeReport ---------- Modules in Path: HLTriggerFinalPath ---[Real sec]----
+TimeReport  per event    per visit  Name
+TimeReport   0.000144     0.000144  hltTriggerSummaryAOD
+TimeReport   0.000050     0.000050  hltTriggerSummaryRAW
+TimeReport   0.000000     0.000000  hltBoolFalse
+
+TimeReport ---------- Modules in Path: mypath ---[Real sec]----
+TimeReport  per event    per visit  Name
+TimeReport   1.046221     1.046221  hltTPClusterProducer
+TimeReport   0.000023     0.000023  hltTrackAssociatorByHits
+TimeReport   0.001329     0.001329  hltPhase2L3MuonsNoIDTracks
+TimeReport   0.001130     0.001130  hltPhase2L3MuonsTracks
+TimeReport   0.311112     0.311112  AhltPhase2L3OIMuonTrackSelectionHighPurity
+TimeReport   0.311677     0.311677  AhltIter0Phase2L3FromL1TkMuonTrackSelectionHighPurity
+TimeReport   1.228738     1.228738  AhltIter2Phase2L3FromL1TkMuonTrackSelectionHighPurity
+TimeReport   1.306291     1.306291  AhltIter2Phase2L3FromL1TkMuonMerged
+TimeReport   0.459493     0.459493  AhltPhase2L3MuonsNoID
+TimeReport   0.376086     0.376086  AhltPhase2L3Muons
+TimeReport  per event    per visit  Name
+
+TimeReport ------ Modules in End-Path: myendpath ---[Real sec]----
+TimeReport  per event    per visit  Name
+TimeReport   0.560194     0.560194  ntupler
+TimeReport  per event    per visit  Name
+
+TimeReport ---------- Module Summary ---[Real sec]----
+TimeReport  per event     per exec    per visit  Name
+TimeReport   0.311677     0.311677     0.311677  AhltIter0Phase2L3FromL1TkMuonTrackSelectionHighPurity
+TimeReport   1.306291     1.306291     1.306291  AhltIter2Phase2L3FromL1TkMuonMerged
+TimeReport   1.228738     1.228738     1.228738  AhltIter2Phase2L3FromL1TkMuonTrackSelectionHighPurity
+TimeReport   0.376086     0.376086     0.376086  AhltPhase2L3Muons
+TimeReport   0.459493     0.459493     0.459493  AhltPhase2L3MuonsNoID
+TimeReport   0.311112     0.311112     0.311112  AhltPhase2L3OIMuonTrackSelectionHighPurity
+TimeReport   0.019571     0.104380     0.104380  HGCalRecHit
+TimeReport   0.016649     0.088797     0.088797  HGCalUncalibRecHit
+TimeReport   0.000002     0.000002     0.000002  HLT_IsoMu24_FromL1TkMuon
+TimeReport   0.000002     0.000002     0.000002  HLT_Mu17_TrkIsoVVL_Mu8_TrkIsoVVL_DZ_FromL1TkMuon
+TimeReport   0.000002     0.000002     0.000002  HLT_Mu37_Mu27_FromL1TkMuon
+TimeReport   0.000002     0.000002     0.000002  HLT_Mu50_FromL1TkMuon
+TimeReport   0.000005     0.000005     0.000005  HLT_Mu50_FromL1TkMuon_Open
+TimeReport   0.000004     0.000004     0.000004  HLT_TriMu_10_5_5_DZ_FromL1TkMuon
+TimeReport   0.000003     0.000003     0.000003  HLTriggerFinalPath
+TimeReport   0.000001     0.000001     0.000001  L1T_DoubleTkMuon_15_7
+TimeReport   0.000002     0.000002     0.000002  L1T_SingleTkMuon_22
+TimeReport   0.000002     0.000002     0.000002  L1T_TripleTkMuon_5_3_3
+TimeReport   0.000455     0.000455     0.000455  MeasurementTrackerEvent
+TimeReport   0.000004     0.000004     0.000004  TriggerResults
+TimeReport   0.000008     0.000036     0.000036  bunchSpacingProducer
+TimeReport   0.027716     0.147818     0.147818  hgcalDigis
+TimeReport   0.173209     0.923784     0.923784  hgcalLayerClusters
+TimeReport   0.000001     0.000001     0.000000  hltBoolEnd
+TimeReport   0.000000     0.000000     0.000000  hltBoolFalse
+TimeReport   0.008868     0.008868     0.008868  hltCsc2DRecHits
+TimeReport   0.010235     0.010235     0.010235  hltCscSegments
+TimeReport   0.000009     0.000070     0.000070  hltDiMuon178RelTrkIsoFiltered0p4
+TimeReport   0.000004     0.000032     0.000032  hltDiMuon178RelTrkIsoFiltered0p4DzFiltered0p2
+TimeReport   0.000003     0.000020     0.000007  hltDoubleMuon7DZ1p0
+TimeReport   0.000373     0.000373     0.000373  hltDt1DRecHits
+TimeReport   0.005167     0.005167     0.005167  hltDt4DSegments
+TimeReport   0.000047     0.000222     0.000222  hltEcalDetIdToBeRecovered
+TimeReport   0.001072     0.005043     0.005043  hltEcalDigis
+TimeReport   0.000022     0.000104     0.000104  hltEcalPreshowerDigis
+TimeReport   0.000027     0.000129     0.000129  hltEcalPreshowerRecHit
+TimeReport   0.000767     0.003610     0.003610  hltEcalRecHit
+TimeReport   0.034254     0.161194     0.161194  hltEcalUncalibRecHit
+TimeReport   0.000186     0.000876     0.000876  hltFixedGridRhoFastjetAllCaloForMuons
+TimeReport   0.007428     0.007428     0.007428  hltGemRecHits
+TimeReport   0.029083     0.029083     0.029083  hltGemSegments
+TimeReport   0.009827     0.046243     0.046243  hltHbhereco
+TimeReport   0.000785     0.003696     0.003696  hltHcalDigis
+TimeReport   0.000466     0.002191     0.002191  hltHfprereco
+TimeReport   0.000493     0.002322     0.002322  hltHfreco
+TimeReport   0.000129     0.000609     0.000609  hltHoreco
+TimeReport   0.001744     0.001744     0.001744  hltIter0Phase2L3FromL1TkMuonCkfTrackCandidates
+TimeReport   0.000303     0.000303     0.000303  hltIter0Phase2L3FromL1TkMuonCtfWithMaterialTracks
+TimeReport   0.000086     0.000086     0.000086  hltIter0Phase2L3FromL1TkMuonPixelSeedsFromPixelTracks
+TimeReport   0.000026     0.000026     0.000026  hltIter0Phase2L3FromL1TkMuonTrackCutClassifier
+TimeReport   0.000038     0.000038     0.000038  hltIter0Phase2L3FromL1TkMuonTrackSelectionHighPurity
+TimeReport   0.030371     0.030371     0.030371  hltIter2Phase2L3FromL1TkMuonCkfTrackCandidates
+TimeReport   0.000062     0.000062     0.000062  hltIter2Phase2L3FromL1TkMuonClustersRefRemoval
+TimeReport   0.008561     0.008561     0.008561  hltIter2Phase2L3FromL1TkMuonCtfWithMaterialTracks
+TimeReport   0.001367     0.001367     0.001367  hltIter2Phase2L3FromL1TkMuonMaskedMeasurementTrackerEvent
+TimeReport   0.000122     0.000122     0.000122  hltIter2Phase2L3FromL1TkMuonMerged
+TimeReport   0.000023     0.000023     0.000023  hltIter2Phase2L3FromL1TkMuonPixelClusterCheck
+TimeReport   0.002692     0.002692     0.002692  hltIter2Phase2L3FromL1TkMuonPixelHitDoublets
+TimeReport   0.000822     0.000822     0.000822  hltIter2Phase2L3FromL1TkMuonPixelHitTriplets
+TimeReport   0.001931     0.001931     0.001931  hltIter2Phase2L3FromL1TkMuonPixelLayerTriplets
+TimeReport   0.001197     0.001197     0.001197  hltIter2Phase2L3FromL1TkMuonPixelSeeds
+TimeReport   0.000034     0.000034     0.000034  hltIter2Phase2L3FromL1TkMuonTrackCutClassifier
+TimeReport   0.000105     0.000105     0.000105  hltIter2Phase2L3FromL1TkMuonTrackSelectionHighPurity
+TimeReport   0.000001     0.000008     0.000004  hltL1SingleMuFiltered5
+TimeReport   0.000005     0.000005     0.000002  hltL1TkDoubleMuFiltered7
+TimeReport   0.000692     0.000692     0.000692  hltL1TkMuons
+TimeReport   0.000001     0.000007     0.000002  hltL1TkSingleMuFiltered15
+TimeReport   0.000003     0.000003     0.000001  hltL1TkSingleMuFiltered22
+TimeReport   0.000029     0.000029     0.000014  hltL1TripleMuFiltered3
+TimeReport   0.000053     0.000053     0.000053  hltL2MuonFromL1TkMuonCandidates
+TimeReport   0.000397     0.000397     0.000397  hltL2MuonSeedsFromL1TkMuon
+TimeReport   0.006547     0.006547     0.006547  hltL2MuonsFromL1TkMuon
+TimeReport   0.000977     0.000977     0.000977  hltL2OfflineMuonSeeds
+TimeReport   0.001756     0.001756     0.001756  hltL3MuonsPhase2L3OI
+TimeReport   0.000026     0.000124     0.000124  hltL3crIsoL1TkSingleMu22L3f24QL3pfecalIsoFiltered0p41
+TimeReport   0.000002     0.000012     0.000012  hltL3crIsoL1TkSingleMu22L3f24QL3pfhcalIsoFiltered0p40
+TimeReport   0.000008     0.000044     0.000044  hltL3crIsoL1TkSingleMu22L3f24QL3pfhgcalIsoFiltered4p70
+TimeReport   0.000003     0.000018     0.000018  hltL3crIsoL1TkSingleMu22L3f24QL3trkIsoRegionalNewFiltered0p07EcalHcalHgcalTrk
+TimeReport   0.000001     0.000008     0.000008  hltL3fL1DoubleMu155fFiltered17
+TimeReport   0.000001     0.000007     0.000007  hltL3fL1DoubleMu155fFiltered37
+TimeReport   0.000004     0.000026     0.000026  hltL3fL1DoubleMu155fPreFiltered27
+TimeReport   0.000002     0.000016     0.000016  hltL3fL1DoubleMu155fPreFiltered8
+TimeReport   0.000003     0.000012     0.000012  hltL3fL1TkSingleMu22L3Filtered24Q
+TimeReport   0.000057     0.000057     0.000247  hltL3fL1TkSingleMu22L3Filtered50Q
+TimeReport   0.000188     0.030063     0.030063  hltL3fL1TkTripleMu533L31055DZFiltered0p2
+TimeReport   0.000000     0.000052     0.000052  hltL3fL1TkTripleMu533L3Filtered1055
+TimeReport   0.000000     0.000018     0.000018  hltL3fL1TkTripleMu533PreFiltered555
+TimeReport   0.000561     0.002642     0.002642  hltParticleFlowClusterECALUncorrectedUnseeded
+TimeReport   0.001978     0.009310     0.009310  hltParticleFlowClusterECALUnseeded
+TimeReport   0.000104     0.000505     0.000505  hltParticleFlowClusterHBHEForMuons
+TimeReport   0.000086     0.000417     0.000417  hltParticleFlowClusterHCALForMuons
+TimeReport   0.000007     0.000035     0.000035  hltParticleFlowClusterPSUnseeded
+TimeReport   0.000732     0.003444     0.003444  hltParticleFlowRecHitECALUnseeded
+TimeReport   0.000536     0.002597     0.002597  hltParticleFlowRecHitHBHEForMuons
+TimeReport   0.000025     0.000117     0.000117  hltParticleFlowRecHitPSUnseeded
+TimeReport   0.000944     0.000944     0.000944  hltPhase2L3FromL1TkMuonPixelLayerQuadruplets
+TimeReport   0.000088     0.000088     0.000088  hltPhase2L3FromL1TkMuonPixelTracks
+TimeReport   0.002554     0.002554     0.002554  hltPhase2L3FromL1TkMuonPixelTracksHitDoublets
+TimeReport   0.000668     0.000668     0.000668  hltPhase2L3FromL1TkMuonPixelTracksHitQuadruplets
+TimeReport   0.000100     0.000100     0.000100  hltPhase2L3FromL1TkMuonPixelTracksTrackingRegions
+TimeReport   0.000178     0.000178     0.000178  hltPhase2L3FromL1TkMuonPixelVertices
+TimeReport   0.000013     0.000013     0.000013  hltPhase2L3FromL1TkMuonTrimmedPixelVertices
+TimeReport   0.005796     0.005796     0.005796  hltPhase2L3GlbMuon
+TimeReport   0.000009     0.000009     0.000009  hltPhase2L3MuonCandidates
+TimeReport   0.000059     0.000314     0.000314  hltPhase2L3MuonGeneralTracks
+TimeReport   0.000016     0.000087     0.000087  hltPhase2L3MuonHighPtTripletStepClusters
+TimeReport   0.003949     0.021061     0.021061  hltPhase2L3MuonHighPtTripletStepHitDoublets
+TimeReport   0.014210     0.075789     0.075789  hltPhase2L3MuonHighPtTripletStepHitTriplets
+TimeReport   0.000877     0.004680     0.004680  hltPhase2L3MuonHighPtTripletStepSeedLayers
+TimeReport   0.003842     0.020491     0.020491  hltPhase2L3MuonHighPtTripletStepSeeds
+TimeReport   0.026904     0.143487     0.143487  hltPhase2L3MuonHighPtTripletStepTrackCandidates
+TimeReport   0.000020     0.000109     0.000109  hltPhase2L3MuonHighPtTripletStepTrackCutClassifier
+TimeReport   0.000015     0.000082     0.000082  hltPhase2L3MuonHighPtTripletStepTrackingRegions
+TimeReport   0.009824     0.052392     0.052392  hltPhase2L3MuonHighPtTripletStepTracks
+TimeReport   0.000025     0.000131     0.000131  hltPhase2L3MuonHighPtTripletStepTracksSelectionHighPurity
+TimeReport   0.000115     0.000612     0.000612  hltPhase2L3MuonInitialStepSeeds
+TimeReport   0.003489     0.018607     0.018607  hltPhase2L3MuonInitialStepTrackCandidates
+TimeReport   0.000010     0.000052     0.000052  hltPhase2L3MuonInitialStepTrackCutClassifier
+TimeReport   0.001533     0.008177     0.008177  hltPhase2L3MuonInitialStepTracks
+TimeReport   0.000026     0.000141     0.000141  hltPhase2L3MuonInitialStepTracksSelectionHighPurity
+TimeReport   0.000144     0.000144     0.000144  hltPhase2L3MuonMerged
+TimeReport   0.000002     0.000009     0.000009  hltPhase2L3MuonPixelFitterByHelixProjections
+TimeReport   0.000001     0.000005     0.000005  hltPhase2L3MuonPixelTrackFilterByKinematics
+TimeReport   0.000254     0.001355     0.001355  hltPhase2L3MuonPixelTracks
+TimeReport   0.000006     0.000006     0.000006  hltPhase2L3MuonPixelTracksFilter
+TimeReport   0.000013     0.000013     0.000013  hltPhase2L3MuonPixelTracksFitter
+TimeReport   0.003123     0.016657     0.016657  hltPhase2L3MuonPixelTracksHitDoublets
+TimeReport   0.005664     0.030209     0.030209  hltPhase2L3MuonPixelTracksHitQuadruplets
+TimeReport   0.000348     0.001854     0.001854  hltPhase2L3MuonPixelTracksSeedLayers
+TimeReport   0.000002     0.000013     0.000013  hltPhase2L3MuonPixelTracksTrackingRegions
+TimeReport   0.000022     0.000117     0.000117  hltPhase2L3MuonPixelVertices
+TimeReport   0.000029     0.000029     0.000029  hltPhase2L3Muons
+TimeReport   0.000130     0.000613     0.000613  hltPhase2L3MuonsEcalIsodR0p3dRVeto0p000
+TimeReport   0.000020     0.000099     0.000099  hltPhase2L3MuonsHcalIsodR0p3dRVeto0p000
+TimeReport   0.016098     0.085856     0.085856  hltPhase2L3MuonsHgcalLCIsodR0p2dRVetoEM0p00dRVetoHad0p02minEEM0p00minEHad0p00
+TimeReport   0.011900     0.011900     0.011900  hltPhase2L3MuonsNoID
+TimeReport   0.001329     0.001329     0.001329  hltPhase2L3MuonsNoIDTracks
+TimeReport   0.001130     0.001130     0.001130  hltPhase2L3MuonsTracks
+TimeReport   0.000017     0.000092     0.000092  hltPhase2L3MuonsTrkIsoRegionalNewdR0p3dRVeto0p005dz0p25dr0p20ChisqInfPtMin0p0Cut0p07
+TimeReport   0.000059     0.000447     0.000447  hltPhase2L3MuonsTrkIsoRegionalNewdR0p3dRVeto0p005dz0p25dr0p20ChisqInfPtMin0p0Cut0p4
+TimeReport   0.000014     0.000014     0.000014  hltPhase2L3OIL3MuonCandidates
+TimeReport   0.000005     0.000005     0.000005  hltPhase2L3OIL3Muons
+TimeReport   0.000016     0.000016     0.000016  hltPhase2L3OIL3MuonsLinksCombination
+TimeReport   0.000326     0.000326     0.000326  hltPhase2L3OIMuCtfWithMaterialTracks
+TimeReport   0.000029     0.000029     0.000029  hltPhase2L3OIMuonTrackCutClassifier
+TimeReport   0.000041     0.000041     0.000041  hltPhase2L3OIMuonTrackSelectionHighPurity
+TimeReport   0.000661     0.000661     0.000661  hltPhase2L3OISeedsFromL2Muons
+TimeReport   0.020617     0.020617     0.020617  hltPhase2L3OITrackCandidates
+TimeReport   0.000324     0.000324     0.000324  hltRpcRecHits
+TimeReport   0.000044     0.000044     0.000044  hltScalersRawToDigi
+TimeReport   1.046221     1.046221     1.046221  hltTPClusterProducer
+TimeReport   0.001778     0.008366     0.008366  hltTowerMakerForAll
+TimeReport   0.000023     0.000023     0.000023  hltTrackAssociatorByHits
+TimeReport   0.000144     0.000144     0.000144  hltTriggerSummaryAOD
+TimeReport   0.000050     0.000050     0.000050  hltTriggerSummaryRAW
+TimeReport   0.000001     0.000001     0.000000  hltTriggerType
+TimeReport   0.000007     0.000551     0.000276  hltTripleMuon3DR0
+TimeReport   0.000005     0.000043     0.000022  hltTripleMuon3DZ1p0
+TimeReport   0.000017     0.000017     0.000017  myendpath
+TimeReport   0.000004     0.000004     0.000004  mypath
+TimeReport   0.560194     0.560194     0.560194  ntupler
+TimeReport   0.007706     0.007706     0.007706  siPhase2Clusters
+TimeReport   0.035701     0.035701     0.035701  siPixelClusterShapeCache
+TimeReport   0.249116     0.249116     0.249116  siPixelClusters
+TimeReport   0.140069     0.140069     0.140069  siPixelRecHits
+TimeReport   0.000001     0.000007     0.000007  trackerClusterCheck
+TimeReport  per event     per exec    per visit  Name
+
+T---Report end!
+
+
+=============================================
+
+MessageLogger Summary
+
+ type     category        sev    module        subroutine        count    total
+ ---- -------------------- -- ---------------- ----------------  -----    -----
+    1 GlobalMuon           -w L3MuonProducer:h                       1        1
+    2 GlobalMuon           -w L3MuonProducer:h                       1        1
+    3 GlobalTrajectoryBuil -w L3MuonProducer:h                       1        1
+    4 GlobalTrajectoryBuil -w L3MuonProducer:h                       1        1
+    5 Muon                 -w L3MuonProducer:h                       1        1
+    6 Muon                 -w L3MuonProducer:h                       1        1
+    7 RecoMuon             -w L3MuonProducer:h                       1        1
+    8 RecoMuon             -w L3MuonProducer:h                       1        1
+    9 XrdAdaptor           -w file_open                              1        1
+   10 XrdAdaptorInternal   -w file_open                              2        2
+   11 fileAction           -s file_close                             1        1
+   12 fileAction           -s file_open                              3        3
+
+ type    category    Examples: run/evt        run/evt          run/evt
+ ---- -------------------- ---------------- ---------------- ----------------
+    1 GlobalMuon           1/123419                          
+    2 GlobalMuon           1/123419                          
+    3 GlobalTrajectoryBuilderBase 1/123419                          
+    4 GlobalTrajectoryBuilderBase 1/123419                          
+    5 Muon                 1/123419                          
+    6 Muon                 1/123419                          
+    7 RecoMuon             1/123419                          
+    8 RecoMuon             1/123419                          
+    9 XrdAdaptor           pre-events                        
+   10 XrdAdaptorInternal   pre-events       pre-events       
+   11 fileAction           PostGlobalEndRun                  
+   12 fileAction           pre-events       pre-events       pre-events
+
+Severity    # Occurrences   Total Occurrences
+--------    -------------   -----------------
+Warning                11                  11
+System                  4                   4
+
+dropped waiting message count 0

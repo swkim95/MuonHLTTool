@@ -95,8 +95,8 @@
 #include "DataFormats/L1TCorrelator/interface/TkMuonFwd.h"
 #include "DataFormats/L1TCorrelator/interface/TkPrimaryVertex.h"
 
-#include "HLTrigger/MuonHLTSeedMVAClassifier/interface/SeedMvaEstimator2.h"
-//#include "HLTrigger/MuonHLTSeedMVAClassifier/interface/SeedMvaEstimator.h"
+#include "HLTrigger/MuonHLTSeedMVAClassifierPhase2/interface/SeedMvaEstimator2.h"
+//#include "HLTrigger/MuonHLTSeedMVAClassifierPhase2/interface/SeedMvaEstimator.h"
 
 // -- for L1TkMu propagation
 #include "TrackingTools/GeomPropagators/interface/Propagator.h"

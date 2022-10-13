@@ -180,7 +180,7 @@ if doNtuple:
 
     process.TFileService.fileName = cms.string("ntuple_D88Geo_MuonGun.root")
     
-    #from HLTrigger.MuonHLTSeedMVAClassifier.customizerForMuonHLTSeeding import *
+    #from HLTrigger.MuonHLTSeedMVAClassifierPhase2.customizerForMuonHLTSeeding import *
     #WPNAME = 'noMVAcut_noSeedMax'
     #doSort = False
     #nSeedMax_B = (-1,)

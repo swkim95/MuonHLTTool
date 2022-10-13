@@ -97,8 +97,8 @@
 #include "L1Trigger/L1TMuon/interface/MicroGMTConfiguration.h"
 #include "DataFormats/Math/interface/angle_units.h"
 
-// #include "HLTrigger/MuonHLTSeedMVAClassifier/interface/SeedMvaEstimator.h"
-#include "HLTrigger/MuonHLTSeedMVAClassifier/interface/SeedMvaEstimator2.h"
+// #include "HLTrigger/MuonHLTSeedMVAClassifierPhase2/interface/SeedMvaEstimator.h"
+#include "HLTrigger/MuonHLTSeedMVAClassifierPhase2/interface/SeedMvaEstimator2.h"
 
 // -- for L1TkMu propagation
 #include "TrackingTools/GeomPropagators/interface/Propagator.h"
@@ -237,8 +237,8 @@ private:
   // ----------- For CMSSW_12 -----------
   const TrackerTopology* _trackerTopology;
   const TrackerGeometry* _trackerGeometry;
-  const GeometricDet* _geometryDetector;
-  const MagneticField* _magneticField;
+  // const GeometricDet* _geometryDetector;
+  // const MagneticField* _magneticField;
   // --------------------------------------
 
   typedef std::vector< std::pair<SeedMvaEstimatorPhase2*, SeedMvaEstimatorPhase2*> > pairSeedMvaEstimatorPhase2;
@@ -1627,6 +1627,8 @@ private:
     const edm::EventSetup &iSetup,
     GeometricSearchTracker* geomTracker
   ) {
+    // edm::ESHandle<Propagator> propagatorAlongH;
+    // iSetup.get<TrackingComponentsRecord>().get("PropagatorWithMaterialParabolicMf", propagatorAlongH);
     edm::ESHandle<Propagator> propagatorAlongH = iSetup.getHandle(propagatorESToken_);
     std::unique_ptr<Propagator> propagatorAlong = SetPropagationDirection(*propagatorAlongH, alongMomentum);
 

@@ -445,14 +445,28 @@ void MuonHLTSeedNtupler::Fill_IterL3TT(const edm::Event &iEvent)
 void MuonHLTSeedNtupler::Fill_Seed(const edm::Event &iEvent, const edm::EventSetup &iSetup)
 {
   // TrackerHitAssociator associate(iEvent, trackerHitAssociatorConfig_);
+  // edm::ESHandle<TrackerGeometry> tracker;
+  // iSetup.get<TrackerDigiGeometryRecord>().get(tracker);
   edm::ESHandle<TrackerGeometry> tracker = iSetup.getHandle(trackerGeometryESToken_);
+
+  // edm::ESHandle<MagneticField> magfieldH;
+  // iSetup.get<IdealMagneticFieldRecord>().get(magfieldH);
   edm::ESHandle<MagneticField> magfieldH = iSetup.getHandle(magFieldESToken_);
-  edm::ESHandle<TrackerGeometry> trkgeom = iSetup.getHandle(trackerGeometryESToken_);
+
+  // edm::ESHandle<TrackerGeometry> trkGeom;
+  // iSetup.get<TrackerDigiGeometryRecord>().get(trkGeom);
+  edm::ESHandle<TrackerGeometry> trkGeom = iSetup.getHandle(trackerGeometryESToken_);
+
+  // edm::ESHandle<GeometricDet> geomDet;
+  // iSetup.get<IdealGeometryRecord>().get(geomDet);
   edm::ESHandle<GeometricDet> geomDet = iSetup.getHandle(geomDetESToken_);
+
+  // edm::ESHandle<TrackerTopology> trkTopo;
+  // iSetup.get<TrackerTopologyRcd>().get(trkTopo);
   edm::ESHandle<TrackerTopology> trkTopo = iSetup.getHandle(trackerTopologyESToken_);
 
   GeometricSearchTrackerBuilder builder;
-  GeometricSearchTracker* geomTracker = builder.build(&(*geomDet), &(*trkgeom), &(*trkTopo));
+  GeometricSearchTracker* geomTracker = builder.build(&(*geomDet), &(*trkGeom), &(*trkTopo));
 
   // fill_seedTemplate(iEvent, t_hltIterL3OISeedsFromL2Muons_,                       mvaHltIterL3OISeedsFromL2Muons_,                       tracker, hltIterL3OIMuonTrackMap,          TThltIterL3OIMuonTrack,          NThltIterL3OI_,    nhltIterL3OI_ );
   // fill_seedTemplate(iEvent, t_hltIter0IterL3MuonPixelSeedsFromPixelTracks_,       mvaHltIter0IterL3MuonPixelSeedsFromPixelTracks_,       tracker, hltIter0IterL3MuonTrackMap,       TThltIter0IterL3MuonTrack,       NThltIter0_,       nhltIter0_ );
@@ -762,8 +776,9 @@ void MuonHLTSeedNtupler::fill_seedTemplate(
   //edm::Handle< std::vector< TTTrack< Ref_Phase2TrackerDigi_ > > > TTTrackHandle;
   //bool hasL1TTTrack = iEvent.getByToken(ttTrackToken_, TTTrackHandle);
 
-  edm::Handle< TrajectorySeedCollection > seedHandle;
-
+  edm::Handle<TrajectorySeedCollection> seedHandle;
+  // edm::ESHandle<Propagator> propagatorAlongH;
+  // iSetup.get<TrackingComponentsRecord>().get("PropagatorWithMaterialParabolicMf", propagatorAlongH);  
   edm::ESHandle<Propagator> propagatorAlongH = iSetup.getHandle(propagatorESToken_);
   std::unique_ptr<Propagator> propagatorAlong = SetPropagationDirection(*propagatorAlongH, alongMomentum);
 

@@ -265,6 +265,8 @@ void MuonHLTNtupler::analyze(const edm::Event &iEvent, const edm::EventSetup &iS
 
   _trackerTopology = &iSetup.getData(trackerTopologyESToken_);
   _trackerGeometry = &iSetup.getData(trackerGeometryESToken_);
+  //_geometryDetector = &iSetup.getData(geomDetESToken_);
+  // _magneticField = &iSetup.getData(magFieldESToken_);
 
   // -- basic info.
   isRealData_ = iEvent.isRealData();
@@ -353,7 +355,7 @@ void MuonHLTNtupler::analyze(const edm::Event &iEvent, const edm::EventSetup &iS
   Fill_HLTMuon(iEvent);
   Fill_L1Muon(iEvent);
   Fill_IterL3(iEvent, iSetup);
-  if( doSeed )  Fill_Seed(iEvent, iSetup);
+  // if( doSeed )  Fill_Seed(iEvent, iSetup);
   if( !isRealData_ ) {
     Fill_GenParticle(iEvent);
     // Fill_TP(iEvent, TrkParticle);
@@ -1844,13 +1846,24 @@ void MuonHLTNtupler::Fill_IterL3(const edm::Event &iEvent, const edm::EventSetup
   edm::Handle<TrackingParticleCollection> TPCollection;
   iEvent.getByToken(trackingParticleToken, TPCollection);
 
+  // edm::ESHandle<MagneticField> magfieldH;
+  // iSetup.get<IdealMagneticFieldRecord>().get(magfieldH);
   edm::ESHandle<MagneticField> magfieldH = iSetup.getHandle(magFieldESToken_);
+
+  // edm::ESHandle<GeometricDet> geomDet;
+  // iSetup.get<IdealGeometryRecord>().get(geomDet);
   edm::ESHandle<GeometricDet> geomDet = iSetup.getHandle(geomDetESToken_);
+
+  // edm::ESHandle<TrackerTopology> trkTopo;
+  // iSetup.get<TrackerTopologyRcd>().get(trkTopo);
   edm::ESHandle<TrackerTopology> trkTopo = iSetup.getHandle(trackerTopologyESToken_);
-  edm::ESHandle<TrackerGeometry> trkgeom = iSetup.getHandle(trackerGeometryESToken_);
+
+  // edm::ESHandle<TrackerGeometry> trkGeom;
+  // iSetup.get<TrackerDigiGeometryRecord>().get(trkGeom);
+  edm::ESHandle<TrackerGeometry> trkGeom = iSetup.getHandle(trackerGeometryESToken_);
 
   GeometricSearchTrackerBuilder builder;
-  GeometricSearchTracker* geomTracker = builder.build(&(*geomDet), &(*trkgeom), &(*trkTopo));
+  GeometricSearchTracker* geomTracker = builder.build(&(*geomDet), &(*trkGeom), &(*trkTopo));
 
   if( iEvent.getByToken( t_iterL3Muon_, h_iterL3Muon) )
   {
@@ -2060,7 +2073,8 @@ void MuonHLTNtupler::Fill_IterL3(const edm::Event &iEvent, const edm::EventSetup
   //////////////////////////
   // -- Tracks from each algo -- //
   //////////////////////////
-
+  // edm::ESHandle<TrackerGeometry> tracker;
+  // iSetup.get<TrackerDigiGeometryRecord>().get(tracker);
   edm::ESHandle<TrackerGeometry> tracker = iSetup.getHandle(trackerGeometryESToken_);
 
   if(doMVA) {
