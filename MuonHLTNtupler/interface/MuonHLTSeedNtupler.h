@@ -558,9 +558,9 @@ private:
   class seedTemplate {
   private:
     float mva0_;
-    float mva1_;
-    float mva2_;
-    float mva3_;
+    // float mva1_;
+    // float mva2_;
+    // float mva3_;
     int truePU_;
     int dir_;
     uint32_t tsos_detId_;
@@ -627,9 +627,9 @@ private:
 
     void clear_base() {
       mva0_ = -99999.;
-      mva1_ = -99999.;
-      mva2_ = -99999.;
-      mva3_ = -99999.;
+      // mva1_ = -99999.;
+      // mva2_ = -99999.;
+      // mva3_ = -99999.;
       truePU_ = -99999;
       dir_ = -99999;
       tsos_detId_ = 0;
@@ -699,9 +699,9 @@ private:
 
     void setBranch_base(TTree* tmpntpl) {
       tmpntpl->Branch("mva0",          &mva0_, "mva0/F");
-      tmpntpl->Branch("mva1",          &mva1_, "mva1/F");
-      tmpntpl->Branch("mva2",          &mva2_, "mva2/F");
-      tmpntpl->Branch("mva3",          &mva3_, "mva3/F");
+      // tmpntpl->Branch("mva1",          &mva1_, "mva1/F");
+      // tmpntpl->Branch("mva2",          &mva2_, "mva2/F");
+      // tmpntpl->Branch("mva3",          &mva3_, "mva3/F");
       tmpntpl->Branch("truePU",       &truePU_, "truePU/I");
       tmpntpl->Branch("dir",          &dir_, "dir/I");
       tmpntpl->Branch("tsos_detId",   &tsos_detId_, "tsos_detId/i");
@@ -811,12 +811,18 @@ private:
       return;
     }
 
-    void fill_Mva( float mva0, float mva1, float mva2, float mva3 ) {
+    // void fill_Mva( float mva0, float mva1, float mva2, float mva3 ) {
+    //   // FIXME tmp solution
+    //   mva0_ = mva0 +0.5;
+    //   mva1_ = mva1 +0.5;
+    //   mva2_ = mva2 +0.5;
+    //   mva3_ = mva3 +0.5;
+    //   return;
+    // }
+    void fill_Mva( float mva0 ) {
       // FIXME tmp solution
       mva0_ = mva0 +0.5;
-      mva1_ = mva1 +0.5;
-      mva2_ = mva2 +0.5;
-      mva3_ = mva3 +0.5;
+
       return;
     }
 

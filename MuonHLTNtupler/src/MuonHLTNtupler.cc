@@ -2322,7 +2322,8 @@ void MuonHLTNtupler::fill_trackTemplate(
         // -- fill dummy
         TTtrack->linkIterL3(-1);
         TTtrack->linkIterL3NoId(-1);
-        TTtrack->fillMva( -99999., -99999., -99999., -99999. );
+        // TTtrack->fillMva( -99999., -99999., -99999., -99999. );
+        TTtrack->fillMva( -99999. );
 
         if(doIso) {
           vector<float> trkIsolations = {};
@@ -2532,10 +2533,12 @@ void MuonHLTNtupler::fill_trackTemplateMva(
           iSetup,
           geomTracker
         );
-        TTtrack->fillMva( mva[0], mva[1], mva[2], mva[3] );
+        // TTtrack->fillMva( mva[0], mva[1], mva[2], mva[3] );
+        TTtrack->fillMva( mva[0] );
       }
       else {
-        TTtrack->fillMva( -99999., -99999., -99999., -99999. );
+        TTtrack->fillMva( -99999. );
+        // TTtrack->fillMva( -99999., -99999., -99999., -99999. );
       }
     }
   }
@@ -2603,6 +2606,7 @@ void MuonHLTNtupler::endJob() {
 
   if(doMVA) {
     for( int i=0; i<4; ++i ) {
+    // for( int i=0; i<4; ++i ) {
       // delete mvaHltIterL3OISeedsFromL2Muons_.at(i).first;
       // delete mvaHltIterL3OISeedsFromL2Muons_.at(i).second;
       // delete mvaHltIter0IterL3MuonPixelSeedsFromPixelTracks_.at(i).first;

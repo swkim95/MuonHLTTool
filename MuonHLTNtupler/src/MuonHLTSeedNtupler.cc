@@ -834,12 +834,18 @@ void MuonHLTSeedNtupler::fill_seedTemplate(
           v_mva.push_back( mva );
         }
       }
-      if( v_mva.size() != 4 ) {
-        cout << "v_mva.size() != 4" << endl;
+      // if( v_mva.size() != 4 ) {
+      //   cout << "v_mva.size() != 4" << endl;
+      //   return;
+      // }
+      if( v_mva.size() != 1 ) {
+        cout << "v_mva.size() != 1" << endl;
         return;
       }
-      std::cout << "The mva variables mva0 ~ mva3 are = " << v_mva[0] << " " << v_mva[1] << " " << v_mva[2] << " " << v_mva[3] << std::endl;
-      theSeeds->fill_Mva( v_mva[0], v_mva[1], v_mva[2], v_mva[3] );
+      // std::cout << "The mva variables mva0 ~ mva3 are = " << v_mva[0] << " " << v_mva[1] << " " << v_mva[2] << " " << v_mva[3] << std::endl;
+      std::cout << "The mva variable mva0 is = " << v_mva[0] << std::endl;
+      // theSeeds->fill_Mva( v_mva[0], v_mva[1], v_mva[2], v_mva[3] );
+      theSeeds->fill_Mva( v_mva[0] );
 
       // -- GenParticle (muon) tag -- //
       if( hasGen )
@@ -1152,6 +1158,7 @@ vector< pair<LayerHit, LayerTSOS> > MuonHLTSeedNtupler::getHitTsosPairs(
 }
 
 void MuonHLTSeedNtupler::endJob() {
+  // for( int i=0; i<4; ++i ) {
   for( int i=0; i<4; ++i ) {
     // delete mvaHltIterL3OISeedsFromL2Muons_.at(i).first;
     // delete mvaHltIterL3OISeedsFromL2Muons_.at(i).second;
