@@ -1,0 +1,28 @@
+doSort:  False
+nSeedsMax_B:  (-1,)
+nSeedsMax_E:  (-1,)
+mvaCuts_B:  (0,)
+mvaCuts_E:  (0,)
+14-Oct-2022 02:15:54 CEST  Initiating request to open file root://eoscms.cern.ch//eos/cms/store/mc/PhaseIISpring22DRMiniAOD/DYToLL_M-50_TuneCP5_14TeV-pythia8/GEN-SIM-RECO/PU200_BSzpz35_123X_mcRun4_realistic_v11_ext1-v1/2560000/01df93c7-f1d3-4ccb-a77c-41e9887c1cf2.root
+%MSG-w XrdAdaptorInternal:  file_open 14-Oct-2022 02:15:55 CEST pre-events
+Failed to open file at URL root://eoscms.cern.ch:1094//eos/cms/store/mc/PhaseIISpring22DRMiniAOD/DYToLL_M-50_TuneCP5_14TeV-pythia8/GEN-SIM-RECO/PU200_BSzpz35_123X_mcRun4_realistic_v11_ext1-v1/2560000/01df93c7-f1d3-4ccb-a77c-41e9887c1cf2.root?xrdcl.requuid=4001f97e-eb66-43a7-aed1-3dbae89fd1c0.
+%MSG
+%MSG-w XrdAdaptorInternal:  file_open 14-Oct-2022 02:15:55 CEST pre-events
+Failed to open file at URL root://eoscms.cern.ch:1094//eos/cms/store/mc/PhaseIISpring22DRMiniAOD/DYToLL_M-50_TuneCP5_14TeV-pythia8/GEN-SIM-RECO/PU200_BSzpz35_123X_mcRun4_realistic_v11_ext1-v1/2560000/01df93c7-f1d3-4ccb-a77c-41e9887c1cf2.root?tried=&xrdcl.requuid=48280b48-e355-4058-ad6e-f583717c304a.
+%MSG
+14-Oct-2022 02:15:55 CEST  Initiating request to open file root://xrootd-cms.infn.it//store/mc/PhaseIISpring22DRMiniAOD/DYToLL_M-50_TuneCP5_14TeV-pythia8/GEN-SIM-RECO/PU200_BSzpz35_123X_mcRun4_realistic_v11_ext1-v1/2560000/01df93c7-f1d3-4ccb-a77c-41e9887c1cf2.root
+%MSG-w XrdAdaptor:  file_open 14-Oct-2022 02:15:58 CEST pre-events
+Data is served from recas.ba.infn.it instead of original site infn.it
+%MSG
+14-Oct-2022 02:16:18 CEST  Successfully opened file root://xrootd-cms.infn.it//store/mc/PhaseIISpring22DRMiniAOD/DYToLL_M-50_TuneCP5_14TeV-pythia8/GEN-SIM-RECO/PU200_BSzpz35_123X_mcRun4_realistic_v11_ext1-v1/2560000/01df93c7-f1d3-4ccb-a77c-41e9887c1cf2.root
+14-Oct-2022 02:16:31 CEST  Closed file root://xrootd-cms.infn.it//store/mc/PhaseIISpring22DRMiniAOD/DYToLL_M-50_TuneCP5_14TeV-pythia8/GEN-SIM-RECO/PU200_BSzpz35_123X_mcRun4_realistic_v11_ext1-v1/2560000/01df93c7-f1d3-4ccb-a77c-41e9887c1cf2.root
+----- Begin Fatal Exception 14-Oct-2022 02:16:31 CEST-----------------------
+An exception of category 'Configuration' occurred while
+   [0] Constructing the EventProcessor
+   [1] Validating configuration of module: class=CkfTrackCandidateMaker label='hltIter0Phase2L3FromL1TkMuonCkfTrackCandidates'
+Exception Message:
+Illegal parameter found in configuration.  The parameter is named:
+ 'MeasurementTrackerName'
+You could be trying to use a parameter name that is not
+allowed for this plugin or it could be misspelled.
+----- End Fatal Exception -------------------------------------------------

@@ -36,7 +36,7 @@ process.options = cms.untracked.PSet(
     FailPath = cms.untracked.vstring(),
     IgnoreCompletely = cms.untracked.vstring(),
     Rethrow = cms.untracked.vstring(),
-    SkipEvent = cms.untracked.vstring('ProductNotFound'),
+    SkipEvent = cms.untracked.vstring(),
     accelerators = cms.untracked.vstring('*'),
     allowUnscheduled = cms.obsolete.untracked.bool,
     canDeleteEarly = cms.untracked.vstring(),
@@ -93,6 +93,8 @@ process.GlobalTag = GlobalTag(process.GlobalTag, 'auto:phase2_realistic_T21', ''
 # Path and EndPath definitions
 process.hltTriggerSummaryAOD.moduleLabelPatternsToMatch = cms.vstring( 'hlt*', 'L1Tk*')
 
+# from HLTrigger.PhaseII.Muon.Customizers.customizerForPhase2MuonHLT import customizeIO
+# process = customizeIO(process)
 
 # -- Timing -- #
 doTiming = False
@@ -155,6 +157,7 @@ if doNtuple:
     process.ntupler.iterL3Muon                    = cms.untracked.InputTag("hltPhase2L3Muons",     "", "MYHLT")
     process.ntupler.L3Muon                        = cms.untracked.InputTag("hltPhase2L3MuonCandidates", "", "MYHLT")
     process.ntupler.TkMuonToken                   = cms.InputTag("L1TkMuons", "", "HLT")
+    # process.ntupler.hltIter2IterL3FromL1MuonPixelSeeds                = cms.untracked.InputTag("hltIter2Phase2L3FromL1TkMuonPixelSeeds", "", "MYHLT")
     process.ntupler.doMVA                         = cms.bool(True)
     # Isolation study
     # process.ntupler.trkIsoTags                    = cms.untracked.vstring(   trkIsoTags )
@@ -174,6 +177,7 @@ if doNtuple:
     process.seedNtupler.hltIterL3OISeedsFromL2Muons                       = cms.untracked.InputTag("hltPhase2L3OISeedsFromL2Muons", "", "MYHLT")
     process.seedNtupler.hltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks = cms.untracked.InputTag("hltIter0Phase2L3FromL1TkMuonPixelSeedsFromPixelTracks", "", "MYHLT")
     process.seedNtupler.hltIter2IterL3FromL1MuonPixelSeeds                = cms.untracked.InputTag("hltIter2Phase2L3FromL1TkMuonPixelSeeds", "", "MYHLT")
+    # process.seedNtupler.hltIter2IterL3FromL1MuonPixelSeeds                = cms.untracked.InputTag("hltIter2Phase2L3FromL1TkMuonPixelSeeds", "", "HLT")
 
     process.seedNtupler.hltIterL3OIMuonTrack                              = cms.untracked.InputTag("hltPhase2L3OIMuonTrackSelectionHighPurity", "", "MYHLT")
     process.seedNtupler.hltIter0IterL3FromL1MuonTrack                     = cms.untracked.InputTag("hltIter0Phase2L3FromL1TkMuonTrackSelectionHighPurity", "", "MYHLT")
@@ -181,14 +185,14 @@ if doNtuple:
 
     process.TFileService.fileName = cms.string("seedNtuple_D88Geo_DYToLL.root")
     
-    #from HLTrigger.MuonHLTSeedMVAClassifierPhase2.customizerForMuonHLTSeeding import *
-    #WPNAME = 'noMVAcut_noSeedMax'
-    #doSort = False
-    #nSeedMax_B = (-1,)
-    #nSeedMax_E = (-1,)
-    #mvaCuts_B = (0,)
-    #mvaCuts_E = (0,)
-    #process = customizerFuncForMuonHLTSeeding(process, "MYHLT", WPNAME, doSort, nSeedMax_B, nSeedMax_E, mvaCuts_B, mvaCuts_E )
+    from HLTrigger.MuonHLTSeedMVAClassifierPhase2.customizerForMuonHLTSeeding import *
+    WPNAME = 'noMVAcut_noSeedMax'
+    doSort = False
+    nSeedMax_B = (-1,)
+    nSeedMax_E = (-1,)
+    mvaCuts_B = (0,)
+    mvaCuts_E = (0,)
+    process = customizerFuncForMuonHLTSeeding(process, "MYHLT", WPNAME, doSort, nSeedMax_B, nSeedMax_E, mvaCuts_B, mvaCuts_E )
 
 doDQMOut = False
 if doDQMOut:
