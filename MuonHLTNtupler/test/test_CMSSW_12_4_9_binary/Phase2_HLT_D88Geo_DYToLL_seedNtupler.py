@@ -185,14 +185,14 @@ if doNtuple:
 
     process.TFileService.fileName = cms.string("seedNtuple_D88Geo_DYToLL.root")
     
-    from HLTrigger.MuonHLTSeedMVAClassifierPhase2.customizerForMuonHLTSeeding import *
-    WPNAME = 'noMVAcut_noSeedMax'
-    doSort = False
-    nSeedMax_B = (-1,)
-    nSeedMax_E = (-1,)
-    mvaCuts_B = (0,)
-    mvaCuts_E = (0,)
-    process = customizerFuncForMuonHLTSeeding(process, "MYHLT", WPNAME, doSort, nSeedMax_B, nSeedMax_E, mvaCuts_B, mvaCuts_E )
+    # from HLTrigger.MuonHLTSeedMVAClassifierPhase2.customizerForMuonHLTSeeding import *
+    # WPNAME = 'noMVAcut_noSeedMax'
+    # doSort = False
+    # nSeedMax_B = (-1,)
+    # nSeedMax_E = (-1,)
+    # mvaCuts_B = (0,)
+    # mvaCuts_E = (0,)
+    # process = customizerFuncForMuonHLTSeeding(process, "MYHLT", WPNAME, doSort, nSeedMax_B, nSeedMax_E, mvaCuts_B, mvaCuts_E )
 
 doDQMOut = False
 if doDQMOut:

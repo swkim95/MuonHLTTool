@@ -203,9 +203,9 @@ private:
   // edm::FileInPath mvaFileHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_B_2_;
   // edm::FileInPath mvaFileHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_B_3_;
   edm::FileInPath mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_0_;
-  edm::FileInPath mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_1_;
-  edm::FileInPath mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_2_;
-  edm::FileInPath mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_3_;
+  // edm::FileInPath mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_1_;
+  // edm::FileInPath mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_2_;
+  // edm::FileInPath mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_3_;
   // edm::FileInPath mvaFileHltIter3IterL3FromL1MuonPixelSeeds_B_0_;
   // edm::FileInPath mvaFileHltIter3IterL3FromL1MuonPixelSeeds_B_1_;
   // edm::FileInPath mvaFileHltIter3IterL3FromL1MuonPixelSeeds_B_2_;
@@ -231,9 +231,9 @@ private:
   // edm::FileInPath mvaFileHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_E_2_;
   // edm::FileInPath mvaFileHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_E_3_;
   edm::FileInPath mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_0_;
-  edm::FileInPath mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_1_;
-  edm::FileInPath mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_2_;
-  edm::FileInPath mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_3_;
+  // edm::FileInPath mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_1_;
+  // edm::FileInPath mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_2_;
+  // edm::FileInPath mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_3_;
   // edm::FileInPath mvaFileHltIter3IterL3FromL1MuonPixelSeeds_E_0_;
   // edm::FileInPath mvaFileHltIter3IterL3FromL1MuonPixelSeeds_E_1_;
   // edm::FileInPath mvaFileHltIter3IterL3FromL1MuonPixelSeeds_E_2_;
