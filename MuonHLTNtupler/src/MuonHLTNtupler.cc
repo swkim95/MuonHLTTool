@@ -79,8 +79,8 @@ SaveAllTracks(iConfig.getParameter<bool>("SaveAllTracks")),
 ttTrackToken_        ( consumes<std::vector<TTTrack<Ref_Phase2TrackerDigi_> > >(iConfig.getParameter<edm::InputTag>("L1TrackInputTag"     )) ),
 // ttTrackMCTruthToken_ ( consumes< TTTrackAssociationMap< Ref_Phase2TrackerDigi_ > >(iConfig.getParameter<edm::InputTag>("MCTruthTrackInputTag"))),
 // ttStubToken_         ( consumes< edmNew::DetSetVector< TTStub< Ref_Phase2TrackerDigi_ > > >(iConfig.getParameter<edm::InputTag>("L1StubInputTag"))),
-TkMuonToken_         ( consumes<l1t::TkMuonCollection>          (iConfig.getParameter<edm::InputTag>("TkMuonToken"))),
-l1TkPrimaryVertexToken_ (consumes< l1t::TkPrimaryVertexCollection> (iConfig.getParameter<edm::InputTag>("l1TkPrimaryVertex"))),
+TkMuonToken_         ( consumes<l1t::TrackerMuonCollection>     (iConfig.getParameter<edm::InputTag>("TkMuonToken"))),
+l1PrimaryVertexToken_( consumes<l1t::VertexWordCollection>      (iConfig.getParameter<edm::InputTag>("l1PrimaryVertex"))),
 
 // trackerHitAssociatorConfig_(iConfig, consumesCollector()),
 associatorToken(consumes<reco::TrackToTrackingParticleAssociator>(iConfig.getUntrackedParameter<edm::InputTag>("associator"))),
@@ -368,9 +368,9 @@ void MuonHLTNtupler::analyze(const edm::Event &iEvent, const edm::EventSetup &iS
   }
 
   // -- Fill L3 Muon
-  edm::Handle<std::vector<l1t::TkPrimaryVertex> > l1TkPrimaryVertex;
-  iEvent.getByToken(l1TkPrimaryVertexToken_,l1TkPrimaryVertex);
-  double l1vtx_z = l1TkPrimaryVertex->size() > 0 ? l1TkPrimaryVertex->at(0).zvertex() : -1e9;
+  edm::Handle<std::vector<l1t::VertexWord> > l1PrimaryVertex;
+  iEvent.getByToken(l1PrimaryVertexToken_,l1PrimaryVertex);
+  double l1vtx_z = l1PrimaryVertex->size() > 0 ? l1PrimaryVertex->at(0).z0() : -1e9;
 
   edm::Handle< std::vector<reco::Muon> > h_iterL3Muon;
   if( iEvent.getByToken( t_iterL3Muon_, h_iterL3Muon) ) {
@@ -1382,7 +1382,8 @@ void MuonHLTNtupler::Fill_L1Track(const edm::Event &iEvent, const edm::EventSetu
     }//l1 track loop
   }//save all tracks
 
-  edm::Handle<l1t::TkMuonCollection> TkMuon;
+  // Now(May2023), TkMuon.h (in HLT-TDR) --> TrackerMuon.h (See comments in https://github.com/cms-sw/cmssw/blob/a7e908cdc4a22f35aaf0775d9f84b068d9bd2f7d/HLTrigger/HLTfilters/plugins/L1TTkMuonFilter.cc#L130-L133)
+  edm::Handle<l1t::TrackerMuonCollection> TkMuon;
   iEvent.getByToken(TkMuonToken_,TkMuon);
   for(auto Tkmu=TkMuon->begin(); Tkmu!=TkMuon->end(); ++Tkmu)
   {
@@ -1397,20 +1398,21 @@ void MuonHLTNtupler::Fill_L1Track(const edm::Event &iEvent, const edm::EventSetu
     mL1TkMu_eta.push_back( Tkmu->eta() );
     mL1TkMu_phi.push_back( Tkmu->phi() );
 
-    mL1TkMu_trkIsol.push_back( Tkmu->trkIsol() );
-    mL1TkMu_trkzVtx.push_back( Tkmu->trkzVtx() );
-    mL1TkMu_dR.push_back( Tkmu->dR() );
+    mL1TkMu_trkIsol.push_back( Tkmu->hwIso() );
+    mL1TkMu_trkzVtx.push_back( Tkmu->hwZ0() );
+    //mL1TkMu_dR.push_back( Tkmu->dR() );
 
-    mL1TkMu_nTracksMatched.push_back( Tkmu->nTracksMatched() );
-    mL1TkMu_trackCurvature.push_back( Tkmu->trackCurvature() );
+    //mL1TkMu_nTracksMatched.push_back( Tkmu->nTracksMatched() );
+    //mL1TkMu_trackCurvature.push_back( Tkmu->trackCurvature() );
 
-    mL1TkMu_quality.push_back( Tkmu->quality() );
-    mL1TkMu_pattern.push_back( Tkmu->pattern() );
-    mL1TkMu_muonDetector.push_back( Tkmu->muonDetector() );
+    mL1TkMu_quality.push_back( Tkmu->hwQual() );
+    //mL1TkMu_pattern.push_back( Tkmu->pattern() );
+    //mL1TkMu_muonDetector.push_back( Tkmu->muonDetector() );
 
     // if (Tkmu->muRef().isNonnull()) {
-    if (Tkmu->muonDetector() != 3 && Tkmu->muRef().isNonnull()) {
-      auto regionalCandidate = Tkmu->muRef().get();
+    //if (Tkmu->muonDetector() != 3 && Tkmu->muRef().isNonnull()) {
+    if (Tkmu->muonRef().isNonnull()) {
+      auto regionalCandidate = Tkmu->muonRef().get();
       mL1TkMu_muRefHwPt.push_back( static_cast<float>(regionalCandidate->hwPt())*0.5 );
       mL1TkMu_muRefHwDXY.push_back( regionalCandidate->hwDXY() ); // 4 bit information, don't know how to decode
       mL1TkMu_muRefHwEta.push_back( static_cast<float>(regionalCandidate->hwEta())*0.010875 );
@@ -1427,15 +1429,15 @@ void MuonHLTNtupler::Fill_L1Track(const edm::Event &iEvent, const edm::EventSetu
       mL1TkMu_muRefHwSignValid.push_back( regionalCandidate->hwSignValid() );
       mL1TkMu_muRefHwQual.push_back( regionalCandidate->hwQual() );
     }
-    else if( Tkmu->emtfTrk().isNonnull() ) {
-      mL1TkMu_muRefHwPt.push_back( Tkmu->emtfTrk()->Pt() );
-      mL1TkMu_muRefHwDXY.push_back( -99999 );
-      mL1TkMu_muRefHwEta.push_back( Tkmu->emtfTrk()->Eta() );
-      mL1TkMu_muRefHwPhi.push_back( reco::reduceRange( angle_units::operators::convertDegToRad(Tkmu->emtfTrk()->Phi_glob()) ) );
-      mL1TkMu_muRefHwSign.push_back( Tkmu->emtfTrk()->Charge() );
-      mL1TkMu_muRefHwSignValid.push_back( -99999 );
-      mL1TkMu_muRefHwQual.push_back( -99999 );
-    }
+    //else if( Tkmu->emtfTrk().isNonnull() ) {
+    //  mL1TkMu_muRefHwPt.push_back( Tkmu->emtfTrk()->Pt() );
+    //  mL1TkMu_muRefHwDXY.push_back( -99999 );
+    //  mL1TkMu_muRefHwEta.push_back( Tkmu->emtfTrk()->Eta() );
+    //  mL1TkMu_muRefHwPhi.push_back( reco::reduceRange( angle_units::operators::convertDegToRad(Tkmu->emtfTrk()->Phi_glob()) ) );
+    //  mL1TkMu_muRefHwSign.push_back( Tkmu->emtfTrk()->Charge() );
+    //  mL1TkMu_muRefHwSignValid.push_back( -99999 );
+    //  mL1TkMu_muRefHwQual.push_back( -99999 );
+    //}
     else {
       // this should never happen
       mL1TkMu_muRefHwPt.push_back( -99999. );
@@ -1454,14 +1456,6 @@ void MuonHLTNtupler::Fill_L1Track(const edm::Event &iEvent, const edm::EventSetu
     int linkNo = (where==mTTTrackMap.end()) ? -1 : static_cast<int>(mTTTrackMap[theTTTrackTmp]);
     mL1TkMu_TTTpointer.push_back( linkNo );
   }
-
-  // edm::Handle<std::vector<l1t::TkPrimaryVertex> > l1TkPrimaryVertex;
-  // iEvent.getByToken(l1TkPrimaryVertexToken_,l1TkPrimaryVertex);
-  // for(auto Tkvtx=l1TkPrimaryVertex->begin(); Tkvtx!=l1TkPrimaryVertex->end(); ++Tkvtx)
-  // {
-  //   // https://github.com/cms-sw/cmssw/blob/09b17fcfb3900782ab78ad6e0c76e1957c94ff71/DataFormats/L1TCorrelator/interface/TkPrimaryVertex.h
-  //   // cout<< "zvertex"<<Tkvtx->zvertex()<<endl;
-  // }
 }
 
 void MuonHLTNtupler::Fill_Muon(const edm::Event &iEvent)
@@ -2476,7 +2470,7 @@ void MuonHLTNtupler::fill_trackTemplateMva(
   edm::Handle<reco::RecoChargedCandidateCollection> h_L2Muon;
   bool hasL2 = iEvent.getByToken( t_L2Muon_, h_L2Muon );
 
-  edm::Handle<l1t::TkMuonCollection> h_L1TkMu;
+  edm::Handle<l1t::TrackerMuonCollection> h_L1TkMu;
   bool hasL1TkMu = iEvent.getByToken( TkMuonToken_, h_L1TkMu);
 
   edm::Handle<edm::View<reco::Track>> trkHandle;

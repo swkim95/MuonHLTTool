@@ -92,7 +92,8 @@
 #include "SimTracker/TrackTriggerAssociation/interface/TTTrackAssociationMap.h"
 #include "DataFormats/L1TCorrelator/interface/TkMuon.h"
 #include "DataFormats/L1TCorrelator/interface/TkMuonFwd.h"
-#include "DataFormats/L1TCorrelator/interface/TkPrimaryVertex.h"
+#include "DataFormats/L1Trigger/interface/VertexWord.h"
+#include "DataFormats/L1TMuonPhase2/interface/TrackerMuon.h"
 
 #include "L1Trigger/L1TMuon/interface/MicroGMTConfiguration.h"
 #include "DataFormats/Math/interface/angle_units.h"
@@ -160,8 +161,8 @@ private:
   edm::EDGetTokenT< std::vector< TTTrack< Ref_Phase2TrackerDigi_ > > > ttTrackToken_;
   // edm::EDGetTokenT< TTTrackAssociationMap< Ref_Phase2TrackerDigi_ > > ttTrackMCTruthToken_;
   edm::EDGetTokenT< edmNew::DetSetVector< TTStub< Ref_Phase2TrackerDigi_ > > > ttStubToken_;
-  edm::EDGetTokenT<l1t::TkMuonCollection> TkMuonToken_;
-  edm::EDGetTokenT<l1t::TkPrimaryVertexCollection> l1TkPrimaryVertexToken_;
+  edm::EDGetTokenT<l1t::TrackerMuonCollection> TkMuonToken_;
+  edm::EDGetTokenT<l1t::VertexWordCollection> l1PrimaryVertexToken_;
 
   // TrackerHitAssociator::Config trackerHitAssociatorConfig_;
   edm::EDGetTokenT<reco::TrackToTrackingParticleAssociator> associatorToken;
@@ -1623,7 +1624,7 @@ private:
     const TrajectorySeed& seed,
     GlobalVector global_p,
     GlobalPoint  global_x,
-    edm::Handle<l1t::TkMuonCollection> h_L1TkMu,
+    edm::Handle<l1t::TrackerMuonCollection> h_L1TkMu,
     edm::ESHandle<MagneticField> magfieldH,
     const edm::EventSetup &iSetup,
     GeometricSearchTracker* geomTracker

@@ -93,7 +93,8 @@
 #include "SimTracker/TrackTriggerAssociation/interface/TTTrackAssociationMap.h"
 #include "DataFormats/L1TCorrelator/interface/TkMuon.h"
 #include "DataFormats/L1TCorrelator/interface/TkMuonFwd.h"
-#include "DataFormats/L1TCorrelator/interface/TkPrimaryVertex.h"
+#include "DataFormats/L1Trigger/interface/VertexWord.h"
+#include "DataFormats/L1TMuonPhase2/interface/TrackerMuon.h"
 
 #include "HLTrigger/MuonHLTSeedMVAClassifierPhase2/interface/SeedMvaEstimator2.h"
 //#include "HLTrigger/MuonHLTSeedMVAClassifierPhase2/interface/SeedMvaEstimator.h"
@@ -153,8 +154,8 @@ private:
   edm::EDGetTokenT< l1t::MuonBxCollection >                  t_L1Muon_;
   edm::EDGetTokenT< reco::RecoChargedCandidateCollection >   t_L2Muon_;
 
-  edm::EDGetTokenT<l1t::TkMuonCollection>                    t_L1TkMuon_;
-  edm::EDGetTokenT<l1t::TkPrimaryVertexCollection>           t_L1TkPrimaryVertex_;
+  edm::EDGetTokenT<l1t::TrackerMuonCollection>               t_L1TkMuon_;
+  edm::EDGetTokenT<l1t::VertexWordCollection>                t_L1PrimaryVertex_;
 
   edm::EDGetTokenT< TrajectorySeedCollection >               t_hltIterL3OISeedsFromL2Muons_;
   edm::EDGetTokenT< TrajectorySeedCollection >               t_hltIter0IterL3MuonPixelSeedsFromPixelTracks_;
@@ -1122,7 +1123,7 @@ private:
   vector< pair<LayerHit, LayerTSOS> > getHitTsosPairs(
     TrajectorySeed,
     //edm::Handle< std::vector< TTTrack< Ref_Phase2TrackerDigi_ > > >,
-    edm::Handle<l1t::TkMuonCollection>,
+    edm::Handle<l1t::TrackerMuonCollection>,
     edm::ESHandle<MagneticField>&,
     const Propagator&,
     GeometricSearchTracker*

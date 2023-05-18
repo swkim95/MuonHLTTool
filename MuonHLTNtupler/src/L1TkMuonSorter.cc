@@ -32,6 +32,7 @@
 
 #include "DataFormats/L1TCorrelator/interface/TkMuon.h"
 #include "DataFormats/L1TCorrelator/interface/TkMuonFwd.h"
+#include "DataFormats/L1TMuonPhase2/interface/TrackerMuon.h"
 
 #include "FWCore/ServiceRegistry/interface/Service.h"
 
@@ -51,10 +52,10 @@ class L1TkMuonSorter : public edm::stream::EDProducer<> {
 		virtual void endStream() override;
 
 		// ----------member data ---------------------------
-		const edm::EDGetTokenT<l1t::TkMuonCollection> t_L1TkMuon_;
+		const edm::EDGetTokenT<l1t::TrackerMuonCollection> t_L1TkMuon_;
 
 		struct pt_sort {
-			bool operator()(const l1t::TkMuon& lhs, const l1t::TkMuon& rhs) {
+			bool operator()(const l1t::TrackerMuon& lhs, const l1t::TrackerMuon& rhs) {
 				return lhs.pt() > rhs.pt();
 			}
 		};
@@ -64,9 +65,9 @@ class L1TkMuonSorter : public edm::stream::EDProducer<> {
 // constructors and destructor
 //
 L1TkMuonSorter::L1TkMuonSorter(const edm::ParameterSet& iConfig):
-	t_L1TkMuon_(consumes<l1t::TkMuonCollection>(iConfig.getParameter<edm::InputTag>("L1TkMuons")))
+	t_L1TkMuon_(consumes<l1t::TrackerMuonCollection>(iConfig.getParameter<edm::InputTag>("L1TkMuons")))
 {
-	produces<l1t::TkMuonCollection>();
+	produces<l1t::TrackerMuonCollection>();
 }
 
 L1TkMuonSorter::~L1TkMuonSorter(){}
@@ -79,13 +80,13 @@ L1TkMuonSorter::~L1TkMuonSorter(){}
 // ------------ method called to produce the data  ------------
 void L1TkMuonSorter::produce(edm::Event& iEvent, const edm::EventSetup& iSetup)
 {
-	auto output = std::make_unique<l1t::TkMuonCollection>();
+	auto output = std::make_unique<l1t::TrackerMuonCollection>();
 
-	edm::Handle<l1t::TkMuonCollection> h_L1TkMu;
+	edm::Handle<l1t::TrackerMuonCollection> h_L1TkMu;
 	iEvent.getByToken(t_L1TkMuon_, h_L1TkMu);
 
 	for (unsigned int i = 0; i < h_L1TkMu->size(); ++i) {
-		const l1t::TkMuon& L1TkMu(h_L1TkMu->at(i));
+		const l1t::TrackerMuon& L1TkMu(h_L1TkMu->at(i));
 		output->push_back(L1TkMu);
 	}
 

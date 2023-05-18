@@ -82,8 +82,8 @@ ttTrackToken_        ( consumes<std::vector<TTTrack<Ref_Phase2TrackerDigi_> > >(
 t_L1Muon_            ( consumes< l1t::MuonBxCollection  >                 (iConfig.getUntrackedParameter<edm::InputTag>("L1Muon"            )) ),
 t_L2Muon_            ( consumes< reco::RecoChargedCandidateCollection >   (iConfig.getUntrackedParameter<edm::InputTag>("L2Muon"            )) ),
 
-t_L1TkMuon_          ( consumes< l1t::TkMuonCollection >                  (iConfig.getUntrackedParameter<edm::InputTag>("L1TkMuon"))),
-t_L1TkPrimaryVertex_ ( consumes< l1t::TkPrimaryVertexCollection >         (iConfig.getUntrackedParameter<edm::InputTag>("L1TkPrimaryVertex"))),
+t_L1TkMuon_          ( consumes< l1t::TrackerMuonCollection >             (iConfig.getUntrackedParameter<edm::InputTag>("L1TkMuon"))),
+t_L1PrimaryVertex_   ( consumes< l1t::VertexWordCollection >              (iConfig.getUntrackedParameter<edm::InputTag>("L1PrimaryVertex"))),
 
 t_hltIterL3OISeedsFromL2Muons_ ( consumes< TrajectorySeedCollection >     (iConfig.getUntrackedParameter<edm::InputTag>("hltIterL3OISeedsFromL2Muons")) ),
 t_hltIter0IterL3MuonPixelSeedsFromPixelTracks_ ( consumes< TrajectorySeedCollection >     (iConfig.getUntrackedParameter<edm::InputTag>("hltIter0IterL3MuonPixelSeedsFromPixelTracks")) ),
@@ -546,11 +546,8 @@ void MuonHLTSeedNtupler::fill_seedTemplate(
   edm::Handle<reco::RecoChargedCandidateCollection> h_L2Muon;
   bool hasL2 = iEvent.getByToken( t_L2Muon_, h_L2Muon );
 
-  edm::Handle<l1t::TkMuonCollection> h_L1TkMu;
+  edm::Handle<l1t::TrackerMuonCollection> h_L1TkMu;
   bool hasL1TkMu = iEvent.getByToken(t_L1TkMuon_, h_L1TkMu);
-
-  // edm::Handle<l1t::TkPrimaryVertexCollection> h_L1TkPrimaryVertex;
-  // bool hasL1TkVtx = iEvent.getByToken(t_L1TkPrimaryVertex_, h_L1TkPrimaryVertex);
 
   edm::Handle< TrajectorySeedCollection > seedHandle;
   if( iEvent.getByToken( theToken, seedHandle) )
@@ -745,13 +742,6 @@ void MuonHLTSeedNtupler::fill_seedTemplate(
         );
       }
 
-      // --L1TkMu, L1TkVertex association
-      // if( hasL1TkVtx ) {
-      //   for(auto L1TkVtx=h_L1TkPrimaryVertex->begin(); L1TkVtx!=h_L1TkPrimaryVertex->end(); ++L1TkVtx)
-      //   {
-      //   }
-      // }
-
       ST->fill_ntuple(NT);
     } // -- end of seed iteration
   } // -- if getByToken is valid
@@ -770,7 +760,7 @@ void MuonHLTSeedNtupler::fill_seedTemplate(
   edm::Handle<reco::RecoChargedCandidateCollection> h_L2Muon;
   bool hasL2 = iEvent.getByToken( t_L2Muon_, h_L2Muon );
 
-  edm::Handle<l1t::TkMuonCollection> h_L1TkMu;
+  edm::Handle<l1t::TrackerMuonCollection> h_L1TkMu;
   bool hasL1TkMu = iEvent.getByToken(t_L1TkMuon_, h_L1TkMu);
 
   //edm::Handle< std::vector< TTTrack< Ref_Phase2TrackerDigi_ > > > TTTrackHandle;
@@ -1088,7 +1078,7 @@ vector< LayerTSOS > MuonHLTSeedNtupler::getTsosOnPixels(
 // -- hit, TSOS pairs for each L1TkMu
 vector< pair<LayerHit, LayerTSOS> > MuonHLTSeedNtupler::getHitTsosPairs(
   TrajectorySeed seed,
-  edm::Handle<l1t::TkMuonCollection> L1TkMuonHandle,
+  edm::Handle<l1t::TrackerMuonCollection> L1TkMuonHandle,
   edm::ESHandle<MagneticField>& magfieldH,
   const Propagator& propagatorAlong,
   GeometricSearchTracker* geomTracker

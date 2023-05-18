@@ -34,7 +34,7 @@ def customizerFuncForMuonHLTSeedNtupler(process, newProcessName = "MYHLT", doDYS
     process.seedNtupler.L2Muon           = cms.untracked.InputTag("hltL2MuonCandidates",     "",     newProcessName)
 
     process.seedNtupler.L1TkMuon                                          = cms.untracked.InputTag("L1TkMuons", "", newProcessName)
-    process.seedNtupler.L1TkPrimaryVertex                                 = cms.untracked.InputTag("L1TkPrimaryVertex", "", newProcessName)
+    process.seedNtupler.L1PrimaryVertex                                   = cms.untracked.InputTag("l1tVertexFinderEmulator",          "l1verticesEmulation", newProcessName)
 
     process.seedNtupler.hltIterL3OISeedsFromL2Muons                       = cms.untracked.InputTag("hltIterL3OISeedsFromL2Muons",                         "", newProcessName)
     process.seedNtupler.hltIter0IterL3MuonPixelSeedsFromPixelTracks       = cms.untracked.InputTag("hltIter0IterL3MuonPixelSeedsFromPixelTracks",         "", newProcessName)
@@ -160,13 +160,6 @@ def customizerFuncForMuonHLTSeedNtupler(process, newProcessName = "MYHLT", doDYS
     # from MuonHLTTool.MuonHLTNtupler.WmuSkimmer import WmuSkimmer 
     # process.WmuSkimmer = WmuSkimmer.clone()
 
-    if doDYSkim:
-        from MuonHLTTool.MuonHLTNtupler.DYmuSkimmer import DYmuSkimmer 
-        process.Skimmer = DYmuSkimmer.clone()
-        process.myseedpath = cms.Path(process.Skimmer*process.hltTPClusterProducer*process.hltTrackAssociatorByHits*process.seedNtupler)
-        # process.myseedpath = cms.Path(process.WmuSkimmer*process.hltTPClusterProducer*process.hltTrackAssociatorByHits*process.seedNtupler) #if skim needed
-
-    else:
-        process.myseedpath = cms.Path(process.hltTPClusterProducer*process.hltTrackAssociatorByHits*process.seedNtupler)
+    process.myseedpath = cms.Path(process.hltTPClusterProducer*process.hltTrackAssociatorByHits*process.seedNtupler)
 
     return process
