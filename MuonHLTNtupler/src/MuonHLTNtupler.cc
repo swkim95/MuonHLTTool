@@ -1411,6 +1411,7 @@ void MuonHLTNtupler::Fill_L1Track(const edm::Event &iEvent, const edm::EventSetu
 
     // if (Tkmu->muRef().isNonnull()) {
     //if (Tkmu->muonDetector() != 3 && Tkmu->muRef().isNonnull()) {
+    /*
     if (Tkmu->muonRef().isNonnull()) {
       auto regionalCandidate = Tkmu->muonRef().get();
       mL1TkMu_muRefHwPt.push_back( static_cast<float>(regionalCandidate->hwPt())*0.5 );
@@ -1429,15 +1430,15 @@ void MuonHLTNtupler::Fill_L1Track(const edm::Event &iEvent, const edm::EventSetu
       mL1TkMu_muRefHwSignValid.push_back( regionalCandidate->hwSignValid() );
       mL1TkMu_muRefHwQual.push_back( regionalCandidate->hwQual() );
     }
-    //else if( Tkmu->emtfTrk().isNonnull() ) {
-    //  mL1TkMu_muRefHwPt.push_back( Tkmu->emtfTrk()->Pt() );
-    //  mL1TkMu_muRefHwDXY.push_back( -99999 );
-    //  mL1TkMu_muRefHwEta.push_back( Tkmu->emtfTrk()->Eta() );
-    //  mL1TkMu_muRefHwPhi.push_back( reco::reduceRange( angle_units::operators::convertDegToRad(Tkmu->emtfTrk()->Phi_glob()) ) );
-    //  mL1TkMu_muRefHwSign.push_back( Tkmu->emtfTrk()->Charge() );
-    //  mL1TkMu_muRefHwSignValid.push_back( -99999 );
-    //  mL1TkMu_muRefHwQual.push_back( -99999 );
-    //}
+    else if( Tkmu->emtfTrk().isNonnull() ) {
+      mL1TkMu_muRefHwPt.push_back( Tkmu->emtfTrk()->Pt() );
+      mL1TkMu_muRefHwDXY.push_back( -99999 );
+      mL1TkMu_muRefHwEta.push_back( Tkmu->emtfTrk()->Eta() );
+      mL1TkMu_muRefHwPhi.push_back( reco::reduceRange( angle_units::operators::convertDegToRad(Tkmu->emtfTrk()->Phi_glob()) ) );
+      mL1TkMu_muRefHwSign.push_back( Tkmu->emtfTrk()->Charge() );
+      mL1TkMu_muRefHwSignValid.push_back( -99999 );
+      mL1TkMu_muRefHwQual.push_back( -99999 );
+    }
     else {
       // this should never happen
       mL1TkMu_muRefHwPt.push_back( -99999. );
@@ -1448,6 +1449,7 @@ void MuonHLTNtupler::Fill_L1Track(const edm::Event &iEvent, const edm::EventSetu
       mL1TkMu_muRefHwSignValid.push_back( -99999 );
       mL1TkMu_muRefHwQual.push_back( -99999 );
     }
+    */
 
     auto theTTTrack = Tkmu->trkPtr();
     MuonHLTobjCorrelator::L1TTTrack theTTTrackTmp( *theTTTrack );

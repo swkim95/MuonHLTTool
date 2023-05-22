@@ -1,9 +1,9 @@
 # MuonHLT Ntupler
 
-## Setup (13_0_6)
+## Setup (131X)
 ```
-cmsrel CMSSW_13_0_6
-cd CMSSW_13_0_6/src
+cmsrel CMSSW_13_1_0_pre2
+cd CMSSW_13_1_0_pre2/src
 cmsenv
 git cms-init
 ```
@@ -12,7 +12,7 @@ git cms-init
 ## Seed classifier
 ```
 git cms-addpkg HLTrigger/Configuration
-git clone -b Phase2_won https://github.com/wonpoint4/MuonHLTSeedMVAClassifier.git HLTrigger/MuonHLTSeedMVAClassifier
+git clone -b Phase2_won https://github.com/wonpoint4/MuonHLTSeedMVAClassifier.git HLTrigger/MuonHLTSeedMVAClassifierPhase2
 ```
 
 ## Ntupler
@@ -23,14 +23,15 @@ scram b -j 8
 
 ## Get Phase-2 Menu
 ```
-cmsDriver.py Phase2 -s HLT:75e33 --processName=MYHLT \
+cmsDriver.py Phase2 -s HLT:75e33 \
+--processName=MYHLT \
 --conditions auto:phase2_realistic_T21 \
---geometry Extended2026D88 \
+--geometry Extended2026D95 \
 --era Phase2C17I13M9 \
 --eventcontent FEVTDEBUGHLT \
 --customise SLHCUpgradeSimulations/Configuration/aging.customise_aging_1000 \
 --filein=/store/mc/Phase2Fall22DRMiniAOD/DYToLL_M-50_TuneCP5_14TeV-pythia8/GEN-SIM-DIGI-RAW-MINIAOD/PU200_125X_mcRun4_realistic_v2-v1/30000/0a5c8677-10c8-4cfe-a084-d45689504151.root \
--n 100 --nThreads 1 --no_exec
+-n 1000 --nThreads 1 --no_exec
 ```
 
 
