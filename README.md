@@ -1,13 +1,12 @@
 # MuonHLT Ntupler
 
-## Setup (131X)
+## Setup (130X)
 ```
-cmsrel CMSSW_13_1_0_pre2
-cd CMSSW_13_1_0_pre2/src
+cmsrel CMSSW_13_0_9
+cd CMSSW_13_0_9/src
 cmsenv
 git cms-init
 ```
-
 
 ## Seed classifier
 ```

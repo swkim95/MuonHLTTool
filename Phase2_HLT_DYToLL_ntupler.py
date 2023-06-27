@@ -2,7 +2,7 @@
 # using: 
 # Revision: 1.19 
 # Source: /local/reps/CMSSW/CMSSW/Configuration/Applications/python/ConfigBuilder.py,v 
-# with command line options: Phase2 -s HLT:75e33 --processName=MYHLT --conditions auto:phase2_realistic_T21 --geometry Extended2026D95 --era Phase2C17I13M9 --eventcontent FEVTDEBUGHLT --customise SLHCUpgradeSimulations/Configuration/aging.customise_aging_1000 --filein=/store/mc/Phase2Fall22DRMiniAOD/DYToLL_M-50_TuneCP5_14TeV-pythia8/GEN-SIM-DIGI-RAW-MINIAOD/PU200_125X_mcRun4_realistic_v2-v1/30000/0a5c8677-10c8-4cfe-a084-d45689504151.root -n 1000 --nThreads 1 --no_exec
+# with command line options: Phase2 -s HLT:75e33 --processName=MYHLT --conditions auto:phase2_realistic_T21 --geometry Extended2026D95 --era Phase2C17I13M9 --eventcontent FEVTDEBUGHLT --customise SLHCUpgradeSimulations/Configuration/aging.customise_aging_1000 --filein=/store/mc/Phase2Fall22DRMiniAOD/DYToLL_M-50_TuneCP5_14TeV-pythia8/GEN-SIM-DIGI-RAW-MINIAOD/PU200_125X_mcRun4_realistic_v2-v1/30000/0a5c8677-10c8-4cfe-a084-d45689504151.root -n 30 --nThreads 1 --no_exec
 import FWCore.ParameterSet.Config as cms
 
 from Configuration.Eras.Era_Phase2C17I13M9_cff import Phase2C17I13M9
@@ -22,7 +22,7 @@ process.load('Configuration.StandardSequences.EndOfProcess_cff')
 process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
 process.maxEvents = cms.untracked.PSet(
-    input = cms.untracked.int32(1000),
+    input = cms.untracked.int32(30),
     output = cms.optional.untracked.allowed(cms.int32,cms.PSet)
 )
 
@@ -66,7 +66,7 @@ process.options = cms.untracked.PSet(
 
 # Production Info
 process.configurationMetadata = cms.untracked.PSet(
-    annotation = cms.untracked.string('Phase2 nevts:1000'),
+    annotation = cms.untracked.string('Phase2 nevts:30'),
     name = cms.untracked.string('Applications'),
     version = cms.untracked.string('$Revision: 1.19 $')
 )
@@ -108,13 +108,13 @@ associatePatAlgosToolsTask(process)
 # customisation of the process.
 
 # Automatic addition of the customisation function from SLHCUpgradeSimulations.Configuration.aging
-from SLHCUpgradeSimulations.Configuration.aging import customise_aging_1000 
+from SLHCUpgradeSimulations.Configuration.aging import customise_aging_1000
 
 #call to customisation function customise_aging_1000 imported from SLHCUpgradeSimulations.Configuration.aging
 process = customise_aging_1000(process)
 
 # Automatic addition of the customisation function from HLTrigger.Configuration.customizeHLTforMC
-from HLTrigger.Configuration.customizeHLTforMC import customizeHLTforMC 
+from HLTrigger.Configuration.customizeHLTforMC import customizeHLTforMC
 
 #call to customisation function customizeHLTforMC imported from HLTrigger.Configuration.customizeHLTforMC
 process = customizeHLTforMC(process)
@@ -172,14 +172,6 @@ if doNtuple:
     process = customizerFuncForMuonHLTNtupler(process, "MYHLT", False)
 
     process.ntupler.offlineMuon                   = cms.untracked.InputTag("slimmedMuons")
-    process.ntupler.L2Muon                        = cms.untracked.InputTag("hltL2MuonFromL1TkMuonCandidates","","MYHLT")
-    process.ntupler.iterL3OI                      = cms.untracked.InputTag("hltL3MuonsPhase2L3OI", "", "MYHLT")
-    process.ntupler.iterL3IOFromL1                = cms.untracked.InputTag("hltIter2Phase2L3FromL1TkMuonMerged", "", "MYHLT")
-    process.ntupler.hltIter0IterL3FromL1MuonTrack = cms.untracked.InputTag("hltIter0Phase2L3FromL1TkMuonTrackSelectionHighPurity", "", "MYHLT")
-    process.ntupler.hltIter2IterL3FromL1MuonTrack = cms.untracked.InputTag("hltIter2Phase2L3FromL1TkMuonTrackSelectionHighPurity", "", "MYHLT")
-    process.ntupler.iterL3MuonNoID                = cms.untracked.InputTag("hltPhase2L3MuonsNoID", "", "MYHLT")
-    process.ntupler.iterL3Muon                    = cms.untracked.InputTag("hltPhase2L3Muons",     "", "MYHLT")
-    process.ntupler.L3Muon                        = cms.untracked.InputTag("hltPhase2L3MuonCandidates", "", "MYHLT")
     process.ntupler.TkMuonToken                   = cms.InputTag("l1tTkMuonsGmt", "", "HLT")
     # process.ntupler.hltIter2IterL3FromL1MuonPixelSeeds                = cms.untracked.InputTag("hltIter2Phase2L3FromL1TkMuonPixelSeeds", "", "MYHLT")
     process.ntupler.doMVA                         = cms.bool(True)
@@ -195,19 +187,7 @@ if doNtuple:
     process.seedNtupler.L1TrackInputTag = cms.InputTag("TTTracksFromTrackletEmulation", "", "MYHLT")
     process.seedNtupler.L1TrackInputTag = cms.InputTag("TTTracksFromTrackletEmulation", "Level1TTTracks", "RECO")
 
-    process.seedNtupler.L1TkMuon                      = cms.untracked.InputTag("l1tTkMuonsGmt", "", "MYHLT")
-    process.seedNtupler.L2Muon                        = cms.untracked.InputTag("hltL2MuonFromL1TkMuonCandidates", "", "MYHLT")
-
-    process.seedNtupler.hltIterL3OISeedsFromL2Muons                       = cms.untracked.InputTag("hltPhase2L3OISeedsFromL2Muons", "", "MYHLT")
-    process.seedNtupler.hltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks = cms.untracked.InputTag("hltIter0Phase2L3FromL1TkMuonPixelSeedsFromPixelTracks", "", "MYHLT")
-    process.seedNtupler.hltIter2IterL3FromL1MuonPixelSeeds                = cms.untracked.InputTag("hltIter2Phase2L3FromL1TkMuonPixelSeeds", "", "MYHLT")
-    # process.seedNtupler.hltIter2IterL3FromL1MuonPixelSeeds                = cms.untracked.InputTag("hltIter2Phase2L3FromL1TkMuonPixelSeeds", "", "HLT")
-
-    process.seedNtupler.hltIterL3OIMuonTrack                              = cms.untracked.InputTag("hltPhase2L3OIMuonTrackSelectionHighPurity", "", "MYHLT")
-    process.seedNtupler.hltIter0IterL3FromL1MuonTrack                     = cms.untracked.InputTag("hltIter0Phase2L3FromL1TkMuonTrackSelectionHighPurity", "", "MYHLT")
-    process.seedNtupler.hltIter2IterL3FromL1MuonTrack                     = cms.untracked.InputTag("hltIter2Phase2L3FromL1TkMuonTrackSelectionHighPurity", "", "MYHLT")
-
-    process.TFileService.fileName = cms.string("seedNtuple_D88Geo_DYToLL.root")
+    process.TFileService.fileName = cms.string("seedNtuple_D95Geo_DYToLL.root")
     
     # from HLTrigger.MuonHLTSeedMVAClassifierPhase2.customizerForMuonHLTSeeding import *
     # WPNAME = 'noMVAcut_noSeedMax'
@@ -265,10 +245,10 @@ process.schedule = cms.Schedule(
     # process.Gen_QCDMuNoEmGenFilter,
     # process.Gen_QCDEmNoMuGenFilter,
     # process.myana,
-    #process.mypath,
+    process.mypath,
     # process.valpath,
-    #process.myendpath,
-    #process.myseedpath
+    process.myendpath,
+    process.myseedpath
     # process.DQMOutput
     # process.EDMOutput
 )

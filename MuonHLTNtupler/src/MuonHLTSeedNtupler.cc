@@ -483,13 +483,10 @@ void MuonHLTSeedNtupler::Fill_Seed(const edm::Event &iEvent, const edm::EventSet
   // fill_seedTemplate(iEvent, t_hltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_, tracker, hltIter0IterL3FromL1MuonTrackMap, TThltIter0IterL3FromL1MuonTrack, NThltIter0FromL1_, nhltIter0FromL1_ );
   // fill_seedTemplate(iEvent, t_hltIter2IterL3FromL1MuonPixelSeeds_, tracker, hltIter2IterL3FromL1MuonTrackMap, TThltIter2IterL3FromL1MuonTrack, NThltIter2FromL1_, nhltIter2FromL1_ );
   // fill_seedTemplate(iEvent, t_hltIter3IterL3FromL1MuonPixelSeeds_, tracker, hltIter3IterL3FromL1MuonTrackMap, TThltIter3IterL3FromL1MuonTrack, NThltIter3FromL1_, nhltIter3FromL1_ );
+
   fill_seedTemplate(iEvent, t_hltIterL3OISeedsFromL2Muons_, mvaPhase2HltIter2IterL3FromL1MuonPixelSeeds_, tracker, hltIterL3OIMuonTrackMap, TThltIterL3OIMuonTrack, NThltIterL3OI_, nhltIterL3OI_, magfieldH, iSetup, geomTracker );
-  fill_seedTemplate(iEvent, t_hltIter0IterL3MuonPixelSeedsFromPixelTracks_, mvaPhase2HltIter2IterL3FromL1MuonPixelSeeds_, tracker, hltIter0IterL3MuonTrackMap, TThltIter0IterL3MuonTrack, NThltIter0_, nhltIter0_, magfieldH, iSetup, geomTracker );
-  fill_seedTemplate(iEvent, t_hltIter2IterL3MuonPixelSeeds_, mvaPhase2HltIter2IterL3FromL1MuonPixelSeeds_, tracker, hltIter2IterL3MuonTrackMap, TThltIter2IterL3MuonTrack, NThltIter2_, nhltIter2_, magfieldH, iSetup, geomTracker );
-  fill_seedTemplate(iEvent, t_hltIter3IterL3MuonPixelSeeds_, mvaPhase2HltIter2IterL3FromL1MuonPixelSeeds_, tracker, hltIter3IterL3MuonTrackMap, TThltIter3IterL3MuonTrack, NThltIter3_, nhltIter3_, magfieldH, iSetup, geomTracker );
   fill_seedTemplate(iEvent, t_hltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_, mvaPhase2HltIter2IterL3FromL1MuonPixelSeeds_, tracker, hltIter0IterL3FromL1MuonTrackMap, TThltIter0IterL3FromL1MuonTrack, NThltIter0FromL1_, nhltIter0FromL1_, magfieldH, iSetup, geomTracker );
   fill_seedTemplate(iEvent, t_hltIter2IterL3FromL1MuonPixelSeeds_, mvaPhase2HltIter2IterL3FromL1MuonPixelSeeds_, tracker, hltIter2IterL3FromL1MuonTrackMap, TThltIter2IterL3FromL1MuonTrack, NThltIter2FromL1_, nhltIter2FromL1_, magfieldH, iSetup, geomTracker );
-  fill_seedTemplate(iEvent, t_hltIter3IterL3FromL1MuonPixelSeeds_, mvaPhase2HltIter2IterL3FromL1MuonPixelSeeds_, tracker, hltIter3IterL3FromL1MuonTrackMap, TThltIter3IterL3FromL1MuonTrack, NThltIter3FromL1_, nhltIter3FromL1_, magfieldH, iSetup, geomTracker );
 
   if (geomTracker) delete geomTracker;
 }
@@ -568,7 +565,6 @@ void MuonHLTSeedNtupler::fill_seedTemplate(
       ST->fill(seed, tracker);
       std::map<tmpTSOD,unsigned int>::const_iterator where = trkMap.find(seedTsod);
       int idxtmpL3 = (where==trkMap.end()) ? -1 : trkMap[seedTsod];
-      std::cout << "The idxtmpL3 = " << idxtmpL3 << std::endl;
       ST->fill_TP(TTtrack, idxtmpL3 );
 
       GlobalVector global_p = tracker->idToDet(seed.startingState().detId())->surface().toGlobal(seed.startingState().parameters().momentum());
@@ -790,7 +786,6 @@ void MuonHLTSeedNtupler::fill_seedTemplate(
       theSeeds->fill(seed, tracker);
       std::map<tmpTSOD,unsigned int>::const_iterator where = trkMap.find(seedTsod);
       int idxtmpL3 = (where==trkMap.end()) ? -1 : trkMap[seedTsod];
-      std::cout << "The idxtmpL3 = " << idxtmpL3 << std::endl;
       theSeeds->fill_TP(TTtrack, idxtmpL3 );
 
       GlobalVector global_p = tracker->idToDet(seed.startingState().detId())->surface().toGlobal(seed.startingState().parameters().momentum());
@@ -832,8 +827,6 @@ void MuonHLTSeedNtupler::fill_seedTemplate(
         cout << "v_mva.size() != 1" << endl;
         return;
       }
-      // std::cout << "The mva variables mva0 ~ mva3 are = " << v_mva[0] << " " << v_mva[1] << " " << v_mva[2] << " " << v_mva[3] << std::endl;
-      std::cout << "The mva variable mva0 is = " << v_mva[0] << std::endl;
       // theSeeds->fill_Mva( v_mva[0], v_mva[1], v_mva[2], v_mva[3] );
       theSeeds->fill_Mva( v_mva[0] );
 
