@@ -402,76 +402,9 @@ void MuonHLTNtupler::beginJob()
   Make_Branch();
 
   if(doMVA) {
-    // mvaHltIterL3OISeedsFromL2Muons_ = {
-    //   make_pair( new SeedMvaEstimator(mvaFileHltIterL3OISeedsFromL2Muons_B_0_, mvaScaleMeanHltIterL3OISeedsFromL2Muons_B_, mvaScaleStdHltIterL3OISeedsFromL2Muons_B_),
-    //              new SeedMvaEstimator(mvaFileHltIterL3OISeedsFromL2Muons_E_0_, mvaScaleMeanHltIterL3OISeedsFromL2Muons_E_, mvaScaleStdHltIterL3OISeedsFromL2Muons_E_) ),
-    //   make_pair( new SeedMvaEstimator(mvaFileHltIterL3OISeedsFromL2Muons_B_1_, mvaScaleMeanHltIterL3OISeedsFromL2Muons_B_, mvaScaleStdHltIterL3OISeedsFromL2Muons_B_),
-    //              new SeedMvaEstimator(mvaFileHltIterL3OISeedsFromL2Muons_E_1_, mvaScaleMeanHltIterL3OISeedsFromL2Muons_E_, mvaScaleStdHltIterL3OISeedsFromL2Muons_E_) ),
-    //   make_pair( new SeedMvaEstimator(mvaFileHltIterL3OISeedsFromL2Muons_B_2_, mvaScaleMeanHltIterL3OISeedsFromL2Muons_B_, mvaScaleStdHltIterL3OISeedsFromL2Muons_B_),
-    //              new SeedMvaEstimator(mvaFileHltIterL3OISeedsFromL2Muons_E_2_, mvaScaleMeanHltIterL3OISeedsFromL2Muons_E_, mvaScaleStdHltIterL3OISeedsFromL2Muons_E_) ),
-    //   make_pair( new SeedMvaEstimator(mvaFileHltIterL3OISeedsFromL2Muons_B_3_, mvaScaleMeanHltIterL3OISeedsFromL2Muons_B_, mvaScaleStdHltIterL3OISeedsFromL2Muons_B_),
-    //              new SeedMvaEstimator(mvaFileHltIterL3OISeedsFromL2Muons_E_3_, mvaScaleMeanHltIterL3OISeedsFromL2Muons_E_, mvaScaleStdHltIterL3OISeedsFromL2Muons_E_) )
-    // };
-    // mvaHltIter0IterL3MuonPixelSeedsFromPixelTracks_ = {
-    //   make_pair( new SeedMvaEstimator(mvaFileHltIter0IterL3MuonPixelSeedsFromPixelTracks_B_0_, mvaScaleMeanHltIter0IterL3MuonPixelSeedsFromPixelTracks_B_, mvaScaleStdHltIter0IterL3MuonPixelSeedsFromPixelTracks_B_),
-    //              new SeedMvaEstimator(mvaFileHltIter0IterL3MuonPixelSeedsFromPixelTracks_E_0_, mvaScaleMeanHltIter0IterL3MuonPixelSeedsFromPixelTracks_E_, mvaScaleStdHltIter0IterL3MuonPixelSeedsFromPixelTracks_E_) ),
-    //   make_pair( new SeedMvaEstimator(mvaFileHltIter0IterL3MuonPixelSeedsFromPixelTracks_B_1_, mvaScaleMeanHltIter0IterL3MuonPixelSeedsFromPixelTracks_B_, mvaScaleStdHltIter0IterL3MuonPixelSeedsFromPixelTracks_B_),
-    //              new SeedMvaEstimator(mvaFileHltIter0IterL3MuonPixelSeedsFromPixelTracks_E_1_, mvaScaleMeanHltIter0IterL3MuonPixelSeedsFromPixelTracks_E_, mvaScaleStdHltIter0IterL3MuonPixelSeedsFromPixelTracks_E_) ),
-    //   make_pair( new SeedMvaEstimator(mvaFileHltIter0IterL3MuonPixelSeedsFromPixelTracks_B_2_, mvaScaleMeanHltIter0IterL3MuonPixelSeedsFromPixelTracks_B_, mvaScaleStdHltIter0IterL3MuonPixelSeedsFromPixelTracks_B_),
-    //              new SeedMvaEstimator(mvaFileHltIter0IterL3MuonPixelSeedsFromPixelTracks_E_2_, mvaScaleMeanHltIter0IterL3MuonPixelSeedsFromPixelTracks_E_, mvaScaleStdHltIter0IterL3MuonPixelSeedsFromPixelTracks_E_) ),
-    //   make_pair( new SeedMvaEstimator(mvaFileHltIter0IterL3MuonPixelSeedsFromPixelTracks_B_3_, mvaScaleMeanHltIter0IterL3MuonPixelSeedsFromPixelTracks_B_, mvaScaleStdHltIter0IterL3MuonPixelSeedsFromPixelTracks_B_),
-    //              new SeedMvaEstimator(mvaFileHltIter0IterL3MuonPixelSeedsFromPixelTracks_E_3_, mvaScaleMeanHltIter0IterL3MuonPixelSeedsFromPixelTracks_E_, mvaScaleStdHltIter0IterL3MuonPixelSeedsFromPixelTracks_E_) )
-    // };
-    // mvaHltIter2IterL3MuonPixelSeeds_ = {
-    //   make_pair( new SeedMvaEstimator(mvaFileHltIter2IterL3MuonPixelSeeds_B_0_, mvaScaleMeanHltIter2IterL3MuonPixelSeeds_B_, mvaScaleStdHltIter2IterL3MuonPixelSeeds_B_),
-    //              new SeedMvaEstimator(mvaFileHltIter2IterL3MuonPixelSeeds_E_0_, mvaScaleMeanHltIter2IterL3MuonPixelSeeds_E_, mvaScaleStdHltIter2IterL3MuonPixelSeeds_E_) ),
-    //   make_pair( new SeedMvaEstimator(mvaFileHltIter2IterL3MuonPixelSeeds_B_1_, mvaScaleMeanHltIter2IterL3MuonPixelSeeds_B_, mvaScaleStdHltIter2IterL3MuonPixelSeeds_B_),
-    //              new SeedMvaEstimator(mvaFileHltIter2IterL3MuonPixelSeeds_E_1_, mvaScaleMeanHltIter2IterL3MuonPixelSeeds_E_, mvaScaleStdHltIter2IterL3MuonPixelSeeds_E_) ),
-    //   make_pair( new SeedMvaEstimator(mvaFileHltIter2IterL3MuonPixelSeeds_B_2_, mvaScaleMeanHltIter2IterL3MuonPixelSeeds_B_, mvaScaleStdHltIter2IterL3MuonPixelSeeds_B_),
-    //              new SeedMvaEstimator(mvaFileHltIter2IterL3MuonPixelSeeds_E_2_, mvaScaleMeanHltIter2IterL3MuonPixelSeeds_E_, mvaScaleStdHltIter2IterL3MuonPixelSeeds_E_) ),
-    //   make_pair( new SeedMvaEstimator(mvaFileHltIter2IterL3MuonPixelSeeds_B_3_, mvaScaleMeanHltIter2IterL3MuonPixelSeeds_B_, mvaScaleStdHltIter2IterL3MuonPixelSeeds_B_),
-    //              new SeedMvaEstimator(mvaFileHltIter2IterL3MuonPixelSeeds_E_3_, mvaScaleMeanHltIter2IterL3MuonPixelSeeds_E_, mvaScaleStdHltIter2IterL3MuonPixelSeeds_E_) )
-    // };
-    // mvaHltIter3IterL3MuonPixelSeeds_ = {
-    //   make_pair( new SeedMvaEstimator(mvaFileHltIter3IterL3MuonPixelSeeds_B_0_, mvaScaleMeanHltIter3IterL3MuonPixelSeeds_B_, mvaScaleStdHltIter3IterL3MuonPixelSeeds_B_),
-    //              new SeedMvaEstimator(mvaFileHltIter3IterL3MuonPixelSeeds_E_0_, mvaScaleMeanHltIter3IterL3MuonPixelSeeds_E_, mvaScaleStdHltIter3IterL3MuonPixelSeeds_E_) ),
-    //   make_pair( new SeedMvaEstimator(mvaFileHltIter3IterL3MuonPixelSeeds_B_1_, mvaScaleMeanHltIter3IterL3MuonPixelSeeds_B_, mvaScaleStdHltIter3IterL3MuonPixelSeeds_B_),
-    //              new SeedMvaEstimator(mvaFileHltIter3IterL3MuonPixelSeeds_E_1_, mvaScaleMeanHltIter3IterL3MuonPixelSeeds_E_, mvaScaleStdHltIter3IterL3MuonPixelSeeds_E_) ),
-    //   make_pair( new SeedMvaEstimator(mvaFileHltIter3IterL3MuonPixelSeeds_B_2_, mvaScaleMeanHltIter3IterL3MuonPixelSeeds_B_, mvaScaleStdHltIter3IterL3MuonPixelSeeds_B_),
-    //              new SeedMvaEstimator(mvaFileHltIter3IterL3MuonPixelSeeds_E_2_, mvaScaleMeanHltIter3IterL3MuonPixelSeeds_E_, mvaScaleStdHltIter3IterL3MuonPixelSeeds_E_) ),
-    //   make_pair( new SeedMvaEstimator(mvaFileHltIter3IterL3MuonPixelSeeds_B_3_, mvaScaleMeanHltIter3IterL3MuonPixelSeeds_B_, mvaScaleStdHltIter3IterL3MuonPixelSeeds_B_),
-    //              new SeedMvaEstimator(mvaFileHltIter3IterL3MuonPixelSeeds_E_3_, mvaScaleMeanHltIter3IterL3MuonPixelSeeds_E_, mvaScaleStdHltIter3IterL3MuonPixelSeeds_E_) )
-    // };
-    // mvaHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_ = {
-    //   make_pair( new SeedMvaEstimator(mvaFileHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_B_0_, mvaScaleMeanHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_B_, mvaScaleStdHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_B_),
-    //              new SeedMvaEstimator(mvaFileHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_E_0_, mvaScaleMeanHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_E_, mvaScaleStdHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_E_) ),
-    //   make_pair( new SeedMvaEstimator(mvaFileHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_B_1_, mvaScaleMeanHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_B_, mvaScaleStdHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_B_),
-    //              new SeedMvaEstimator(mvaFileHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_E_1_, mvaScaleMeanHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_E_, mvaScaleStdHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_E_) ),
-    //   make_pair( new SeedMvaEstimator(mvaFileHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_B_2_, mvaScaleMeanHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_B_, mvaScaleStdHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_B_),
-    //              new SeedMvaEstimator(mvaFileHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_E_2_, mvaScaleMeanHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_E_, mvaScaleStdHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_E_) ),
-    //   make_pair( new SeedMvaEstimator(mvaFileHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_B_3_, mvaScaleMeanHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_B_, mvaScaleStdHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_B_),
-    //              new SeedMvaEstimator(mvaFileHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_E_3_, mvaScaleMeanHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_E_, mvaScaleStdHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_E_) )
-    // };
-    mvaPhase2HltIter2IterL3FromL1MuonPixelSeeds_ = {
-      make_pair( new SeedMvaEstimatorPhase2(mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_0_, mvaScaleMeanHltIter2IterL3FromL1MuonPixelSeeds_B_, mvaScaleStdHltIter2IterL3FromL1MuonPixelSeeds_B_),
-                 new SeedMvaEstimatorPhase2(mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_0_, mvaScaleMeanHltIter2IterL3FromL1MuonPixelSeeds_E_, mvaScaleStdHltIter2IterL3FromL1MuonPixelSeeds_E_) )//,
-      // make_pair( new SeedMvaEstimatorPhase2(mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_1_, mvaScaleMeanHltIter2IterL3FromL1MuonPixelSeeds_B_, mvaScaleStdHltIter2IterL3FromL1MuonPixelSeeds_B_),
-      //            new SeedMvaEstimatorPhase2(mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_1_, mvaScaleMeanHltIter2IterL3FromL1MuonPixelSeeds_E_, mvaScaleStdHltIter2IterL3FromL1MuonPixelSeeds_E_) ),
-      // make_pair( new SeedMvaEstimatorPhase2(mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_2_, mvaScaleMeanHltIter2IterL3FromL1MuonPixelSeeds_B_, mvaScaleStdHltIter2IterL3FromL1MuonPixelSeeds_B_),
-      //            new SeedMvaEstimatorPhase2(mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_2_, mvaScaleMeanHltIter2IterL3FromL1MuonPixelSeeds_E_, mvaScaleStdHltIter2IterL3FromL1MuonPixelSeeds_E_) ),
-      // make_pair( new SeedMvaEstimatorPhase2(mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_3_, mvaScaleMeanHltIter2IterL3FromL1MuonPixelSeeds_B_, mvaScaleStdHltIter2IterL3FromL1MuonPixelSeeds_B_),
-      //            new SeedMvaEstimatorPhase2(mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_3_, mvaScaleMeanHltIter2IterL3FromL1MuonPixelSeeds_E_, mvaScaleStdHltIter2IterL3FromL1MuonPixelSeeds_E_) )
-    };
-    // mvaHltIter3IterL3FromL1MuonPixelSeeds_ = {
-    //   make_pair( new SeedMvaEstimator(mvaFileHltIter3IterL3FromL1MuonPixelSeeds_B_0_, mvaScaleMeanHltIter3IterL3FromL1MuonPixelSeeds_B_, mvaScaleStdHltIter3IterL3FromL1MuonPixelSeeds_B_),
-    //              new SeedMvaEstimator(mvaFileHltIter3IterL3FromL1MuonPixelSeeds_E_0_, mvaScaleMeanHltIter3IterL3FromL1MuonPixelSeeds_E_, mvaScaleStdHltIter3IterL3FromL1MuonPixelSeeds_E_) ),
-    //   make_pair( new SeedMvaEstimator(mvaFileHltIter3IterL3FromL1MuonPixelSeeds_B_1_, mvaScaleMeanHltIter3IterL3FromL1MuonPixelSeeds_B_, mvaScaleStdHltIter3IterL3FromL1MuonPixelSeeds_B_),
-    //              new SeedMvaEstimator(mvaFileHltIter3IterL3FromL1MuonPixelSeeds_E_1_, mvaScaleMeanHltIter3IterL3FromL1MuonPixelSeeds_E_, mvaScaleStdHltIter3IterL3FromL1MuonPixelSeeds_E_) ),
-    //   make_pair( new SeedMvaEstimator(mvaFileHltIter3IterL3FromL1MuonPixelSeeds_B_2_, mvaScaleMeanHltIter3IterL3FromL1MuonPixelSeeds_B_, mvaScaleStdHltIter3IterL3FromL1MuonPixelSeeds_B_),
-    //              new SeedMvaEstimator(mvaFileHltIter3IterL3FromL1MuonPixelSeeds_E_2_, mvaScaleMeanHltIter3IterL3FromL1MuonPixelSeeds_E_, mvaScaleStdHltIter3IterL3FromL1MuonPixelSeeds_E_) ),
-    //   make_pair( new SeedMvaEstimator(mvaFileHltIter3IterL3FromL1MuonPixelSeeds_B_3_, mvaScaleMeanHltIter3IterL3FromL1MuonPixelSeeds_B_, mvaScaleStdHltIter3IterL3FromL1MuonPixelSeeds_B_),
-    //              new SeedMvaEstimator(mvaFileHltIter3IterL3FromL1MuonPixelSeeds_E_3_, mvaScaleMeanHltIter3IterL3FromL1MuonPixelSeeds_E_, mvaScaleStdHltIter3IterL3FromL1MuonPixelSeeds_E_) )
-    // };
+    mvaPhase2HltIter2IterL3FromL1MuonPixelSeeds_ = std::make_pair(
+      std::make_unique<SeedMvaEstimatorPhase2>(mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_0_, mvaScaleMeanHltIter2IterL3FromL1MuonPixelSeeds_B_, mvaScaleStdHltIter2IterL3FromL1MuonPixelSeeds_B_),
+      std::make_unique<SeedMvaEstimatorPhase2>(mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_0_, mvaScaleMeanHltIter2IterL3FromL1MuonPixelSeeds_E_, mvaScaleStdHltIter2IterL3FromL1MuonPixelSeeds_E_) );
   }
 }
 
@@ -1859,7 +1792,7 @@ void MuonHLTNtupler::Fill_IterL3(const edm::Event &iEvent, const edm::EventSetup
   edm::ESHandle<TrackerGeometry> trkGeom = iSetup.getHandle(trackerGeometryESToken_);
 
   GeometricSearchTrackerBuilder builder;
-  GeometricSearchTracker* geomTracker = builder.build(&(*geomDet), &(*trkGeom), &(*trkTopo));
+  GeometricSearchTracker geomTracker = *(builder.build(&(*geomDet), &(*trkGeom), &(*trkTopo)));
 
   if( iEvent.getByToken( t_iterL3Muon_, h_iterL3Muon) )
   {
@@ -2074,14 +2007,7 @@ void MuonHLTNtupler::Fill_IterL3(const edm::Event &iEvent, const edm::EventSetup
   edm::ESHandle<TrackerGeometry> tracker = iSetup.getHandle(trackerGeometryESToken_);
 
   if(doMVA) {
-    // fill_trackTemplateMva(iEvent, t_hltIterL3OIMuonTrack_,          theAssociator, TPCollection, tracker, mvaHltIterL3OISeedsFromL2Muons_,                       hltIterL3OIMuonTrackMap,         TThltIterL3OIMuonTrack);
-    // fill_trackTemplateMva(iEvent, t_hltIter0IterL3MuonTrack_,       theAssociator, TPCollection, tracker, mvaHltIter0IterL3MuonPixelSeedsFromPixelTracks_,       hltIter0IterL3MuonTrackMap,      TThltIter0IterL3MuonTrack);
-    // fill_trackTemplateMva(iEvent, t_hltIter2IterL3MuonTrack_,       theAssociator, TPCollection, tracker, mvaHltIter2IterL3MuonPixelSeeds_,                      hltIter2IterL3MuonTrackMap,      TThltIter2IterL3MuonTrack);
-    // fill_trackTemplateMva(iEvent, t_hltIter3IterL3MuonTrack_,       theAssociator, TPCollection, tracker, mvaHltIter3IterL3MuonPixelSeeds_,                      hltIter3IterL3MuonTrackMap,      TThltIter3IterL3MuonTrack);
-    // fill_trackTemplateMva(iEvent, t_hltIter0IterL3FromL1MuonTrack_, theAssociator, TPCollection, tracker, mvaHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_, hltIter0IterL3FromL1MuonTrackMap,TThltIter0IterL3FromL1MuonTrack);
-    // fill_trackTemplateMva(iEvent, t_hltIter2IterL3FromL1MuonTrack_, theAssociator, TPCollection, _trackerGeometry, mvaHltIter2IterL3FromL1MuonPixelSeeds_,                hltIter2IterL3FromL1MuonTrackMap,TThltIter2IterL3FromL1MuonTrack);
     fill_trackTemplateMva(iEvent, t_hltIter2IterL3FromL1MuonTrack_, theAssociator, TPCollection, tracker, mvaPhase2HltIter2IterL3FromL1MuonPixelSeeds_, hltIter2IterL3FromL1MuonTrackMap,TThltIter2IterL3FromL1MuonTrack, magfieldH, iSetup, geomTracker);
-    // fill_trackTemplateMva(iEvent, t_hltIter3IterL3FromL1MuonTrack_, theAssociator, TPCollection, tracker, mvaHltIter3IterL3FromL1MuonPixelSeeds_,                hltIter3IterL3FromL1MuonTrackMap,TThltIter3IterL3FromL1MuonTrack);
   }
 }
 
@@ -2318,7 +2244,6 @@ void MuonHLTNtupler::fill_trackTemplate(
         // -- fill dummy
         TTtrack->linkIterL3(-1);
         TTtrack->linkIterL3NoId(-1);
-        // TTtrack->fillMva( -99999., -99999., -99999., -99999. );
         TTtrack->fillMva( -99999. );
 
         if(doIso) {
@@ -2458,12 +2383,12 @@ void MuonHLTNtupler::fill_trackTemplateMva(
   edm::Handle<reco::TrackToTrackingParticleAssociator>& theAssociator_,
   edm::Handle<TrackingParticleCollection>& TPCollection_,
   edm::ESHandle<TrackerGeometry>& tracker,
-  pairSeedMvaEstimatorPhase2 pairSeedMvaEstimatorPhase2,
+  const pairSeedMvaEstimatorPhase2& pairSeedMvaEstimatorPhase2,
   std::map<tmpTSOD,unsigned int>& trkMap,
   trkTemplate* TTtrack,
   edm::ESHandle<MagneticField> magfieldH,
   const edm::EventSetup &iSetup,
-  GeometricSearchTracker* geomTracker
+  const GeometricSearchTracker& geomTracker
 ) {
 
   // edm::Handle<l1t::MuonBxCollection> h_L1Muon;
@@ -2519,7 +2444,7 @@ void MuonHLTNtupler::fill_trackTemplateMva(
         GlobalVector global_p = tracker->idToDet(seed.startingState().detId())->surface().toGlobal(seed.startingState().parameters().momentum());
         GlobalPoint  global_x = tracker->idToDet(seed.startingState().detId())->surface().toGlobal(seed.startingState().parameters().position());
 
-        vector<float> mva = getSeedMva(
+        double mva = getSeedMva(
           pairSeedMvaEstimatorPhase2,
           seed,
           global_p,
@@ -2529,12 +2454,10 @@ void MuonHLTNtupler::fill_trackTemplateMva(
           iSetup,
           geomTracker
         );
-        // TTtrack->fillMva( mva[0], mva[1], mva[2], mva[3] );
-        TTtrack->fillMva( mva[0] );
+        TTtrack->fillMva(mva);
       }
       else {
         TTtrack->fillMva( -99999. );
-        // TTtrack->fillMva( -99999., -99999., -99999., -99999. );
       }
     }
   }
@@ -2600,25 +2523,10 @@ void MuonHLTNtupler::endJob() {
     delete tpTemplates_.at(i);
   }
 
-  if(doMVA) {
-    for( int i=0; i<1; ++i ) {
-    // for( int i=0; i<4; ++i ) {
-      // delete mvaHltIterL3OISeedsFromL2Muons_.at(i).first;
-      // delete mvaHltIterL3OISeedsFromL2Muons_.at(i).second;
-      // delete mvaHltIter0IterL3MuonPixelSeedsFromPixelTracks_.at(i).first;
-      // delete mvaHltIter0IterL3MuonPixelSeedsFromPixelTracks_.at(i).second;
-      // delete mvaHltIter2IterL3MuonPixelSeeds_.at(i).first;
-      // delete mvaHltIter2IterL3MuonPixelSeeds_.at(i).second;
-      // delete mvaHltIter3IterL3MuonPixelSeeds_.at(i).first;
-      // delete mvaHltIter3IterL3MuonPixelSeeds_.at(i).second;
-      // delete mvaHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_.at(i).first;
-      // delete mvaHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_.at(i).second;
-      delete mvaPhase2HltIter2IterL3FromL1MuonPixelSeeds_.at(i).first;
-      delete mvaPhase2HltIter2IterL3FromL1MuonPixelSeeds_.at(i).second;
-      // delete mvaHltIter3IterL3FromL1MuonPixelSeeds_.at(i).first;
-      // delete mvaHltIter3IterL3FromL1MuonPixelSeeds_.at(i).second;
-    }
-  }
+  // if(doMVA) {
+  //   delete mvaPhase2HltIter2IterL3FromL1MuonPixelSeeds_.first;
+  //   delete mvaPhase2HltIter2IterL3FromL1MuonPixelSeeds_.second;
+  // }
 }
 
 void MuonHLTNtupler::beginRun(const edm::Run &iRun, const edm::EventSetup &iSetup) {}

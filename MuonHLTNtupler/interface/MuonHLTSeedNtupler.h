@@ -2,7 +2,6 @@
 // -- author: Kyeongpil Lee (Seoul National University, kplee@cern.ch)
 
 #include "FWCore/Framework/interface/one/EDAnalyzer.h"
-//#include "FWCore/Framework/interface/EDAnalyzer.h"
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/ServiceRegistry/interface/Service.h"
@@ -96,8 +95,7 @@
 #include "DataFormats/L1Trigger/interface/VertexWord.h"
 #include "DataFormats/L1TMuonPhase2/interface/TrackerMuon.h"
 
-#include "HLTrigger/MuonHLTSeedMVAClassifierPhase2/interface/SeedMvaEstimator2.h"
-//#include "HLTrigger/MuonHLTSeedMVAClassifierPhase2/interface/SeedMvaEstimator.h"
+#include "HLTrigger/MuonHLTSeedMVAClassifierPhase2/interface/SeedMvaEstimatorPhase2.h"
 
 // -- for L1TkMu propagation
 #include "TrackingTools/GeomPropagators/interface/Propagator.h"
@@ -271,7 +269,8 @@ private:
   // std::vector<double> mvaScaleStdHltIter3IterL3FromL1MuonPixelSeeds_E_;
 
   //typedef std::vector< std::pair<SeedMvaEstimator*, SeedMvaEstimator*> > pairSeedMvaEstimator;
-  typedef std::vector< std::pair<SeedMvaEstimatorPhase2*, SeedMvaEstimatorPhase2*> > pairSeedMvaEstimatorPhase2;
+  // typedef std::vector< std::pair<SeedMvaEstimatorPhase2*, SeedMvaEstimatorPhase2*> > pairSeedMvaEstimatorPhase2;
+  typedef std::pair<std::unique_ptr<const SeedMvaEstimatorPhase2>, std::unique_ptr<const SeedMvaEstimatorPhase2>> pairSeedMvaEstimatorPhase2;
 
   // pairSeedMvaEstimator mvaHltIterL3OISeedsFromL2Muons_;
   // pairSeedMvaEstimator mvaHltIter0IterL3MuonPixelSeedsFromPixelTracks_;
@@ -931,7 +930,7 @@ private:
   void fill_seedTemplate(
   const edm::Event &,
   edm::EDGetTokenT<TrajectorySeedCollection>&,
-  pairSeedMvaEstimatorPhase2,
+  const pairSeedMvaEstimatorPhase2&,
   edm::ESHandle<TrackerGeometry>&,
   std::map<tmpTSOD,unsigned int>&,
   trkTemplate*,
@@ -939,7 +938,7 @@ private:
   int &nSeed,
   edm::ESHandle<MagneticField> magfieldH,
   const edm::EventSetup &iSetup,
-  GeometricSearchTracker* geomTracker
+  const GeometricSearchTracker& geomTracker
 );
 
   // HERE
@@ -1117,7 +1116,7 @@ private:
     TTTrack<Ref_Phase2TrackerDigi_>,
     edm::ESHandle<MagneticField>&,
     const Propagator&,
-    GeometricSearchTracker*
+    const GeometricSearchTracker&
   );
 
   vector< pair<LayerHit, LayerTSOS> > getHitTsosPairs(
@@ -1126,6 +1125,6 @@ private:
     edm::Handle<l1t::TrackerMuonCollection>,
     edm::ESHandle<MagneticField>&,
     const Propagator&,
-    GeometricSearchTracker*
+    const GeometricSearchTracker&
   );
 };

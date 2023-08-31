@@ -2,7 +2,6 @@
 // -- author: Kyeongpil Lee (Seoul National University, kplee@cern.ch)
 
 #include "FWCore/Framework/interface/one/EDAnalyzer.h"
-//#include "FWCore/Framework/interface/EDAnalyzer.h"
 #include "FWCore/Framework/interface/Frameworkfwd.h"
 #include "FWCore/Framework/interface/MakerMacros.h"
 #include "FWCore/ServiceRegistry/interface/Service.h"
@@ -98,8 +97,7 @@
 #include "L1Trigger/L1TMuon/interface/MicroGMTConfiguration.h"
 #include "DataFormats/Math/interface/angle_units.h"
 
-// #include "HLTrigger/MuonHLTSeedMVAClassifierPhase2/interface/SeedMvaEstimator.h"
-#include "HLTrigger/MuonHLTSeedMVAClassifierPhase2/interface/SeedMvaEstimator2.h"
+#include "HLTrigger/MuonHLTSeedMVAClassifierPhase2/interface/SeedMvaEstimatorPhase2.h"
 
 // -- for L1TkMu propagation
 #include "TrackingTools/GeomPropagators/interface/Propagator.h"
@@ -235,7 +233,8 @@ private:
   std::vector<edm::InputTag> pfIsoLabels_;
   std::vector<edm::EDGetTokenT<reco::RecoChargedCandidateIsolationMap>> pfIsoTokens_;
 
-  typedef std::vector< std::pair<SeedMvaEstimatorPhase2*, SeedMvaEstimatorPhase2*> > pairSeedMvaEstimatorPhase2;
+  // typedef std::vector< std::pair<SeedMvaEstimatorPhase2*, SeedMvaEstimatorPhase2*> > pairSeedMvaEstimatorPhase2;
+  typedef std::pair<std::unique_ptr<const SeedMvaEstimatorPhase2>, std::unique_ptr<const SeedMvaEstimatorPhase2>> pairSeedMvaEstimatorPhase2;
   
   // ----------- For CMSSW_12 -----------
   const TrackerTopology* _trackerTopology;
@@ -1211,7 +1210,6 @@ private:
     int matchedIDpassedL3(int idx) { return linkToL3s.at(idx); }
     void fillBestTPsharedFrac(double frac) { bestMatchTP_sharedFraction.push_back(frac); }
     void fillmatchedTPsize(int TPsize) { matchedTPsize.push_back(TPsize); }
-    // void fillMva( float mva0_, float mva1_, float mva2_, float mva3_ ) {
     void fillMva( float mva0_ ) {
       // FIXME tmp solution
       mva0.push_back( (mva0_ +0.5) );
@@ -1513,12 +1511,12 @@ private:
     edm::Handle<reco::TrackToTrackingParticleAssociator>& theAssociator_,
     edm::Handle<TrackingParticleCollection>& TPCollection_,
     edm::ESHandle<TrackerGeometry>& tracker,
-    pairSeedMvaEstimatorPhase2 pairSeedMvaEstimatorPhase2,
+    const pairSeedMvaEstimatorPhase2& pairSeedMvaEstimatorPhase2,
     std::map<tmpTSOD,unsigned int>& trkMap,
     trkTemplate* TTtrack,
     edm::ESHandle<MagneticField> magfieldH,
     const edm::EventSetup &iSetup,
-    GeometricSearchTracker* geomTracker
+    const GeometricSearchTracker& geomTracker
   );
 
   void fill_tpTemplate(
@@ -1619,57 +1617,46 @@ private:
 
   pairSeedMvaEstimatorPhase2 mvaPhase2HltIter2IterL3FromL1MuonPixelSeeds_;
 
-  vector<float> getSeedMva(
-    pairSeedMvaEstimatorPhase2 pairSeedMvaEstimatorPhase2,
+  double getSeedMva(
+    const pairSeedMvaEstimatorPhase2& pairSeedMvaEstimatorPhase2,
     const TrajectorySeed& seed,
-    GlobalVector global_p,
-    GlobalPoint  global_x,
-    edm::Handle<l1t::TrackerMuonCollection> h_L1TkMu,
-    edm::ESHandle<MagneticField> magfieldH,
+    const GlobalVector& global_p,
+    const GlobalPoint&  global_x,
+    const edm::Handle<l1t::TrackerMuonCollection>& h_L1TkMu,
+    const edm::ESHandle<MagneticField>& magfieldH,
     const edm::EventSetup &iSetup,
-    GeometricSearchTracker* geomTracker
+    const GeometricSearchTracker& geomTracker
   ) {
     // edm::ESHandle<Propagator> propagatorAlongH;
     // iSetup.get<TrackingComponentsRecord>().get("PropagatorWithMaterialParabolicMf", propagatorAlongH);
     edm::ESHandle<Propagator> propagatorAlongH = iSetup.getHandle(propagatorESToken_);
     std::unique_ptr<Propagator> propagatorAlong = SetPropagationDirection(*propagatorAlongH, alongMomentum);
 
-    vector<float> v_mva = {};
+    double mva = 0.;
 
-    for(auto ic=0U; ic<pairSeedMvaEstimatorPhase2.size(); ++ic) {
-      if( fabs( global_p.eta() ) < 0.9 ) {
-        float mva = pairSeedMvaEstimatorPhase2.at(ic).first->computeMva(
-          seed,
-          global_p,
-          global_x,
-          h_L1TkMu,
-          magfieldH,
-          *(propagatorAlong.get()),
-          geomTracker
-        );
-        v_mva.push_back( mva );
-      }
-      else {
-        float mva = pairSeedMvaEstimatorPhase2.at(ic).second->computeMva(
-          seed,
-          global_p,
-          global_x,
-          h_L1TkMu,
-          magfieldH,
-          *(propagatorAlong.get()),
-          geomTracker
-        );
-        v_mva.push_back( mva );
-      }
+    if( fabs( global_p.eta() ) < 1.2 ) {
+        mva = pairSeedMvaEstimatorPhase2.first->computeMva(
+        seed,
+        global_p,
+        global_x,
+        h_L1TkMu,
+        magfieldH,
+        *(propagatorAlong.get()),
+        geomTracker
+      );
     }
-    // if( v_mva.size() != 4 ) {
-    //   cout << "getSeedMva: v_mva.size() != 4" << endl;
-    //   return { -99999., -99999., -99999., -99999. };
-    // }
-    if( v_mva.size() != 1 ) {
-      cout << "getSeedMva: v_mva.size() != 1" << endl;
-      return { -99999. };
+    else {
+        mva = pairSeedMvaEstimatorPhase2.second->computeMva(
+        seed,
+        global_p,
+        global_x,
+        h_L1TkMu,
+        magfieldH,
+        *(propagatorAlong.get()),
+        geomTracker
+      );
     }
-    return v_mva;
+
+    return mva;
   }
 };
