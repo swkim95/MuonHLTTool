@@ -4,7 +4,7 @@
 # process = customizerFuncForMuonHLTNtupler(process, "MYHLT")
 
 import FWCore.ParameterSet.Config as cms
-from HLTrigger.MuonHLTSeedMVAClassifierPhase2.mvaScale import *
+from RecoMuon.TrackerSeedGenerator.mvaScale import *
 
 def customizerFuncForMuonHLTNtupler(process, newProcessName = "MYHLT", doDYSkim = False):
     if hasattr(process, "DQMOutput"):
@@ -170,7 +170,7 @@ def customizerFuncForMuonHLTNtupler(process, newProcessName = "MYHLT", doDYSkim 
     # process.ntupler.mvaFileHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_B_3 = cms.untracked.FileInPath("HLTrigger/MuonHLTSeedMVAClassifierPhase2/data/PU180to200Barrel_hltIter0FromL1_3.xml")
     # process.ntupler.mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_0                = cms.untracked.FileInPath("HLTrigger/MuonHLTSeedMVAClassifierPhase2/data/DY_PU200_Barrel_Binary_NThltIter2FromL1_0.xml")
     # process.ntupler.mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_0                = cms.untracked.FileInPath("HLTrigger/MuonHLTSeedMVAClassifierPhase2/data/xgb_CMSSW_13_0_9_allData_updated_Barrel_NThltIter2FromL1_0.xml")
-    process.ntupler.mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_0                = cms.untracked.FileInPath("HLTrigger/MuonHLTSeedMVAClassifierPhase2/data/xgb_CMSSW_13_0_9_allData_Try_05_Barrel_NThltIter2FromL1_0.xml")
+    process.ntupler.mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_0                = cms.untracked.FileInPath("RecoMuon/TrackerSeedGenerator/data/xgb_Phase2_Barrel_NThltIter2FromL1_0.xml")
     # process.ntupler.mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_1                = cms.untracked.FileInPath("HLTrigger/MuonHLTSeedMVAClassifierPhase2/data/DY_PU200_Barrel_Binary_NThltIter2FromL1_1.xml")
     # process.ntupler.mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_2                = cms.untracked.FileInPath("HLTrigger/MuonHLTSeedMVAClassifierPhase2/data/DY_PU200_Barrel_Binary_NThltIter2FromL1_2.xml")
     # process.ntupler.mvaFileHltIter2IterL3FromL1MuonPixelSeeds_B_3                = cms.untracked.FileInPath("HLTrigger/MuonHLTSeedMVAClassifierPhase2/data/DY_PU200_Barrel_Binary_NThltIter2FromL1_3.xml")
@@ -200,7 +200,7 @@ def customizerFuncForMuonHLTNtupler(process, newProcessName = "MYHLT", doDYSkim 
     # process.ntupler.mvaFileHltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_E_3 = cms.untracked.FileInPath("HLTrigger/MuonHLTSeedMVAClassifierPhase2/data/PU180to200Endcap_hltIter0FromL1_3.xml")
     # process.ntupler.mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_0                = cms.untracked.FileInPath("HLTrigger/MuonHLTSeedMVAClassifierPhase2/data/DY_PU200_Endcap_Binary_NThltIter2FromL1_0.xml")
     # process.ntupler.mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_0                = cms.untracked.FileInPath("HLTrigger/MuonHLTSeedMVAClassifierPhase2/data/xgb_CMSSW_13_0_9_allData_updated_Endcap_NThltIter2FromL1_0.xml")
-    process.ntupler.mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_0                = cms.untracked.FileInPath("HLTrigger/MuonHLTSeedMVAClassifierPhase2/data/xgb_CMSSW_13_0_9_allData_Try_05_Endcap_NThltIter2FromL1_0.xml")
+    process.ntupler.mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_0                = cms.untracked.FileInPath("RecoMuon/TrackerSeedGenerator/data/xgb_Phase2_Endcap_NThltIter2FromL1_0.xml")
     # process.ntupler.mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_1                = cms.untracked.FileInPath("HLTrigger/MuonHLTSeedMVAClassifierPhase2/data/DY_PU200_Endcap_Binary_NThltIter2FromL1_1.xml")
     # process.ntupler.mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_2                = cms.untracked.FileInPath("HLTrigger/MuonHLTSeedMVAClassifierPhase2/data/DY_PU200_Endcap_Binary_NThltIter2FromL1_2.xml")
     # process.ntupler.mvaFileHltIter2IterL3FromL1MuonPixelSeeds_E_3                = cms.untracked.FileInPath("HLTrigger/MuonHLTSeedMVAClassifierPhase2/data/DY_PU200_Endcap_Binary_NThltIter2FromL1_3.xml")

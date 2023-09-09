@@ -97,7 +97,7 @@
 #include "L1Trigger/L1TMuon/interface/MicroGMTConfiguration.h"
 #include "DataFormats/Math/interface/angle_units.h"
 
-#include "HLTrigger/MuonHLTSeedMVAClassifierPhase2/interface/SeedMvaEstimatorPhase2.h"
+#include "RecoMuon/TrackerSeedGenerator/interface/SeedMvaEstimatorPhase2.h"
 
 // -- for L1TkMu propagation
 #include "TrackingTools/GeomPropagators/interface/Propagator.h"

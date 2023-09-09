@@ -95,7 +95,7 @@
 #include "DataFormats/L1Trigger/interface/VertexWord.h"
 #include "DataFormats/L1TMuonPhase2/interface/TrackerMuon.h"
 
-#include "HLTrigger/MuonHLTSeedMVAClassifierPhase2/interface/SeedMvaEstimatorPhase2.h"
+#include "RecoMuon/TrackerSeedGenerator/interface/SeedMvaEstimatorPhase2.h"
 
 // -- for L1TkMu propagation
 #include "TrackingTools/GeomPropagators/interface/Propagator.h"

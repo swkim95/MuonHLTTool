@@ -393,8 +393,8 @@ void MuonHLTSeedNtupler::Fill_Seed(const edm::Event &iEvent, const edm::EventSet
   GeometricSearchTrackerBuilder builder;
   GeometricSearchTracker geomTracker = *(builder.build(&(*geomDet), &(*trkGeom), &(*trkTopo)));
 
-  fill_seedTemplate(iEvent, t_hltIterL3OISeedsFromL2Muons_, mvaPhase2HltIter2IterL3FromL1MuonPixelSeeds_, tracker, hltIterL3OIMuonTrackMap, TThltIterL3OIMuonTrack, NThltIterL3OI_, nhltIterL3OI_, magfieldH, iSetup, geomTracker );
-  fill_seedTemplate(iEvent, t_hltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_, mvaPhase2HltIter2IterL3FromL1MuonPixelSeeds_, tracker, hltIter0IterL3FromL1MuonTrackMap, TThltIter0IterL3FromL1MuonTrack, NThltIter0FromL1_, nhltIter0FromL1_, magfieldH, iSetup, geomTracker );
+  // fill_seedTemplate(iEvent, t_hltIterL3OISeedsFromL2Muons_, mvaPhase2HltIter2IterL3FromL1MuonPixelSeeds_, tracker, hltIterL3OIMuonTrackMap, TThltIterL3OIMuonTrack, NThltIterL3OI_, nhltIterL3OI_, magfieldH, iSetup, geomTracker );
+  // fill_seedTemplate(iEvent, t_hltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks_, mvaPhase2HltIter2IterL3FromL1MuonPixelSeeds_, tracker, hltIter0IterL3FromL1MuonTrackMap, TThltIter0IterL3FromL1MuonTrack, NThltIter0FromL1_, nhltIter0FromL1_, magfieldH, iSetup, geomTracker );
   fill_seedTemplate(iEvent, t_hltIter2IterL3FromL1MuonPixelSeeds_, mvaPhase2HltIter2IterL3FromL1MuonPixelSeeds_, tracker, hltIter2IterL3FromL1MuonTrackMap, TThltIter2IterL3FromL1MuonTrack, NThltIter2FromL1_, nhltIter2FromL1_, magfieldH, iSetup, geomTracker );
 
   // if (geomTracker) delete geomTracker;
@@ -677,9 +677,11 @@ void MuonHLTSeedNtupler::fill_seedTemplate(
   edm::ESHandle<Propagator> propagatorAlongH = iSetup.getHandle(propagatorESToken_);
   std::unique_ptr<Propagator> propagatorAlong = SetPropagationDirection(*propagatorAlongH, alongMomentum);
 
+  std::cout << " start seed " << std::endl;
   if( hasL1TkMu && iEvent.getByToken( theToken, seedHandle) )
   {
     nSeed = seedHandle->size();
+    std::cout << "nSeed = " << nSeed << std::endl;
     for( auto i=0U; i<seedHandle->size(); ++i )
     {
       const auto& seed(seedHandle->at(i));
@@ -691,6 +693,7 @@ void MuonHLTSeedNtupler::fill_seedTemplate(
         truePU_
       );
 
+      std::cout << "track association" << std::endl;
       // -- Track association
       theSeeds->fill(seed, tracker);
       std::map<tmpTSOD,unsigned int>::const_iterator where = trkMap.find(seedTsod);
@@ -699,7 +702,8 @@ void MuonHLTSeedNtupler::fill_seedTemplate(
 
       GlobalVector global_p = tracker->idToDet(seed.startingState().detId())->surface().toGlobal(seed.startingState().parameters().momentum());
       GlobalPoint  global_x = tracker->idToDet(seed.startingState().detId())->surface().toGlobal(seed.startingState().parameters().position());
-
+      
+      std::cout << "BDT" << std::endl;
       // -- BDT -- //
       double mva = 0.;
       if( fabs( global_p.eta() ) < 1.2 ) {
@@ -726,6 +730,7 @@ void MuonHLTSeedNtupler::fill_seedTemplate(
       }
       theSeeds->fill_Mva( mva );
 
+      std::cout << "gen ptc tag" << std::endl;
       // -- GenParticle (muon) tag -- //
       if( hasGen )
       {
@@ -753,6 +758,7 @@ void MuonHLTSeedNtupler::fill_seedTemplate(
         );
       }
 
+      std::cout << "L1 association" << std::endl;
       // -- L1, L2 association
       if( hasL1 ) {
         float dR_minDRL1SeedP = 99999.;
@@ -810,6 +816,7 @@ void MuonHLTSeedNtupler::fill_seedTemplate(
         );
       }
 
+      std::cout << "L1 association" << std::endl;
       if( hasL2 && h_L2Muon->size() > 0 ) {
         float dR_minDRL2SeedP = 99999.;
         float dPhi_minDRL2SeedP = 99999.;
@@ -840,6 +847,7 @@ void MuonHLTSeedNtupler::fill_seedTemplate(
         );
       }
 
+      std::cout << "L1TkMu association" << std::endl;
       // -- L1TkMu association
       if( hasL1TkMu && h_L1TkMu->size() > 0 ) {
         float dR_L1TkMuSeedP = 99999.;
@@ -860,6 +868,7 @@ void MuonHLTSeedNtupler::fill_seedTemplate(
         );
       }
 
+      std::cout << "Tsos pairs" << std::endl;
       // HERE
       vector< pair<LayerHit, LayerTSOS> > hitTsosPairs = getHitTsosPairs(
         seed,
@@ -868,18 +877,23 @@ void MuonHLTSeedNtupler::fill_seedTemplate(
         *(propagatorAlong.get()),
         geomTracker
       );
-
+      std::cout << "check found" << std::endl;
       bool found = ( hitTsosPairs.size()>0 );
-
+      std::cout << "found : " << found << std::endl;
       if (found) {
+        std::cout << "hitTsosPairs size : " << hitTsosPairs.size() << std::endl;
+        std::cout << "fill_12" << std::endl;
         if ( hitTsosPairs.size() > 1 ) theSeeds->fill_12( hitTsosPairs.at(0), hitTsosPairs.at(1), hitTsosPairs.size() );
+        std::cout << "fill_3" << std::endl;
         if ( hitTsosPairs.size() > 2 ) theSeeds->fill_3( hitTsosPairs.at(2) );
+        std::cout << "fill_4" << std::endl;
         if ( hitTsosPairs.size() > 3 ) theSeeds->fill_4( hitTsosPairs.at(3) );
       }
-
+      std::cout << "fill ntuple" << std::endl;
       theSeeds->fill_ntuple(NT);
     } // -- end of seed iteration
   } // -- if getByToken is valid
+  std::cout << "end seed" << std::endl;
 }
 
 void MuonHLTSeedNtupler::testRun(
