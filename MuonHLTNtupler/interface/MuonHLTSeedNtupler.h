@@ -1059,7 +1059,6 @@ private:
     void fill_12(pair<LayerHit, LayerTSOS> firstHit, pair<LayerHit, LayerTSOS> secondHit, int nHits) {
       auto hit1   = firstHit.first.second;
       auto tsos1  = firstHit.second.second;
-
       l1x1_ = tsos1.globalPosition().x();
       l1y1_ = tsos1.globalPosition().y();
       l1z1_ = tsos1.globalPosition().z();
@@ -1113,17 +1112,17 @@ private:
   );
 
   vector< LayerTSOS > getTsosOnPixels(
-    TTTrack<Ref_Phase2TrackerDigi_>,
-    edm::ESHandle<MagneticField>&,
+    const TTTrack<Ref_Phase2TrackerDigi_>&,
+    const edm::ESHandle<MagneticField>&,
     const Propagator&,
     const GeometricSearchTracker&
   );
 
   vector< pair<LayerHit, LayerTSOS> > getHitTsosPairs(
-    TrajectorySeed,
+    const TrajectorySeed&,
     //edm::Handle< std::vector< TTTrack< Ref_Phase2TrackerDigi_ > > >,
-    edm::Handle<l1t::TrackerMuonCollection>,
-    edm::ESHandle<MagneticField>&,
+    const edm::Handle<l1t::TrackerMuonCollection>&,
+    const edm::ESHandle<MagneticField>&,
     const Propagator&,
     const GeometricSearchTracker&
   );
