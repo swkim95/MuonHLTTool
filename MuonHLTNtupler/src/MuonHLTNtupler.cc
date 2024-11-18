@@ -350,7 +350,7 @@ void MuonHLTNtupler::analyze(const edm::Event &iEvent, const edm::EventSetup &iS
   // -- fill each object
   Fill_L1Track(iEvent, iSetup);
   Fill_Muon(iEvent);
-  Fill_HLT(iEvent, 0); // -- original HLT objects saved in data taking
+  // Fill_HLT(iEvent, 0); // -- original HLT objects saved in data taking
   Fill_HLT(iEvent, 1); // -- rerun objects
   Fill_HLTMuon(iEvent);
   Fill_L1Muon(iEvent);

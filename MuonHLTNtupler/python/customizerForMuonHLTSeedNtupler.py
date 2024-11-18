@@ -41,7 +41,7 @@ def customizerFuncForMuonHLTSeedNtupler(process, newProcessName = "MYHLT", doDYS
     process.seedNtupler.L2Muon           = cms.untracked.InputTag("hltL2MuonFromL1TkMuonCandidates", "", "MYHLT")
 
     process.seedNtupler.L1TkMuon                                          = cms.untracked.InputTag("l1tTkMuonsGmt",                                         "", "HLT")
-    process.seedNtupler.L1PrimaryVertex                                   = cms.untracked.InputTag("l1tVertexFinderEmulator",            "l1verticesEmulation", newProcessName)
+    process.seedNtupler.L1PrimaryVertex                                   = cms.untracked.InputTag("l1tVertexFinderEmulator",            "L1VerticesEmulation", newProcessName)
 
     process.seedNtupler.hltIterL3OISeedsFromL2Muons                       = cms.untracked.InputTag("hltPhase2L3OISeedsFromL2Muons",                         "", newProcessName)
     process.seedNtupler.hltIter0IterL3FromL1MuonPixelSeedsFromPixelTracks = cms.untracked.InputTag("hltIter0Phase2L3FromL1TkMuonPixelSeedsFromPixelTracks", "", newProcessName)
