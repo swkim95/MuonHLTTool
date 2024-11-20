@@ -23,6 +23,8 @@ def customizerFuncForMuonHLTNtupler(process, newProcessName = "MYHLT", doDYSkim 
     process.hltTPClusterProducer = _tpClusterProducer.clone(
       # pixelClusterSrc = "hltSiPixelClusters",
       # stripClusterSrc = "hltSiStripRawToClustersFacility"
+      pixelClusterSrc = "hltSiPixelClusters",
+      phase2OTClusterSrc = "hltSiPhase2Clusters"
     )
     process.hltTPClusterProducer.pixelSimLinkSrc = cms.InputTag("simSiPixelDigis","Pixel")
     process.hltTrackAssociatorByHits = SimTracker.TrackAssociatorProducers.quickTrackAssociatorByHits_cfi.quickTrackAssociatorByHits.clone()
